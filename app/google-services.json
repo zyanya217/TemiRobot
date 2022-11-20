@@ -1,0 +1,68 @@
+{
+  "project_info": {
+    "project_number": "1086817585143",
+    "project_id": "temirobot-1",
+    "storage_bucket": "temirobot-1.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1086817585143:android:6236a85d4787e6d08110f2",
+        "android_client_info": {
+          "package_name": "tw.com.temirobot"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1086817585143-g7u369dks3l29aedpaavji41gcuo40mp.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDYMdHUHZWAjRrmll4AEI90OeauGgrAfVU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1086817585143-g7u369dks3l29aedpaavji41gcuo40mp.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1086817585143:android:731f656f4a9cd8fc8110f2",
+        "android_client_info": {
+          "package_name": "tw.com.temmirobot"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1086817585143-g7u369dks3l29aedpaavji41gcuo40mp.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDYMdHUHZWAjRrmll4AEI90OeauGgrAfVU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1086817585143-g7u369dks3l29aedpaavji41gcuo40mp.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

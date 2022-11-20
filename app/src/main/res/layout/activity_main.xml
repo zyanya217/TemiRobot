@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#CFF1AD"
+    tools:context=".MainActivity">
+
+    <ImageView
+        android:id="@+id/preview_img"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_marginStart="50dp"
+        android:layout_marginTop="600dp"
+        android:background="@drawable/roundedcorner"
+        android:contentDescription="@string/preview_photo"
+        android:scaleType="centerInside"
+        android:src="@drawable/outline_image_24"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.camera.view.PreviewView
+        android:id="@+id/previewView"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:visibility="visible"
+        app:layout_constraintDimensionRatio="3:4"
+        app:layout_constraintTop_toTopOf="parent">
+
+    </androidx.camera.view.PreviewView>
+
+    <tw.com.temirobot.GraphicOverlay
+        android:id="@+id/graphic_overlay"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="@id/previewView"
+        app:layout_constraintDimensionRatio="3:4"
+        app:layout_constraintTop_toTopOf="@id/previewView" />
+
+    <ImageView
+        android:id="@+id/imageView3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/bggre" />
+
+    <TextView
+        android:id="@+id/txtTeamName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="100dp"
+        android:layout_marginBottom="620dp"
+        android:gravity="center"
+        android:text="喚我守護你"
+        android:textColor="#381502"
+        android:textSize="70sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/txtTeamName2"
+        android:layout_width="45dp"
+        android:layout_height="wrap_content"
+        android:ems="1"
+        android:gravity="center_vertical|left"
+        android:text="↑點按即可與機器人對話"
+        android:textColor="#381502"
+        android:textSize="40sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/txtTeamName"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/btnface"
+        android:layout_width="274dp"
+        android:layout_height="481dp"
+        android:onClick="btnface"
+        app:layout_constraintBottom_toBottomOf="@+id/txtTeamName2"
+        app:layout_constraintStart_toStartOf="@+id/txtTeamName"
+        app:srcCompat="@drawable/btnface" />
+
+    <ImageView
+        android:id="@+id/btngame"
+        android:layout_width="259dp"
+        android:layout_height="481dp"
+        android:onClick="btngame"
+        app:layout_constraintBottom_toBottomOf="@+id/btnface"
+        app:layout_constraintStart_toEndOf="@+id/btnface"
+        app:srcCompat="@drawable/btngame" />
+
+    <ImageView
+        android:id="@+id/btnwelcome"
+        android:layout_width="259dp"
+        android:layout_height="481dp"
+        android:onClick="btnwelcome"
+        app:layout_constraintBottom_toBottomOf="@+id/btngame"
+        app:layout_constraintStart_toEndOf="@+id/btngame"
+        app:srcCompat="@drawable/btnwelcome" />
+
+    <ImageView
+        android:id="@+id/btnregis"
+        android:layout_width="274dp"
+        android:layout_height="481dp"
+        android:onClick="btnregis"
+        app:layout_constraintBottom_toBottomOf="@+id/btnwelcome"
+        app:layout_constraintStart_toEndOf="@+id/btnwelcome"
+        app:srcCompat="@drawable/btnregis" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+
