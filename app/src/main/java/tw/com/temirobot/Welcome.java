@@ -177,7 +177,7 @@ public class Welcome extends AppCompatActivity {
 //        robot.addOnGoToLocationStatusChangedListener(this);
 //        robot.addOnRobotReadyListener(this);
         timerval = 1;
-        mDatabase.child("facevar").child("welcome").setValue(true);
+        mDatabase.child("face").child("temi1").child("welcome").setValue(true);
         TimerManager(null,14,30,"labin");
     }
 
@@ -219,10 +219,10 @@ public class Welcome extends AppCompatActivity {
             @Override
             public void run() {
                 System.out.println("list: 執行定時巡邏");
-                mDatabase.child("facevar").child("checkin").setValue(false);
-                mDatabase.child("facevar").child("regis").setValue(false);
-                mDatabase.child("facevar").child("welcome").setValue(false);
-                mDatabase.child("facevar").child("patrol").setValue(true);
+                mDatabase.child("face").child("temi1").child("checkin").setValue(false);
+                mDatabase.child("face").child("temi1").child("regis").setValue(false);
+                mDatabase.child("face").child("temi1").child("welcome").setValue(false);
+                mDatabase.child("face").child("temi1").child("patrol").setValue(true);
 //                robot.goTo(strlocat);
             }
         };

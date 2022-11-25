@@ -161,10 +161,10 @@ public class Patrol extends AppCompatActivity implements
         robot.addOnRobotReadyListener(this);
         timerval = 1;
         robot.goTo(place);
-        mDatabase.child("face").child("checkin").child("py").setValue(false);
-        mDatabase.child("face").child("regis").child("py").setValue(false);
-        mDatabase.child("face").child("welcome").child("py").setValue(false);
-        mDatabase.child("face").child("patrol").child("py").setValue(true);
+//        mDatabase.child("face").child("temi1").child("checkin").child("py").setValue(false);
+//        mDatabase.child("face").child("temi1").child("regis").child("py").setValue(false);
+//        mDatabase.child("face").child("temi1").child("welcome").child("py").setValue(false);
+        mDatabase.child("face").child("temi1").child("patrol").child("py").setValue(true);
     }
 
     @Override
@@ -187,15 +187,15 @@ public class Patrol extends AppCompatActivity implements
     @Override
     protected void onResume() {
         super.onResume();
-        DatabaseReference myRef2 = mDatabase.child("face").child("patrol").child("and");
+        DatabaseReference myRef2 = mDatabase.child("face").child("temi1").child("patrol").child("and");
         myRef2.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 // This method is called once with the initial value and again
                 // whenever data at this location is updated.
-                String value2 = dataSnapshot.getValue(String.class);
+                Boolean value2 = dataSnapshot.getValue(Boolean.class);
                 Log.d("TAG", "Value2 is: " + value2);
-                if (value2 == "true"){
+                if (value2 == true){
                     startCamera();
                 }
             }
@@ -298,6 +298,7 @@ public class Patrol extends AppCompatActivity implements
                     robot.stopMovement();
                     Thread.sleep(5000);
                     System.out.println("list: OnGoToLocationStatusChangedListener_COMPLETE");
+                    stoprec();
                 } catch (Exception e) {
                     Log.e(TAGError, "list: Error:" + e.getMessage());
                 }
@@ -305,7 +306,6 @@ public class Patrol extends AppCompatActivity implements
             case OnGoToLocationStatusChangedListener.ABORT:
                 robot.tiltAngle(55);
                 System.out.println("list: OnGoToLocationStatusChangedListener_ABORT");
-                stoprec();
                 //robot.stopMovement();
                 break;
         }
@@ -662,6 +662,7 @@ public class Patrol extends AppCompatActivity implements
                 double progress = (100.0 * taskSnapshot.getBytesTransferred()) / taskSnapshot.getTotalByteCount();
                 Log.d(TAG_f, "list: Upload is " + progress + "% done");
                 if(progress == 100){
+                    mDatabase.child("face").child("temi1").child("patrol").child("py").setValue(false);
                     Intent it = new Intent(Patrol.this,MainActivity.class);
                     startActivity(it);
                     finish();
@@ -891,7 +892,7 @@ public class Patrol extends AppCompatActivity implements
     @SuppressLint("UnsafeOptInUsageError")
     private void analyze(@NonNull ImageProxy image) {
         System.out.println("list:2 analyze");
-        mDatabase.child("face").child("patrol").child("id").setValue("");
+        mDatabase.child("face").child("temi1").child("patrol").child("id").setValue("");
 
         if (image.getImage() == null) return;
 

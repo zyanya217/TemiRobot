@@ -284,7 +284,7 @@ public class MainActivity extends AppCompatActivity implements
                         Long value2 = dataSnapshot.getValue(Long.class);
                         Log.d("TAG", "Value2 is: " + value2);
 
-                        DatabaseReference myRef5 = database.getReference("/patrol/temi1/1/1/min");
+                        DatabaseReference myRef5 = database.getReference("/patrol/temi1/1/2/min");
                         //DatabaseReference myRef5 = mDatabase.child("patrol").child("temi1").child("1").child("2").child("min");
                         myRef5.addValueEventListener(new ValueEventListener() {
                             @Override
