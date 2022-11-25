@@ -261,7 +261,7 @@ public class Game extends AppCompatActivity implements
                 Log.e("PcWin", String.valueOf(PcWin));
                 Log.e("PlayerWin)", String.valueOf(PlayerWin));
                 Robot sRobot = Robot.getInstance();
-                TtsRequest ttsRequest = TtsRequest.create("再加油",false);
+                TtsRequest ttsRequest = TtsRequest.create("再接再勵!",false);
                 sRobot.speak(ttsRequest);
             }
             else if  (PcWin<PlayerWin){
@@ -269,7 +269,7 @@ public class Game extends AppCompatActivity implements
                 Log.e("PlayerWin", String.valueOf(PlayerWin));
                 txtResult.setText(R.string.txtPlayerWin);
                 Robot sRobot = Robot.getInstance();
-                TtsRequest ttsRequest = TtsRequest.create("你贏了",false);
+                TtsRequest ttsRequest = TtsRequest.create("恭喜您贏了!",false);
                 sRobot.speak(ttsRequest);}
 
             else if  (PcWin==PlayerWin){
