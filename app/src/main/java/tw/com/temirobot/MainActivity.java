@@ -47,8 +47,11 @@ import android.widget.Toast;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.common.util.concurrent.ListenableFuture;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FileDownloadTask;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.OnPausedListener;
@@ -153,7 +156,9 @@ public class MainActivity extends AppCompatActivity implements
     private static final int INPUT_SIZE = 112;
     private static final int OUTPUT_SIZE=192;
 
-    @Override
+    private FirebaseDatabase database = FirebaseDatabase.getInstance();
+
+            @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
@@ -161,12 +166,6 @@ public class MainActivity extends AppCompatActivity implements
         robot = Robot.getInstance();
 
         checkPermission();
-        ///**
-//         * 在 Android 6.0 以上需要動態添加權限
-//         */
-//        ActivityCompat.requestPermissions(this,
-//                new String[]{Manifest.permission.RECORD_AUDIO},
-//                100);
 
         mStorageRef = FirebaseStorage.getInstance().getReference();
         mDatabase = FirebaseDatabase.getInstance().getReference();
@@ -177,7 +176,6 @@ public class MainActivity extends AppCompatActivity implements
         graphicOverlay = findViewById(R.id.graphic_overlay);
         previewImg = findViewById(R.id.preview_img);
 
-//        loadModel();
     }
 
     @Override
@@ -187,11 +185,11 @@ public class MainActivity extends AppCompatActivity implements
         robot.addOnGoToLocationStatusChangedListener(this);
         robot.addOnRobotReadyListener(this);
         timerval = 1;
+        DBTime();
 //        getDB();
 //        TimerManager(robot.getSerialNumber(), 13,51,"labin2");
 //        TimerManager(robot.getSerialNumber(), 13,53,"labin");
 
-        regisAnalyze();
     }
 
     @Override
@@ -218,7 +216,7 @@ public class MainActivity extends AppCompatActivity implements
     }
 
     public void btnface(View v){
-        Intent it = new Intent(MainActivity.this,Welcome.class);
+        Intent it = new Intent(MainActivity.this,FaceRecognition.class);
         startActivity(it);
         finish();
     }
@@ -259,7 +257,9 @@ public class MainActivity extends AppCompatActivity implements
 //        System.out.println("list: 停止播放錄音");
 //    }
 
-    public void TimerManager(String temiSN,int inthrs, int intmin, String strlocat) {
+    public void TimerManager(Long hrs, Long min) {
+        int inthrs = Integer.parseInt(String.valueOf(hrs));
+        int intmin = Integer.parseInt(String.valueOf(min));
         Calendar calendar = Calendar.getInstance();
         calendar.set(Calendar.HOUR_OF_DAY, inthrs);
         calendar.set(Calendar.MINUTE, intmin);
@@ -274,11 +274,97 @@ public class MainActivity extends AppCompatActivity implements
         TimerTask task = new TimerTask() {
             @Override
             public void run() {
-                System.out.println("list: 執行定時巡邏");
-                Intent it = new Intent(MainActivity.this,Welcome.class);
-                startActivity(it);
-                finish();
-//                robot.goTo(strlocat);
+                DatabaseReference myRef2 = database.getReference("/patrol/temi1/1/1/min");
+                //DatabaseReference myRef2 = mDatabase.child("patrol").child("temi1").child("1").child("1").child("min");
+                myRef2.addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        // This method is called once with the initial value and again
+                        // whenever data at this location is updated.
+                        Long value2 = dataSnapshot.getValue(Long.class);
+                        Log.d("TAG", "Value2 is: " + value2);
+
+                        DatabaseReference myRef5 = database.getReference("/patrol/temi1/1/1/min");
+                        //DatabaseReference myRef5 = mDatabase.child("patrol").child("temi1").child("1").child("2").child("min");
+                        myRef5.addValueEventListener(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(DataSnapshot dataSnapshot) {
+                                // This method is called once with the initial value and again
+                                // whenever data at this location is updated.
+                                Long value5 = dataSnapshot.getValue(Long.class);
+                                Log.d("TAG", "Value2 is: " + value5);
+
+                                DatabaseReference myRef3 = database.getReference("/patrol/temi1/1/1/place");
+                                //DatabaseReference myRef3 = mDatabase.child("patrol").child("temi1").child("1").child("1").child("place");
+                                myRef3.addValueEventListener(new ValueEventListener() {
+                                    @Override
+                                    public void onDataChange(DataSnapshot dataSnapshot) {
+                                        // This method is called once with the initial value and again
+                                        // whenever data at this location is updated.
+                                        String value3 = dataSnapshot.getValue(String.class);
+                                        Log.d("TAG", "Value2 is: " + value3);
+                                        DatabaseReference myRef6 = database.getReference("/patrol/temi1/1/2/place");
+                                        //DatabaseReference myRef6 = mDatabase.child("patrol").child("temi1").child("1").child("2").child("place");
+                                        myRef6.addValueEventListener(new ValueEventListener() {
+                                            @Override
+                                            public void onDataChange(DataSnapshot dataSnapshot) {
+                                                // This method is called once with the initial value and again
+                                                // whenever data at this location is updated.
+                                                String value6 = dataSnapshot.getValue(String.class);
+                                                Log.d("TAG", "Value2 is: " + value6);
+
+                                                int intvalue2 = Integer.parseInt(String.valueOf(value2));
+                                                if (intmin == intvalue2){
+                                                    Intent it = new Intent();
+                                                    it.setClass(MainActivity.this,Patrol.class);
+                                                    Bundle bundle = new Bundle();
+                                                    bundle.putString("place", value3);
+                                                    it.putExtras(bundle);   // 記得put進去，不然資料不會帶過去哦
+                                                    System.out.println("list: 執行定時巡邏");
+                                                    startActivity(it);
+                                                    finish();
+                                                }
+
+                                                int intvalue5 = Integer.parseInt(String.valueOf(value5));
+                                                if (intmin == intvalue5){
+                                                    Intent it = new Intent();
+                                                    it.setClass(MainActivity.this,Patrol.class);
+                                                    Bundle bundle = new Bundle();
+                                                    bundle.putString("place", value6);
+                                                    it.putExtras(bundle);   // 記得put進去，不然資料不會帶過去哦
+                                                    System.out.println("list: 執行定時巡邏");
+                                                    startActivity(it);
+                                                    finish();
+                                                }
+
+                                            }
+                                            @Override
+                                            public void onCancelled(DatabaseError error) {
+                                                // Failed to read value
+                                                Log.w("TAG", "Failed to read value.", error.toException());
+                                            }
+                                        });
+                                    }
+                                    @Override
+                                    public void onCancelled(DatabaseError error) {
+                                        // Failed to read value
+                                        Log.w("TAG", "Failed to read value.", error.toException());
+                                    }
+                                });
+                            }
+                            @Override
+                            public void onCancelled(DatabaseError error) {
+                                // Failed to read value
+                                Log.w("TAG", "Failed to read value.", error.toException());
+                            }
+                        });
+                    }
+                    @Override
+                    public void onCancelled(DatabaseError error) {
+                        // Failed to read value
+                        Log.w("TAG", "Failed to read value.", error.toException());
+                    }
+                });
             }
         };
         //安排指定的任務在指定的時間開始進行重複的固定延遲執行。
@@ -291,6 +377,82 @@ public class MainActivity extends AppCompatActivity implements
         startDT.setTime(date);
         startDT.add(Calendar.DAY_OF_MONTH, num);
         return startDT.getTime();
+    }
+
+    public void DBTime(){
+        //DatabaseReference myRef1 = mDatabase.child("patrol").child("temi1").child("1").child("1").child("hrs");
+        DatabaseReference myRef1 = database.getReference("/patrol/temi1/1/1/hrs");
+
+        myRef1.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                // This method is called once with the initial value and again
+                // whenever data at this location is updated.
+                Long value1 = dataSnapshot.getValue(Long.class);
+                Log.d("TAG", "Value2 is: " + value1);
+
+                DatabaseReference myRef2 = database.getReference("/patrol/temi1/1/1/min");
+                //DatabaseReference myRef2 = mDatabase.child("patrol").child("temi1").child("1").child("1").child("min");
+                myRef2.addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        // This method is called once with the initial value and again
+                        // whenever data at this location is updated.
+                        Long value2 = dataSnapshot.getValue(Long.class);
+                        Log.d("TAG", "Value2 is: " + value2);
+                        TimerManager(value1,value2);
+                    }
+                    @Override
+                    public void onCancelled(DatabaseError error) {
+                        // Failed to read value
+                        Log.w("TAG", "Failed to read value.", error.toException());
+                    }
+                });
+            }
+            @Override
+            public void onCancelled(DatabaseError error) {
+                // Failed to read value
+                Log.w("TAG", "Failed to read value.", error.toException());
+            }
+        });
+
+        DatabaseReference myRef4 = database.getReference("/patrol/temi1/1/2/hrs");
+        //DatabaseReference myRef4 = mDatabase.child("patrol").child("temi1").child("1").child("2").child("hrs");
+        myRef4.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                // This method is called once with the initial value and again
+                // whenever data at this location is updated.
+                Long value4 = dataSnapshot.getValue(Long.class);
+                Log.d("TAG", "Value2 is: " + value4);
+
+                DatabaseReference myRef5 = database.getReference("/patrol/temi1/1/2/min");
+                //DatabaseReference myRef5 = mDatabase.child("patrol").child("temi1").child("1").child("2").child("min");
+                myRef5.addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        // This method is called once with the initial value and again
+                        // whenever data at this location is updated.
+                        Long value5 = dataSnapshot.getValue(Long.class);
+                        Log.d("TAG", "Value2 is: " + value5);
+
+                        TimerManager(value4,value5);
+                    }
+                    @Override
+                    public void onCancelled(DatabaseError error) {
+                        // Failed to read value
+                        Log.w("TAG", "Failed to read value.", error.toException());
+                    }
+                });
+
+            }
+            @Override
+            public void onCancelled(DatabaseError error) {
+                // Failed to read value
+                Log.w("TAG", "Failed to read value.", error.toException());
+            }
+        });
+
     }
 
     @Override

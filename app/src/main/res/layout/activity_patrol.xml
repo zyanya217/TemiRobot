@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Welcome">
+
+    <ImageView
+        android:id="@+id/preview_img"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_marginStart="50dp"
+        android:layout_marginTop="600dp"
+        android:background="@drawable/roundedcorner"
+        android:contentDescription="@string/preview_photo"
+        android:scaleType="centerInside"
+        android:src="@drawable/outline_image_24"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.camera.view.PreviewView
+        android:id="@+id/previewView"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:visibility="visible"
+        app:layout_constraintDimensionRatio="3:4"
+        app:layout_constraintTop_toTopOf="parent">
+
+    </androidx.camera.view.PreviewView>
+
+    <tw.com.temirobot.GraphicOverlay
+        android:id="@+id/graphic_overlay"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="@id/previewView"
+        app:layout_constraintDimensionRatio="3:4"
+        app:layout_constraintTop_toTopOf="@id/previewView" />
+
+    <ImageView
+        android:id="@+id/bgwhite"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/gifImageView"
+        app:srcCompat="@drawable/bgwhite" />
+
+    <ImageView
+        android:id="@+id/btnlock"
+        android:layout_width="105dp"
+        android:layout_height="105dp"
+        android:layout_marginTop="92dp"
+        android:onClick="btnlock"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.646"
+        app:layout_constraintStart_toEndOf="@+id/gifImageView"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/btnlock" />
+
+    <pl.droidsonroids.gif.GifImageView
+        android:id="@+id/gifImageView"
+        android:layout_width="844dp"
+        android:layout_height="801dp"
+        android:src="@drawable/anime_emoji"
+        app:layout_constraintEnd_toEndOf="@+id/bgwhite"
+        app:layout_constraintStart_toStartOf="@+id/bgwhite"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
