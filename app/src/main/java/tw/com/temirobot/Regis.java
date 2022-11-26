@@ -386,7 +386,9 @@ public class Regis extends AppCompatActivity {
             System.out.println("list:2 onSuccessListener4: " + inputImage.getMediaImage());
             System.out.println("list:2 bitmap4: " + bitmap);
 
+            if (x == 2){
             uploadImage(bitmap);
+            }
         }
         //graphicOverlay.draw(boundingBox, scaleX, scaleY, name);
     }
@@ -395,6 +397,7 @@ public class Regis extends AppCompatActivity {
     private void addFace() {
         System.out.println("list:3 addFace");
 //        start=false;
+        x = 2;
         startCamera();
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("請輸入ID");
@@ -409,12 +412,7 @@ public class Regis extends AppCompatActivity {
         builder.setPositiveButton("新增", (dialog, which) -> {
             //Toast.makeText(context, input.getText().toString(), Toast.LENGTH_SHORT).show();
             //Create and Initialize new object with Face embeddings and Name.
-            SimilarityClassifier.Recognition result = new SimilarityClassifier.Recognition(
-                    "0", "", -1f);
-            System.out.println("list:3 result2: "+result);
-            result.setExtra(embeddings);
-            registered.put( input.getText().toString(),result);
-            System.out.println("list:3 registered2: "+registered);
+
 //            start = true;
         });
         builder.setNegativeButton("取消", (dialog, which) -> {
