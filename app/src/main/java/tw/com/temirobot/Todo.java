@@ -9,8 +9,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 public class Todo extends AppCompatActivity {
-    private ImageView btnyes;
-    private ImageView btnno;
+    ImageView btnyes;
+    ImageView btnno;
     private Intent it2;
     private TextView detectionTextView;
 
