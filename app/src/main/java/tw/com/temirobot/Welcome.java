@@ -105,7 +105,7 @@ public class Welcome extends AppCompatActivity implements
     private boolean start = true;
     private boolean regis = false;
     private float[][] embeddings;
-    private int j = 1;
+    private int x = 0;
 
     private static final float IMAGE_MEAN = 128.0f;
     private static final float IMAGE_STD = 128.0f;
@@ -117,6 +117,7 @@ public class Welcome extends AppCompatActivity implements
     private DatabaseReference mDatabase;
     private static final String TAG_f = "Firebase";
     private static final String TAGError = "Welcome";
+    private FirebaseDatabase database;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -127,27 +128,13 @@ public class Welcome extends AppCompatActivity implements
         mStorageRef = FirebaseStorage.getInstance().getReference();
         mDatabase = FirebaseDatabase.getInstance().getReference();
         storage = FirebaseStorage.getInstance();
+        database = FirebaseDatabase.getInstance();
 
         previewView = findViewById(R.id.previewView);
         previewView.setScaleType(PreviewView.ScaleType.FIT_CENTER);
         graphicOverlay = findViewById(R.id.graphic_overlay);
         previewImg = findViewById(R.id.preview_img);
-//        FirebaseDatabase database = FirebaseDatabase.getInstance();
-//        DatabaseReference myRef1 = database.getReference("/facevar/patrol");
-//        myRef1.addValueEventListener(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(DataSnapshot dataSnapshot) {
-//                // This method is called once with the initial value and again
-//                // whenever data at this location is updated.
-//                String value1 = dataSnapshot.getValue(String.class);
-//                Log.d("TAG", "Value1 is: " + value1);
-//            }
-//            @Override
-//            public void onCancelled(DatabaseError error) {
-//                // Failed to read value
-//                Log.w("TAG", "Failed to read value.", error.toException());
-//            }
-//        });
+
     }
 
     @Override
@@ -156,7 +143,10 @@ public class Welcome extends AppCompatActivity implements
         robot.addOnCurrentPositionChangedListener(this);
         robot.addOnGoToLocationStatusChangedListener(this);
         robot.addOnRobotReadyListener(this);
-        mDatabase.child("face").child("temi1").child("welcome").setValue(true);
+        mDatabase.child("face").child("temi1").child("welcome").child("py").setValue(true);
+        mDatabase.child("face").child("temi1").child("welcome").child("and").setValue(false);
+        mDatabase.child("face").child("temi1").child("welcome").child("id").setValue("");
+        startCamera();
     }
 
     @Override
@@ -170,7 +160,36 @@ public class Welcome extends AppCompatActivity implements
     @Override
     protected void onResume() {
         super.onResume();
-        startCamera();
+        DatabaseReference myRef1 = database.getReference("/face/temi1/welcome/id");
+        myRef1.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                // This method is called once with the initial value and again
+                // whenever data at this location is updated.
+                String value1 = dataSnapshot.getValue(String.class);
+                if (value1 != null) {
+                    mDatabase.child("face").child("temi1").child("welcome").child("py").setValue(false);
+                    mDatabase.child("face").child("temi1").child("welcome").child("and").setValue(true);
+                    if (x == 0){
+                        robot.goTo("labin");
+                    }
+                    x = 1;
+                }
+                else if (value1 == null){
+                    x = 0;
+                    mDatabase.child("face").child("temi1").child("welcome").child("py").setValue(true);
+                    mDatabase.child("face").child("temi1").child("welcome").child("and").setValue(false);
+                    startCamera();
+                }
+                Log.d("TAG", "Value1 is: " + value1);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError error) {
+                // Failed to read value
+                Log.w("TAG", "Failed to read value.", error.toException());
+            }
+        });
     }
 
     public void btnlock(View v) {
@@ -229,6 +248,17 @@ public class Welcome extends AppCompatActivity implements
                     //robot.repose();
                     //robot.stopMovement();
                     Thread.sleep(5000);
+                    if (x == 1){
+                        x = 2;
+                        robot.goTo("labin2");
+                    }
+                    else if (x == 2){
+                        x = 0;
+                        mDatabase.child("face").child("temi1").child("welcome").child("py").setValue(true);
+                        mDatabase.child("face").child("temi1").child("welcome").child("and").setValue(false);
+                        mDatabase.child("face").child("temi1").child("welcome").child("id").setValue("");
+                        startCamera();
+                    }
                     System.out.println("list: OnGoToLocationStatusChangedListener_COMPLETE");
                 } catch (Exception e) {
                     Log.e(TAGError, "list: Error:" + e.getMessage());
