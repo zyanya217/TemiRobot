@@ -147,10 +147,8 @@ public class Patrol extends AppCompatActivity implements
         previewView.setScaleType(PreviewView.ScaleType.FIT_CENTER);
 
         checkPermission();
-        startrec();
         Bundle bundle = getIntent().getExtras();
         place = bundle.getString("place");
-
     }
 
     @Override
@@ -176,7 +174,7 @@ public class Patrol extends AppCompatActivity implements
         robot.removeOnRobotReadyListener(this);
         timerval = 0;
         if (recorder != null) {
-            recorder.stop();
+//            recorder.stop();
             recorder.release();
             recorder = null;
             System.out.println("list: ----最終釋放----");
@@ -213,31 +211,31 @@ public class Patrol extends AppCompatActivity implements
         finish();
     }
 
-    public void TimerManager(String hrs, String min, String strlocat) {
-        int inthrs = Integer.parseInt(hrs);
-        int intmin = Integer.parseInt(min);
-        Calendar calendar = Calendar.getInstance();
-        calendar.set(Calendar.HOUR_OF_DAY, inthrs);
-        calendar.set(Calendar.MINUTE, intmin);
-        calendar.set(Calendar.SECOND, 0);
-        Date date = calendar.getTime(); //第一次執行任務的時間
-        //如果第一次執行定時任務的時間 小於當前時間
-        //此時要在 第一次執行定時任務的時間加一天，以便此任務在下個時間點執行。如果不加一天，任務會立即執行。
-        if (date.before(new Date())) {
-            date = this.addDay(date, 1);
-        }
-        Timer timer = new Timer();
-        TimerTask task = new TimerTask() {
-            @Override
-            public void run() {
-                System.out.println("list: 執行定時巡邏");
-                robot.goTo(strlocat);
-                startrec();
-            }
-        };
-        //安排指定的任務在指定的時間開始進行重複的固定延遲執行。
-        timer.schedule(task, date, PERIOD_DAY);
-    }
+//    public void TimerManager(String hrs, String min, String strlocat) {
+//        int inthrs = Integer.parseInt(hrs);
+//        int intmin = Integer.parseInt(min);
+//        Calendar calendar = Calendar.getInstance();
+//        calendar.set(Calendar.HOUR_OF_DAY, inthrs);
+//        calendar.set(Calendar.MINUTE, intmin);
+//        calendar.set(Calendar.SECOND, 0);
+//        Date date = calendar.getTime(); //第一次執行任務的時間
+//        //如果第一次執行定時任務的時間 小於當前時間
+//        //此時要在 第一次執行定時任務的時間加一天，以便此任務在下個時間點執行。如果不加一天，任務會立即執行。
+//        if (date.before(new Date())) {
+//            date = this.addDay(date, 1);
+//        }
+//        Timer timer = new Timer();
+//        TimerTask task = new TimerTask() {
+//            @Override
+//            public void run() {
+//                System.out.println("list: 執行定時巡邏");
+//                robot.goTo(strlocat);
+//                startrec();
+//            }
+//        };
+//        //安排指定的任務在指定的時間開始進行重複的固定延遲執行。
+//        timer.schedule(task, date, PERIOD_DAY);
+//    }
 
     // 增加或减少天數
     public Date addDay(Date date, int num) {
@@ -271,7 +269,8 @@ public class Patrol extends AppCompatActivity implements
             case OnGoToLocationStatusChangedListener.START:
                 try {
                     robot.tiltAngle(55);
-                    robot.setGoToSpeed(SpeedLevel.MEDIUM);
+                    robot.setGoToSpeed(SpeedLevel.SLOW);
+                    startrec();
                     System.out.println("list: OnGoToLocationStatusChangedListener_START");
                 } catch (Exception e) {
                     Log.e(TAGError, "list:Error:" + e.getMessage());
@@ -280,7 +279,7 @@ public class Patrol extends AppCompatActivity implements
             case OnGoToLocationStatusChangedListener.GOING:
                 try {
                     robot.tiltAngle(55);
-                    robot.setGoToSpeed(SpeedLevel.MEDIUM);
+                    robot.setGoToSpeed(SpeedLevel.SLOW);
                     System.out.println("list: OnGoToLocationStatusChangedListener_GOING");
                 } catch (Exception e) {
                     Log.e(TAGError, "list:Error:" + e.getMessage());
@@ -294,8 +293,8 @@ public class Patrol extends AppCompatActivity implements
             case OnGoToLocationStatusChangedListener.COMPLETE:
                 try {
                     robot.tiltAngle(55);
-                    robot.repose();
-                    robot.stopMovement();
+                    //robot.repose();
+                    //robot.stopMovement();
                     Thread.sleep(5000);
                     System.out.println("list: OnGoToLocationStatusChangedListener_COMPLETE");
                     stoprec();
@@ -535,36 +534,36 @@ public class Patrol extends AppCompatActivity implements
 //                        } else System.out.println("list: 分貝值轉換失敗");
 //                        switch(conti[0]) {
 //                            case 0:
-//                                if (lastDbCount >= 55 ){
+//                                if (lastDbCount >= 0 ){
 //                                    startrec();
 //                                    conti[0]++;
 //                                }
 //                                break;
 //                            case 1:
-//                                if (lastDbCount < 55){
-//                                    stoprec();
-//                                    try {
-//                                        if (recorder != null) {
-//                                            recorder.reset();
-//                                            System.out.println("list: ----停止錄音----");
-//                                        }
-//                                        else System.out.println("list: recorder is null.");
-//                                        recorder = new MediaRecorder();
-//                                        System.out.println("list: stoprec 開始錄音1");
-//                                        recorder.setAudioSource(MediaRecorder.AudioSource.MIC);
-//                                        recorder.setOutputFormat(type1.outputFormat);
-//                                        recorder.setAudioEncoder(type1.audioEncoder);
-//                                        //設置輸出文件的位置
-//                                        recorder.setOutputFile(new File(getExternalFilesDir(""),"record_b.mp4")
-//                                                .getAbsolutePath());
-//                                        System.out.println("list: 錄音存放位置:"+getExternalFilesDir("").getAbsolutePath()+"/record_b.mp4");
-//                                        recorder.prepare();
-//                                        recorder.start();
-//                                        System.out.println("list: stoprec 開始錄音2");
-//                                    } catch (IOException e) {
-//                                        e.printStackTrace();
-//                                        Log.d(TAG,"list: stoprec 開始錄音失敗");
-//                                    }
+//                                if (lastDbCount < 0){
+//                                    //stoprec();
+////                                    try {
+////                                        if (recorder != null) {
+////                                            recorder.reset();
+////                                            System.out.println("list: ----停止錄音----");
+////                                        }
+////                                        else System.out.println("list: recorder is null.");
+////                                        recorder = new MediaRecorder();
+////                                        System.out.println("list: stoprec 開始錄音1");
+////                                        recorder.setAudioSource(MediaRecorder.AudioSource.MIC);
+////                                        recorder.setOutputFormat(type1.outputFormat);
+////                                        recorder.setAudioEncoder(type1.audioEncoder);
+////                                        //設置輸出文件的位置
+////                                        recorder.setOutputFile(new File(getExternalFilesDir(""),"record_b.mp4")
+////                                                .getAbsolutePath());
+////                                        System.out.println("list: 錄音存放位置:"+getExternalFilesDir("").getAbsolutePath()+"/record_b.mp4");
+////                                        recorder.prepare();
+////                                        recorder.start();
+////                                        System.out.println("list: stoprec 開始錄音2");
+////                                    } catch (IOException e) {
+////                                        e.printStackTrace();
+////                                        Log.d(TAG,"list: stoprec 開始錄音失敗");
+////                                    }
 //                                    conti[0]--;
 //                                }
 //                                break;
@@ -583,17 +582,17 @@ public class Patrol extends AppCompatActivity implements
 //            Log.d(TAG,"list: 開始監聽失敗");
 //        }
 //    }
-
-    public static float setDbCount(float dbValue) {
-        if (dbValue > lastDbCount) {
-            value = dbValue - lastDbCount > min ? dbValue - lastDbCount : min;
-        }else{
-            value = dbValue - lastDbCount < -min ? dbValue - lastDbCount : -min;
-        }
-        dbCount = lastDbCount + value * 0.2f ; //防止聲音變化太快
-        lastDbCount = dbCount;
-        return lastDbCount;
-    }
+//
+//    public static float setDbCount(float dbValue) {
+//        if (dbValue > lastDbCount) {
+//            value = dbValue - lastDbCount > min ? dbValue - lastDbCount : min;
+//        }else{
+//            value = dbValue - lastDbCount < -min ? dbValue - lastDbCount : -min;
+//        }
+//        dbCount = lastDbCount + value * 0.2f ; //防止聲音變化太快
+//        lastDbCount = dbCount;
+//        return lastDbCount;
+//    }
 
     public void startrec(){
         try {
@@ -608,9 +607,9 @@ public class Patrol extends AppCompatActivity implements
             recorder.setOutputFormat(type1.outputFormat);
             recorder.setAudioEncoder(type1.audioEncoder);
             //設置輸出文件的位置
-            recorder.setOutputFile(new File(getExternalFilesDir(""),t+".mp4")
+            recorder.setOutputFile(new File(getExternalFilesDir(""),"record_a.mp4")
                     .getAbsolutePath());
-            System.out.println("list: 錄音存放位置:"+getExternalFilesDir("").getAbsolutePath()+"/"+t+".mp4");
+            System.out.println("list: 錄音存放位置:"+getExternalFilesDir("").getAbsolutePath()+"/record_a.mp4");
             recorder.prepare();
             recorder.start();
             System.out.println("list: startrec 開始錄音2");
@@ -661,7 +660,14 @@ public class Patrol extends AppCompatActivity implements
             public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
                 double progress = (100.0 * taskSnapshot.getBytesTransferred()) / taskSnapshot.getTotalByteCount();
                 Log.d(TAG_f, "list: Upload is " + progress + "% done");
-                if(progress == 100){
+                if(progress >= 100){
+                    if (recorder != null) {
+//                        recorder.stop();
+                        recorder.release();
+                        recorder = null;
+                        System.out.println("list: ----最終釋放----");
+                    }
+                    else Log.d(TAG,"list: recorder is null.");
                     mDatabase.child("face").child("temi1").child("patrol").child("py").setValue(false);
                     Intent it = new Intent(Patrol.this,MainActivity.class);
                     startActivity(it);
