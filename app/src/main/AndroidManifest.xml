@@ -20,6 +20,9 @@
         android:theme="@style/Theme.TemiRobot"
         tools:targetApi="31">
         <activity
+            android:name=".EquipmenTeaching"
+            android:exported="false" />
+        <activity
             android:name=".Patrol"
             android:exported="false" />
         <activity
