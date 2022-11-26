@@ -16,6 +16,7 @@ import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -58,14 +59,14 @@ import com.google.mlkit.vision.face.Face;
 import com.google.mlkit.vision.face.FaceDetection;
 import com.google.mlkit.vision.face.FaceDetector;
 
-//import com.robotemi.sdk.Robot;
-//import com.robotemi.sdk.listeners.OnGoToLocationStatusChangedListener;
-//import com.robotemi.sdk.listeners.OnRobotReadyListener;
-//import com.robotemi.sdk.navigation.listener.OnCurrentPositionChangedListener;
-//import com.robotemi.sdk.navigation.model.Position;
-//import com.robotemi.sdk.navigation.model.SpeedLevel;
+import com.robotemi.sdk.Robot;
+import com.robotemi.sdk.listeners.OnGoToLocationStatusChangedListener;
+import com.robotemi.sdk.listeners.OnRobotReadyListener;
+import com.robotemi.sdk.navigation.listener.OnCurrentPositionChangedListener;
+import com.robotemi.sdk.navigation.model.Position;
+import com.robotemi.sdk.navigation.model.SpeedLevel;
 
-import org.tensorflow.lite.Interpreter;
+import org.jetbrains.annotations.NotNull;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -82,13 +83,11 @@ import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
-public class Welcome extends AppCompatActivity {
-    //    implements
-//        OnGoToLocationStatusChangedListener,
-//        OnCurrentPositionChangedListener,
-//        OnRobotReadyListener
-//        {
-    //    private static Robot robot;
+public class Welcome extends AppCompatActivity implements
+        OnGoToLocationStatusChangedListener,
+        OnCurrentPositionChangedListener,
+        OnRobotReadyListener {
+    private static Robot robot;
     private static final String TAG = "Welcome";
     private static final int PERMISSION_CODE = 1001;
     private static final String CAMERA_PERMISSION = Manifest.permission.CAMERA;
@@ -111,38 +110,19 @@ public class Welcome extends AppCompatActivity {
     private static final float IMAGE_MEAN = 128.0f;
     private static final float IMAGE_STD = 128.0f;
     private static final int INPUT_SIZE = 112;
-    private static final int OUTPUT_SIZE=192;
-
-    //自定義變量
-    public static final int TAKE_PHOTO = 1;
-    private Uri imageUri; //圖片路徑
-    private String filename = "/unknown1.jpg"; //圖片名稱
+    private static final int OUTPUT_SIZE = 192;
 
     private static FirebaseStorage storage;
     private StorageReference mStorageRef;
     private DatabaseReference mDatabase;
     private static final String TAG_f = "Firebase";
-
-    private final static int sendUser = 1;
-
-    private int timerval = 0;
-    private int value2 = 0;
-    private TimerTask task = null;
-    private Timer timer = null;
-    private static final long PERIOD_DAY = 24 * 60 * 60 * 1000;
+    private static final String TAGError = "Welcome";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_welcome);
-//        robot = Robot.getInstance();
-
-        ///**
-//         * 在 Android 6.0 以上需要動態添加權限
-//         */
-//        ActivityCompat.requestPermissions(this,
-//                new String[]{Manifest.permission.RECORD_AUDIO},
-//                100);
+        robot = Robot.getInstance();
 
         mStorageRef = FirebaseStorage.getInstance().getReference();
         mDatabase = FirebaseDatabase.getInstance().getReference();
@@ -173,22 +153,18 @@ public class Welcome extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        //robot.addOnCurrentPositionChangedListener(this);
-//        robot.addOnGoToLocationStatusChangedListener(this);
-//        robot.addOnRobotReadyListener(this);
-        timerval = 1;
+        robot.addOnCurrentPositionChangedListener(this);
+        robot.addOnGoToLocationStatusChangedListener(this);
+        robot.addOnRobotReadyListener(this);
         mDatabase.child("face").child("temi1").child("welcome").setValue(true);
-        TimerManager(null,14,30,"labin");
     }
 
     @Override
-    public void onStop()
-    {
+    public void onStop() {
         super.onStop();
-        //robot.removeOnCurrentPositionChangedListener(this);
-//        robot.removeOnGoToLocationStatusChangedListener(this);
-//        robot.removeOnRobotReadyListener(this);
-        timerval = 0;
+        robot.removeOnCurrentPositionChangedListener(this);
+        robot.removeOnGoToLocationStatusChangedListener(this);
+        robot.removeOnRobotReadyListener(this);
     }
 
     @Override
@@ -197,49 +173,79 @@ public class Welcome extends AppCompatActivity {
         startCamera();
     }
 
-    public void btnlock(View v){
-        Intent it = new Intent(Welcome.this,MainActivity.class);
+    public void btnlock(View v) {
+        Intent it = new Intent(Welcome.this, MainActivity.class);
         startActivity(it);
         finish();
     }
 
-    public void TimerManager(String temiSN,int inthrs, int intmin, String strlocat) {
-        Calendar calendar = Calendar.getInstance();
-        calendar.set(Calendar.HOUR_OF_DAY, inthrs);
-        calendar.set(Calendar.MINUTE, intmin);
-        calendar.set(Calendar.SECOND, 0);
-        Date date = calendar.getTime(); //第一次執行任務的時間
-        //如果第一次執行定時任務的時間 小於當前時間
-        //此時要在 第一次執行定時任務的時間加一天，以便此任務在下個時間點執行。如果不加一天，任務會立即執行。
-        if (date.before(new Date())) {
-            date = this.addDay(date, 1);
-        }
-        Timer timer = new Timer();
-        TimerTask task = new TimerTask() {
-            @Override
-            public void run() {
-                System.out.println("list: 執行定時巡邏");
-                mDatabase.child("face").child("temi1").child("checkin").setValue(false);
-                mDatabase.child("face").child("temi1").child("regis").setValue(false);
-                mDatabase.child("face").child("temi1").child("welcome").setValue(false);
-                mDatabase.child("face").child("temi1").child("patrol").setValue(true);
-//                robot.goTo(strlocat);
+    @Override
+    public void onRobotReady(boolean isReady) {
+        if (isReady) {
+            try {
+                final ActivityInfo activityInfo = getPackageManager().getActivityInfo(getComponentName(), PackageManager.GET_META_DATA);
+                robot.onStart(activityInfo);
+            } catch (PackageManager.NameNotFoundException e) {
+                throw new RuntimeException(e);
             }
-        };
-        //安排指定的任務在指定的時間開始進行重複的固定延遲執行。
-        timer.schedule(task, date, PERIOD_DAY);
+        }
     }
 
-    // 增加或减少天數
-    public Date addDay(Date date, int num) {
-        Calendar startDT = Calendar.getInstance();
-        startDT.setTime(date);
-        startDT.add(Calendar.DAY_OF_MONTH, num);
-        return startDT.getTime();
+    @Override
+    public void onCurrentPositionChanged(Position position) {
+        System.out.println("list:onCurrentPosition Position: " + position.toString());
+    }
+
+    @Override
+    public void onGoToLocationStatusChanged(@NotNull String location, String status, int descriptionId, @NotNull String description) {
+        System.out.println("list: OnGoToLocationStatusChanged");
+        switch (status) {
+            case OnGoToLocationStatusChangedListener.START:
+                try {
+                    robot.tiltAngle(55);
+                    robot.setGoToSpeed(SpeedLevel.SLOW);
+                    System.out.println("list: OnGoToLocationStatusChangedListener_START");
+                } catch (Exception e) {
+                    Log.e(TAGError, "list:Error:" + e.getMessage());
+                }
+                break;
+            case OnGoToLocationStatusChangedListener.GOING:
+                try {
+                    robot.tiltAngle(55);
+                    robot.setGoToSpeed(SpeedLevel.SLOW);
+                    System.out.println("list: OnGoToLocationStatusChangedListener_GOING");
+                } catch (Exception e) {
+                    Log.e(TAGError, "list:Error:" + e.getMessage());
+                }
+                break;
+            case OnGoToLocationStatusChangedListener.CALCULATING:
+                robot.tiltAngle(55);
+                System.out.println("list: OnGoToLocationStatusChangedListener_CALCULATING");
+                //計算
+                break;
+            case OnGoToLocationStatusChangedListener.COMPLETE:
+                try {
+                    robot.tiltAngle(55);
+                    //robot.repose();
+                    //robot.stopMovement();
+                    Thread.sleep(5000);
+                    System.out.println("list: OnGoToLocationStatusChangedListener_COMPLETE");
+                } catch (Exception e) {
+                    Log.e(TAGError, "list: Error:" + e.getMessage());
+                }
+                break;
+            case OnGoToLocationStatusChangedListener.ABORT:
+                robot.tiltAngle(55);
+                System.out.println("list: OnGoToLocationStatusChangedListener_ABORT");
+                //robot.stopMovement();
+                break;
+        }
     }
 
     /** 人臉辨識 */
-    /** Permissions Handler */
+    /**
+     * Permissions Handler
+     */
     private void getPermissions() {
         ActivityCompat.requestPermissions(this, new String[]{CAMERA_PERMISSION}, PERMISSION_CODE);
     }
@@ -258,9 +264,11 @@ public class Welcome extends AppCompatActivity {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
 
-    /** Setup camera & use cases */
+    /**
+     * Setup camera & use cases
+     */
     private void startCamera() {
-        if(ContextCompat.checkSelfPermission(this, CAMERA_PERMISSION) == PackageManager.PERMISSION_GRANTED) {
+        if (ContextCompat.checkSelfPermission(this, CAMERA_PERMISSION) == PackageManager.PERMISSION_GRANTED) {
             setupCamera();
             System.out.println("list:2 startCamera1");
         } else {
@@ -350,21 +358,17 @@ public class Welcome extends AppCompatActivity {
         }
     }
 
-//    protected int getRotation() {
-////            throws NullPointerException {
-//        System.out.println("list:2 getRotation");
-//
-//        return previewView.getDisplay().getRotation();
-//    }
+    protected int getRotation() throws NullPointerException {
+        System.out.println("list:2 getRotation");
+        return previewView.getDisplay().getRotation();
+    }
 
-    public void uploadImage(Bitmap bitmap){
+    public void uploadImage(Bitmap bitmap) {
         Log.d(TAG_f, "list: upload");
         // Create a storage reference from our app
         StorageReference storageRef = storage.getReference();
 
         StorageReference checkinRef = storageRef.child("images").child("unknown").child("unknown1.jpg");
-
-//        UploadTask uploadTask = checkinRef.putFile(file);
 
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
@@ -433,7 +437,7 @@ public class Welcome extends AppCompatActivity {
                 @Override
                 public void onSuccess(FileDownloadTask.TaskSnapshot state) {
                     // Success!
-                    Log.d(TAG_f,"list: Instance Success: " + state);
+                    Log.d(TAG_f, "list: Instance Success: " + state);
                 }
             });
         }
@@ -486,11 +490,14 @@ public class Welcome extends AppCompatActivity {
     }
 
     /** Recognize Processor */
-    /** Bitmap Converter
-     * @return*/
+    /**
+     * Bitmap Converter
+     *
+     * @return
+     */
     private Bitmap mediaImgToBmp(InputImage image2, int rotation, Rect boundingBox) {
         System.out.println("list:2 mediaImgToBmp");
-        System.out.println("list:2 mediaImgToBmp image: " +image2);
+        System.out.println("list:2 mediaImgToBmp image: " + image2);
         Bitmap frame_bmp1 = null;
 
         Image image = image2.getMediaImage();
@@ -579,10 +586,10 @@ public class Welcome extends AppCompatActivity {
 
         int width = image.getWidth();//640
         int height = image.getHeight();//480
-        int ySize = width*height;
-        int uvSize = width*height/4;
+        int ySize = width * height;
+        int uvSize = width * height / 4;
 
-        byte[] nv21 = new byte[ySize + uvSize*2];
+        byte[] nv21 = new byte[ySize + uvSize * 2];
 
         //1,2,2
         ByteBuffer yBuffer = image.getPlanes()[0].getBuffer(); // Y
@@ -600,17 +607,16 @@ public class Welcome extends AppCompatActivity {
         int rowStride = image.getPlanes()[0].getRowStride();
 //      Log.d(TAG, "list: rowStride[0]: "+rowStride);//640
 
-        assert(image.getPlanes()[0].getPixelStride() == 1);
+        assert (image.getPlanes()[0].getPixelStride() == 1);
 
         int pos = 0;
 
         if (rowStride == width) { // likely
             yBuffer.get(nv21, 0, ySize);
             pos += ySize;
-        }
-        else {
+        } else {
             long yBufferPos = -rowStride; // not an actual position
-            for (; pos<ySize; pos+=width) {
+            for (; pos < ySize; pos += width) {
                 yBufferPos += rowStride;
                 yBuffer.position((int) yBufferPos);
                 yBuffer.get(nv21, pos, width);
@@ -618,15 +624,15 @@ public class Welcome extends AppCompatActivity {
         }
         rowStride = image.getPlanes()[2].getRowStride();
         int pixelStride = image.getPlanes()[2].getPixelStride();
-        assert(rowStride == image.getPlanes()[1].getRowStride());
-        assert(pixelStride == image.getPlanes()[1].getPixelStride());
+        assert (rowStride == image.getPlanes()[1].getRowStride());
+        assert (pixelStride == image.getPlanes()[1].getPixelStride());
 
         if (pixelStride == 2 && rowStride == width && uBuffer.get(0) == vBuffer.get(1)) {
             // maybe V an U planes overlap as per NV21, which means vBuffer[1] is alias of uBuffer[0]
             byte savePixel = vBuffer.get(1);
             try {
-                vBuffer.put(1, (byte)~savePixel);
-                if (uBuffer.get(0) == (byte)~savePixel) {
+                vBuffer.put(1, (byte) ~savePixel);
+                if (uBuffer.get(0) == (byte) ~savePixel) {
                     vBuffer.put(1, savePixel);
                     vBuffer.position(0);
                     uBuffer.position(0);
@@ -635,8 +641,7 @@ public class Welcome extends AppCompatActivity {
 
                     return nv21; // shortcut
                 }
-            }
-            catch (ReadOnlyBufferException ex) {
+            } catch (ReadOnlyBufferException ex) {
                 // unfortunately, we cannot check if vBuffer and uBuffer overlap
             }
 
@@ -647,9 +652,9 @@ public class Welcome extends AppCompatActivity {
         // other optimizations could check if (pixelStride == 1) or (pixelStride == 2),
         // but performance gain would be less significant
 
-        for (int row=0; row<height/2; row++) {
-            for (int col=0; col<width/2; col++) {
-                int vuPos = col*pixelStride + row*rowStride;
+        for (int row = 0; row < height / 2; row++) {
+            for (int col = 0; col < width / 2; col++) {
+                int vuPos = col * pixelStride + row * rowStride;
                 nv21[pos++] = vBuffer.get(vuPos);
                 nv21[pos++] = uBuffer.get(vuPos);
             }
@@ -661,7 +666,7 @@ public class Welcome extends AppCompatActivity {
     private Bitmap toBitmap(Image image) {
         System.out.println("list:2 toBitmap");
 
-        byte[] nv21=YUV_420_888toNV21(image);
+        byte[] nv21 = YUV_420_888toNV21(image);
 
         YuvImage yuvImage = new YuvImage(nv21, ImageFormat.NV21, image.getWidth(), image.getHeight(), null);
 
