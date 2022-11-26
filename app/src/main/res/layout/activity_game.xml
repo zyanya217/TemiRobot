@@ -19,7 +19,7 @@
         android:text="再玩一局"
         android:textSize="30sp"
         android:visibility="invisible"
-        app:layout_constraintBottom_toTopOf="@+id/btnStone2"
+        app:layout_constraintBottom_toTopOf="@+id/btnStone"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/txtResult"
