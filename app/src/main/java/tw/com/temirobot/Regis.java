@@ -94,7 +94,7 @@ public class Regis extends AppCompatActivity {
     private boolean start = true;
     private boolean regis = false;
     private float[][] embeddings;
-    private int j = 1;
+    private int x = 1;
 
     private static final float IMAGE_MEAN = 128.0f;
     private static final float IMAGE_STD = 128.0f;
@@ -125,7 +125,6 @@ public class Regis extends AppCompatActivity {
         addBtn.setOnClickListener((v -> addFace()));
     }
 
-
     @Override
     protected void onStart() {
         super.onStart();
@@ -140,7 +139,7 @@ public class Regis extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        //startCamera();
+        startCamera();
     }
 
     public void btnhome(View v){
