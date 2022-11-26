@@ -28,7 +28,6 @@ public class EquipmenTeaching extends AppCompatActivity {
     ImageView ppt16;
     ImageView ppt17;
     ImageView ppt18;
-    ImageView ppt19;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
