@@ -193,9 +193,30 @@ public class Welcome extends AppCompatActivity implements
     }
 
     public void btnlock(View v) {
-        Intent it = new Intent(Welcome.this, MainActivity.class);
-        startActivity(it);
-        finish();
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("回首頁請輸入密碼");
+
+        // Set up the input
+        final EditText input = new EditText(this);
+        input.setInputType(InputType.TYPE_CLASS_TEXT );
+        input.setMaxWidth(6);
+        builder.setView(input);
+
+        // Set up the buttons
+        builder.setPositiveButton("確認", (dialog, which) -> {
+            //Toast.makeText(context, input.getText().toString(), Toast.LENGTH_SHORT).show();
+            //Create and Initialize new object with Face embeddings and Name.
+            if (input.getText().toString() == "123456"){
+                Intent it = new Intent(Welcome.this, MainActivity.class);
+                startActivity(it);
+                finish();
+            }
+            else dialog.cancel();
+        });
+        builder.setNegativeButton("取消", (dialog, which) -> {
+            dialog.cancel();
+        });
+        builder.show();
     }
 
     @Override
