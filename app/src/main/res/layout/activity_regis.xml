@@ -26,13 +26,13 @@
         app:layout_constraintTop_toTopOf="@id/previewView" />
 
     <ImageView
-        android:id="@+id/bggre"
+        android:id="@+id/bggreblank"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:srcCompat="@drawable/bggre" />
+        app:srcCompat="@drawable/bggreblank" />
 
     <TextView
         android:id="@+id/txtFace"
