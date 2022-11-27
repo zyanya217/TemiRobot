@@ -91,7 +91,7 @@ public class Regis extends AppCompatActivity {
     private ImageAnalysis analysisUseCase;
     private GraphicOverlay graphicOverlay;
     private ImageView btnhome;
-    private ImageView add_btn;
+    private ImageButton add_btn;
     private ImageView bggreblank;
 
     private boolean flipX = false;
@@ -113,15 +113,14 @@ public class Regis extends AppCompatActivity {
         previewView.setScaleType(PreviewView.ScaleType.FIT_CENTER);
         graphicOverlay = findViewById(R.id.graphic_overlay);
         btnhome = findViewById(R.id.btnhome);
-        add_btn = findViewById(R.id.add_btn);
         bggreblank = findViewById(R.id.bggreblank);
 
         mStorageRef = FirebaseStorage.getInstance().getReference();
         mDatabase = FirebaseDatabase.getInstance().getReference();
         storage = FirebaseStorage.getInstance();
 
-        ImageButton addBtn = findViewById(R.id.add_btn);
-        addBtn.setOnClickListener((v -> addFace()));
+        add_btn = findViewById(R.id.add_btn);
+        add_btn.setOnClickListener((v -> addFace()));
     }
 
     @Override
