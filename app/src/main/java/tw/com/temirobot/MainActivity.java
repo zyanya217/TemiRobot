@@ -103,7 +103,7 @@ public class MainActivity extends AppCompatActivity
 {
     private static final String LOG_TAG = "MainActivity";
 
-    private static Robot robot;
+//    private static Robot robot;
     private static FirebaseStorage storage;
     private StorageReference mStorageRef;
     private DatabaseReference mDatabase;
@@ -112,10 +112,10 @@ public class MainActivity extends AppCompatActivity
     //語音文件保存路徑
 //    private final String FileName = getExternalFilesDir("").getAbsolutePath();
     //語音操作對象
-    private MediaPlayer mPlayer = null;
-    private static final String TAG = "MediaRecorderUtil";
-
-    private MediaRecorder recorder;
+//    private MediaPlayer mPlayer = null;
+//    private static final String TAG = "MediaRecorderUtil";
+//
+//    private MediaRecorder recorder;
 
 //    private Type type1 = Type.AAC_AAC;
 //    private Type type2 = Type.AAC_M4A;
@@ -133,30 +133,30 @@ public class MainActivity extends AppCompatActivity
     private static final long PERIOD_DAY = 24 * 60 * 60 * 1000;
     private static final String TAGError = "Recorder";
 
-    //臉部辨識
-    private static final String TAG_fr = "FaceRecognition";
-    private static final int PERMISSION_CODE = 1001;
-    private static final String CAMERA_PERMISSION = Manifest.permission.CAMERA;
-    private PreviewView previewView;
-    private CameraSelector cameraSelector;
-    private ProcessCameraProvider cameraProvider;
-    private int lensFacing = CameraSelector.LENS_FACING_BACK;
-    private Preview previewUseCase;
-    private ImageAnalysis analysisUseCase;
-    private GraphicOverlay graphicOverlay;
-    private ImageView previewImg;
-
-    private final HashMap<String, SimilarityClassifier.Recognition> registered = new HashMap<>(); //saved Faces
-    private Interpreter tfLite;
-    private boolean flipX = false;
-    private boolean start = true;
-    private boolean regis = false;
-    private float[][] embeddings;
-
-    private static final float IMAGE_MEAN = 128.0f;
-    private static final float IMAGE_STD = 128.0f;
-    private static final int INPUT_SIZE = 112;
-    private static final int OUTPUT_SIZE = 192;
+//    //臉部辨識
+//    private static final String TAG_fr = "FaceRecognition";
+//    private static final int PERMISSION_CODE = 1001;
+//    private static final String CAMERA_PERMISSION = Manifest.permission.CAMERA;
+////    private PreviewView previewView;
+//    private CameraSelector cameraSelector;
+//    private ProcessCameraProvider cameraProvider;
+//    private int lensFacing = CameraSelector.LENS_FACING_BACK;
+//    private Preview previewUseCase;
+//    private ImageAnalysis analysisUseCase;
+//    private GraphicOverlay graphicOverlay;
+//    private ImageView previewImg;
+//
+//    private final HashMap<String, SimilarityClassifier.Recognition> registered = new HashMap<>(); //saved Faces
+//    private Interpreter tfLite;
+//    private boolean flipX = false;
+//    private boolean start = true;
+//    private boolean regis = false;
+//    private float[][] embeddings;
+//
+//    private static final float IMAGE_MEAN = 128.0f;
+//    private static final float IMAGE_STD = 128.0f;
+//    private static final int INPUT_SIZE = 112;
+//    private static final int OUTPUT_SIZE = 192;
 
     private FirebaseDatabase database = FirebaseDatabase.getInstance();
 
@@ -165,7 +165,7 @@ public class MainActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        robot = Robot.getInstance();
+//        robot = Robot.getInstance();
 
 //        checkPermission();
 
@@ -173,10 +173,10 @@ public class MainActivity extends AppCompatActivity
         mDatabase = FirebaseDatabase.getInstance().getReference();
         storage = FirebaseStorage.getInstance();
 
-        previewView = findViewById(R.id.previewView);
-        previewView.setScaleType(PreviewView.ScaleType.FIT_CENTER);
-        graphicOverlay = findViewById(R.id.graphic_overlay);
-        previewImg = findViewById(R.id.preview_img);
+//        previewView = findViewById(R.id.previewView);
+//        previewView.setScaleType(PreviewView.ScaleType.FIT_CENTER);
+//        graphicOverlay = findViewById(R.id.graphic_overlay);
+//        previewImg = findViewById(R.id.preview_img);
 
         DBTime();
     }
