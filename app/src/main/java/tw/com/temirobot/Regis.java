@@ -89,7 +89,6 @@ public class Regis extends AppCompatActivity {
     private GraphicOverlay graphicOverlay;
 
     private boolean flipX = false;
-    private boolean start = true;
     private int x = 1;
 
     private static FirebaseStorage storage;
@@ -128,7 +127,9 @@ public class Regis extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
+        if (x == 1){
         startCamera();
+        }
     }
 
     public void btnhome(View v){
@@ -271,6 +272,9 @@ public class Regis extends AppCompatActivity {
             public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
                 double progress = (100.0 * taskSnapshot.getBytesTransferred()) / taskSnapshot.getTotalByteCount();
                 Log.d(TAG_f, "list: Upload is " + progress + "% done");
+                if (progress >= 100){
+                    x = 1;
+                }
             }
         }).addOnPausedListener(new OnPausedListener<UploadTask.TaskSnapshot>() {
             @Override
@@ -372,7 +376,6 @@ public class Regis extends AppCompatActivity {
     /** Recognize Processor */
     private void addFace() {
         System.out.println("list:3 addFace");
-//        start=false;
         x = 2;
         startCamera();
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -389,10 +392,8 @@ public class Regis extends AppCompatActivity {
             //Toast.makeText(context, input.getText().toString(), Toast.LENGTH_SHORT).show();
             //Create and Initialize new object with Face embeddings and Name.
 
-//            start = true;
         });
         builder.setNegativeButton("取消", (dialog, which) -> {
-//            start = true;
             dialog.cancel();
         });
         builder.show();
