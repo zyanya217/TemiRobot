@@ -407,7 +407,6 @@ public class FaceRecognition extends AppCompatActivity {
 
             uploadImage(bitmapImage);
         }
-        //graphicOverlay.draw(boundingBox, scaleX, scaleY, name);
     }
 
     /** Recognize Processor */
