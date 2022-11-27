@@ -48,15 +48,14 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
-    <ImageButton
-        android:id="@+id/add_btn"
+    <ImageView
+        android:id="@+id/btnadd"
         android:layout_width="100dp"
         android:layout_height="100dp"
         android:layout_marginStart="1110dp"
         android:layout_marginTop="600dp"
-        android:background="@drawable/white_roundedcorner"
         android:contentDescription="@string/register_face"
-        android:src="@drawable/add"
+        android:src="@drawable/btnadd"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:tint="@color/black" />
