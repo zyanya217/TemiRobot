@@ -117,9 +117,9 @@ public class Patrol extends AppCompatActivity implements
     //語音操作對象
     private MediaRecorder recorder;
 
-    private MainActivity.Type type1 = MainActivity.Type.AAC_AAC;
-    private MainActivity.Type type2 = MainActivity.Type.AAC_M4A;
-    private MainActivity.Type type3 = MainActivity.Type.AMR_AMR;
+//    private MainActivity.Type type1 = MainActivity.Type.AAC_AAC;
+//    private MainActivity.Type type2 = MainActivity.Type.AAC_M4A;
+//    private MainActivity.Type type3 = MainActivity.Type.AMR_AMR;
 
     private static String place;
 
