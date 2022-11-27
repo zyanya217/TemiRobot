@@ -45,8 +45,11 @@ import androidx.core.content.ContextCompat;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.common.util.concurrent.ListenableFuture;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FileDownloadTask;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.OnPausedListener;
@@ -94,6 +97,7 @@ public class Regis extends AppCompatActivity {
     private static FirebaseStorage storage;
     private StorageReference mStorageRef;
     private DatabaseReference mDatabase;
+    private FirebaseDatabase database = FirebaseDatabase.getInstance();
     private static final String TAG_f = "Firebase";
 
     @Override
@@ -274,8 +278,29 @@ public class Regis extends AppCompatActivity {
                 Log.d(TAG_f, "list: Upload is " + progress + "% done");
                 if (progress >= 100){
                     x = 1;
+                    mDatabase.child("face").child("temi1").child("regis").child("py").setValue(true);
+                    mDatabase.child("face").child("temi1").child("patrol").child("py").setValue(false);
+                    mDatabase.child("face").child("temi1").child("checkin").child("py").setValue(false);
+                    mDatabase.child("face").child("temi1").child("welcome").child("py").setValue(false);
+                    DatabaseReference myRef1 = database.getReference("/face/temi1/checkin/and");
+                    myRef1.addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot) {
+                            // This method is called once with the initial value and again
+                            // whenever data at this location is updated.
+                            Boolean value1 = dataSnapshot.getValue(Boolean.class);
+                            Log.d("TAG", "Value1 is: " + value1);
+                            if (value1 == true){}
+                        }
+                        @Override
+                        public void onCancelled(DatabaseError error) {
+                            // Failed to read value
+                            Log.w("TAG", "Failed to read value.", error.toException());
+                        }
+                    });
                 }
-            }
+                }
+
         }).addOnPausedListener(new OnPausedListener<UploadTask.TaskSnapshot>() {
             @Override
             public void onPaused(UploadTask.TaskSnapshot taskSnapshot) {
