@@ -213,7 +213,7 @@ public class Regis extends AppCompatActivity {
 
         Preview.Builder builder = new Preview.Builder();
         builder.setTargetAspectRatio(AspectRatio.RATIO_4_3);
-        //builder.setTargetRotation(getRotation());
+        builder.setTargetRotation(getRotation());
 
         previewUseCase = builder.build();
         previewUseCase.setSurfaceProvider(previewView.getSurfaceProvider());
@@ -260,6 +260,7 @@ public class Regis extends AppCompatActivity {
     }
 
     public void uploadImage(Bitmap bitmap){
+        mDatabase.child("face").child("temi1").child("regis").child("and").setValue(false);
         // Create a storage reference from our app
         StorageReference storageRef = storage.getReference();
 
@@ -294,6 +295,19 @@ public class Regis extends AppCompatActivity {
                                 mDatabase.child("face").child("temi1").child("regis").child("and").setValue(false);
                                 AlertDialog.Builder builder = new AlertDialog.Builder(Regis.this);
                                 builder.setTitle("照片註冊成功!");
+                                // Set up the buttons
+                                builder.setPositiveButton("確認", (dialog, which) -> {
+                                    //Toast.makeText(context, input.getText().toString(), Toast.LENGTH_SHORT).show();
+                                    //Create and Initialize new object with Face embeddings and Name.
+                                    dialog.cancel();
+                                    startCamera();
+                                });
+                                builder.show();
+                            }
+                            else {
+                                mDatabase.child("face").child("temi1").child("regis").child("and").setValue(false);
+                                AlertDialog.Builder builder = new AlertDialog.Builder(Regis.this);
+                                builder.setTitle("照片註冊失敗");
                                 // Set up the buttons
                                 builder.setPositiveButton("確認", (dialog, which) -> {
                                     //Toast.makeText(context, input.getText().toString(), Toast.LENGTH_SHORT).show();
@@ -426,7 +440,7 @@ public class Regis extends AppCompatActivity {
         builder.setPositiveButton("新增", (dialog, which) -> {
             //Toast.makeText(context, input.getText().toString(), Toast.LENGTH_SHORT).show();
             //Create and Initialize new object with Face embeddings and Name.
-
+            mDatabase.child("face").child("temi1").child("regis").child("id").setValue(input.getText().toString());
         });
         builder.setNegativeButton("取消", (dialog, which) -> {
             dialog.cancel();
