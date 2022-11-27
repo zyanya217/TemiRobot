@@ -291,6 +291,7 @@ public class Regis extends AppCompatActivity {
                             Boolean value1 = dataSnapshot.getValue(Boolean.class);
                             Log.d("TAG", "Value1 is: " + value1);
                             if (value1 == true){
+                                mDatabase.child("face").child("temi1").child("regis").child("and").setValue(false);
                                 AlertDialog.Builder builder = new AlertDialog.Builder(Regis.this);
                                 builder.setTitle("照片註冊成功!");
                                 // Set up the buttons
@@ -311,14 +312,12 @@ public class Regis extends AppCompatActivity {
                     });
                 }
                 }
-
         }).addOnPausedListener(new OnPausedListener<UploadTask.TaskSnapshot>() {
             @Override
             public void onPaused(UploadTask.TaskSnapshot taskSnapshot) {
                 Log.d(TAG_f, "list: Upload is paused");
             }
         });
-
         uploadTask.addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception exception) {
