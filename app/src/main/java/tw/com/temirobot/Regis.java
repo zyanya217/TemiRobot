@@ -91,7 +91,7 @@ public class Regis extends AppCompatActivity {
     private ImageAnalysis analysisUseCase;
     private GraphicOverlay graphicOverlay;
     private ImageView btnhome;
-    private ImageButton add_btn;
+    private ImageView btnadd;
     private ImageView bggreblank;
 
     private boolean flipX = false;
@@ -119,8 +119,8 @@ public class Regis extends AppCompatActivity {
         mDatabase = FirebaseDatabase.getInstance().getReference();
         storage = FirebaseStorage.getInstance();
 
-        add_btn = findViewById(R.id.add_btn);
-        add_btn.setOnClickListener((v -> addFace()));
+        btnadd = findViewById(R.id.btnadd);
+//        add_btn.setOnClickListener((v -> addFace()));
     }
 
     @Override
@@ -429,7 +429,7 @@ public class Regis extends AppCompatActivity {
     }
 
     /** Recognize Processor */
-    private void addFace() {
+    private void btnadd(View v) {
         System.out.println("list:3 addFace");
         x = 2;
         startCamera();
