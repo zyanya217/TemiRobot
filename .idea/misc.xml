@@ -3,20 +3,19 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
-        <entry key="..\:/AndroidDev/TemiRobot/app/src/main/res/layout/activity_equipmen_teaching.xml" value="0.16354166666666667" />
-        <entry key="..\:/AndroidDev/TemiRobot/app/src/main/res/layout/activity_face_recognition.xml" value="0.159375" />
-        <entry key="..\:/AndroidDev/TemiRobot/app/src/main/res/layout/activity_game.xml" value="0.159375" />
-        <entry key="..\:/AndroidDev/TemiRobot/app/src/main/res/layout/activity_main.xml" value="0.16354166666666667" />
-        <entry key="..\:/AndroidDev/TemiRobot/app/src/main/res/layout/activity_patrol.xml" value="0.16354166666666667" />
-        <entry key="..\:/AndroidDev/TemiRobot/app/src/main/res/layout/activity_regis.xml" value="0.16354166666666667" />
-        <entry key="..\:/AndroidDev/TemiRobot/app/src/main/res/layout/activity_todo.xml" value="0.16354166666666667" />
         <entry key="..\:/AndroidDev/TemiRobot2/app/src/main/res/layout/activity_game.xml" value="0.14666666666666667" />
         <entry key="..\:/AndroidDev/TemiRobot2/app/src/main/res/layout/activity_main.xml" value="0.14010416666666667" />
         <entry key="..\:/AndroidDev/TemiRobot2/app/src/main/res/layout/activity_regis.xml" value="0.14010416666666667" />
         <entry key="..\:/AndroidDev/TemiRobot2/app/src/main/res/layout/activity_todo.xml" value="0.14010416666666667" />
         <entry key="..\:/AndroidDev/TemiRobot2/app/src/main/res/layout/activity_todolist.xml" value="0.14010416666666667" />
         <entry key="..\:/AndroidDev/TemiRobot2/app/src/main/res/layout/activity_welcome.xml" value="0.14010416666666667" />
+        <entry key="..\:/Users/user/AndroidStudioProjects/TemiRobot/app/src/main/res/layout/activity_equipmen_teaching.xml" value="0.176" />
+        <entry key="..\:/Users/user/AndroidStudioProjects/TemiRobot/app/src/main/res/layout/activity_face_recognition.xml" value="0.11979166666666667" />
+        <entry key="..\:/Users/user/AndroidStudioProjects/TemiRobot/app/src/main/res/layout/activity_game.xml" value="0.22826086956521738" />
         <entry key="..\:/Users/user/AndroidStudioProjects/TemiRobot/app/src/main/res/layout/activity_patrol.xml" value="0.22826086956521738" />
+        <entry key="..\:/Users/user/AndroidStudioProjects/TemiRobot/app/src/main/res/layout/activity_regis.xml" value="0.176" />
+        <entry key="..\:/Users/user/AndroidStudioProjects/TemiRobot/app/src/main/res/layout/activity_todo.xml" value="0.22826086956521738" />
+        <entry key="..\:/Users/user/AndroidStudioProjects/TemiRobot/app/src/main/res/layout/activity_todolist.xml" value="0.15260416666666668" />
         <entry key="..\:/Users/user/AndroidStudioProjects/TemiRobot/app/src/main/res/layout/activity_welcome.xml" value="0.22826086956521738" />
       </map>
     </option>

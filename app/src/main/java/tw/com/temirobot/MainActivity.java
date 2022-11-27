@@ -318,7 +318,7 @@ public class MainActivity extends AppCompatActivity
                     // This method is called once with the initial value and again
                     // whenever data at this location is updated.
                     String hrs = dataSnapshot.getValue(String.class);
-                    Log.d("TAG", "Value2 is: " + hrs);
+                    Log.d("TAG", "hrs: " + hrs);
 
                     DatabaseReference minRef = database.getReference("/patrol/temi1/" + finalStrpatrol + "/min");
                     minRef.addValueEventListener(new ValueEventListener() {
@@ -327,7 +327,7 @@ public class MainActivity extends AppCompatActivity
                             // This method is called once with the initial value and again
                             // whenever data at this location is updated.
                             String min = dataSnapshot.getValue(String.class);
-                            Log.d("TAG", "Value2 is: " + min);
+                            Log.d("TAG", "min: " + min);
 
                             DatabaseReference placeRef = database.getReference("/patrol/temi1/" + finalStrpatrol + "/min");
                             placeRef.addValueEventListener(new ValueEventListener() {
@@ -336,7 +336,7 @@ public class MainActivity extends AppCompatActivity
                                     // This method is called once with the initial value and again
                                     // whenever data at this location is updated.
                                     String place = dataSnapshot.getValue(String.class);
-                                    Log.d("TAG", "Value2 is: " + place);
+                                    Log.d("TAG", "place: " + place);
                                     if (hrs != null && min!= null && place != null) {
                                         TimerManager(hrs, min, place);
                                     }
