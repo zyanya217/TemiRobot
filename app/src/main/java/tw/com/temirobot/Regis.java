@@ -90,6 +90,9 @@ public class Regis extends AppCompatActivity {
     private Preview previewUseCase;
     private ImageAnalysis analysisUseCase;
     private GraphicOverlay graphicOverlay;
+    private ImageView btnhome;
+    private ImageView add_btn;
+    private ImageView bggreblank;
 
     private boolean flipX = false;
     private int x = 1;
@@ -100,6 +103,7 @@ public class Regis extends AppCompatActivity {
     private FirebaseDatabase database = FirebaseDatabase.getInstance();
     private static final String TAG_f = "Firebase";
 
+    @SuppressLint("CutPasteId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -108,6 +112,9 @@ public class Regis extends AppCompatActivity {
         previewView = findViewById(R.id.previewView);
         previewView.setScaleType(PreviewView.ScaleType.FIT_CENTER);
         graphicOverlay = findViewById(R.id.graphic_overlay);
+        btnhome = findViewById(R.id.btnhome);
+        add_btn = findViewById(R.id.add_btn);
+        bggreblank = findViewById(R.id.bggreblank);
 
         mStorageRef = FirebaseStorage.getInstance().getReference();
         mDatabase = FirebaseDatabase.getInstance().getReference();
