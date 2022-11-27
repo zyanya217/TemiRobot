@@ -762,7 +762,6 @@ public class Patrol extends AppCompatActivity implements
 
             uploadImage(bitmapImage);
         }
-        //graphicOverlay.draw(boundingBox, scaleX, scaleY, name);
     }
 
     /** Recognize Processor */

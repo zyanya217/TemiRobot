@@ -45,8 +45,11 @@ import androidx.core.content.ContextCompat;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.common.util.concurrent.ListenableFuture;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FileDownloadTask;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.OnPausedListener;
@@ -88,25 +91,14 @@ public class Regis extends AppCompatActivity {
     private ImageAnalysis analysisUseCase;
     private GraphicOverlay graphicOverlay;
 
-    private final HashMap<String, SimilarityClassifier.Recognition> registered = new HashMap<>(); //saved Faces
-    private Interpreter tfLite;
     private boolean flipX = false;
-    private boolean start = true;
-    private boolean regis = false;
-    private float[][] embeddings;
     private int x = 1;
-
-    private static final float IMAGE_MEAN = 128.0f;
-    private static final float IMAGE_STD = 128.0f;
-    private static final int INPUT_SIZE = 112;
-    private static final int OUTPUT_SIZE=192;
 
     private static FirebaseStorage storage;
     private StorageReference mStorageRef;
     private DatabaseReference mDatabase;
+    private FirebaseDatabase database = FirebaseDatabase.getInstance();
     private static final String TAG_f = "Firebase";
-
-    private final static int sendUser = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -139,7 +131,9 @@ public class Regis extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
+        if (x == 1){
         startCamera();
+        }
     }
 
     public void btnhome(View v){
@@ -219,7 +213,7 @@ public class Regis extends AppCompatActivity {
 
         Preview.Builder builder = new Preview.Builder();
         builder.setTargetAspectRatio(AspectRatio.RATIO_4_3);
-        //builder.setTargetRotation(getRotation());
+        builder.setTargetRotation(getRotation());
 
         previewUseCase = builder.build();
         previewUseCase.setSurfaceProvider(previewView.getSurfaceProvider());
@@ -247,7 +241,7 @@ public class Regis extends AppCompatActivity {
 
         ImageAnalysis.Builder builder = new ImageAnalysis.Builder();
         builder.setTargetAspectRatio(AspectRatio.RATIO_4_3);
-//        builder.setTargetRotation(getRotation());
+        builder.setTargetRotation(getRotation());
 
         analysisUseCase = builder.build();
         analysisUseCase.setAnalyzer(cameraExecutor, this::analyze);
@@ -260,14 +254,13 @@ public class Regis extends AppCompatActivity {
         }
     }
 
-//    protected int getRotation() {
-////            throws NullPointerException {
-//        System.out.println("list:2 getRotation");
-//
-//        return previewView.getDisplay().getRotation();
-//    }
+    protected int getRotation() throws NullPointerException {
+        System.out.println("list:2 getRotation");
+        return previewView.getDisplay().getRotation();
+    }
 
     public void uploadImage(Bitmap bitmap){
+        mDatabase.child("face").child("temi1").child("regis").child("and").setValue(false);
         // Create a storage reference from our app
         StorageReference storageRef = storage.getReference();
 
@@ -284,14 +277,61 @@ public class Regis extends AppCompatActivity {
             public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
                 double progress = (100.0 * taskSnapshot.getBytesTransferred()) / taskSnapshot.getTotalByteCount();
                 Log.d(TAG_f, "list: Upload is " + progress + "% done");
-            }
+                if (progress >= 100){
+                    x = 1;
+                    mDatabase.child("face").child("temi1").child("regis").child("py").setValue(true);
+                    mDatabase.child("face").child("temi1").child("patrol").child("py").setValue(false);
+                    mDatabase.child("face").child("temi1").child("checkin").child("py").setValue(false);
+                    mDatabase.child("face").child("temi1").child("welcome").child("py").setValue(false);
+                    DatabaseReference myRef1 = database.getReference("/face/temi1/checkin/and");
+                    myRef1.addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot) {
+                            // This method is called once with the initial value and again
+                            // whenever data at this location is updated.
+                            Boolean value1 = dataSnapshot.getValue(Boolean.class);
+                            Log.d("TAG", "Value1 is: " + value1);
+                            if (value1 == true){
+                                mDatabase.child("face").child("temi1").child("regis").child("and").setValue(false);
+                                AlertDialog.Builder builder = new AlertDialog.Builder(Regis.this);
+                                builder.setTitle("照片註冊成功!");
+                                // Set up the buttons
+                                builder.setPositiveButton("確認", (dialog, which) -> {
+                                    //Toast.makeText(context, input.getText().toString(), Toast.LENGTH_SHORT).show();
+                                    //Create and Initialize new object with Face embeddings and Name.
+                                    dialog.cancel();
+                                    startCamera();
+                                });
+                                builder.show();
+                            }
+                            else {
+                                mDatabase.child("face").child("temi1").child("regis").child("and").setValue(false);
+                                AlertDialog.Builder builder = new AlertDialog.Builder(Regis.this);
+                                builder.setTitle("照片註冊失敗");
+                                // Set up the buttons
+                                builder.setPositiveButton("確認", (dialog, which) -> {
+                                    //Toast.makeText(context, input.getText().toString(), Toast.LENGTH_SHORT).show();
+                                    //Create and Initialize new object with Face embeddings and Name.
+                                    dialog.cancel();
+                                    startCamera();
+                                });
+                                builder.show();
+                            }
+                        }
+                        @Override
+                        public void onCancelled(DatabaseError error) {
+                            // Failed to read value
+                            Log.w("TAG", "Failed to read value.", error.toException());
+                        }
+                    });
+                }
+                }
         }).addOnPausedListener(new OnPausedListener<UploadTask.TaskSnapshot>() {
             @Override
             public void onPaused(UploadTask.TaskSnapshot taskSnapshot) {
                 Log.d(TAG_f, "list: Upload is paused");
             }
         });
-
         uploadTask.addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception exception) {
@@ -366,23 +406,13 @@ public class Regis extends AppCompatActivity {
 
     private void onSuccessListener(List<Face> faces, InputImage inputImage) {
         System.out.println("list:2 onSuccessListener");
-        Rect boundingBox = null;
-        //String name = null;
-        //float scaleX = (float) previewView.getWidth() / (float) inputImage.getHeight();
-        //float scaleY = (float) previewView.getHeight() / (float) inputImage.getWidth();
 
         if (faces.size() > 0) {
-            // get first face detected
-            Face face = faces.get(0);
-
-            // get bounding box of face;
-            boundingBox = face.getBoundingBox();
 
             // convert img to bitmap & crop img
             Bitmap bitmap = mediaImgToBmp(
                     inputImage,
-                    inputImage.getRotationDegrees(),
-                    boundingBox);
+                    inputImage.getRotationDegrees());
             System.out.println("list:2 onSuccessListener4: " + inputImage.getMediaImage());
             System.out.println("list:2 bitmap4: " + bitmap);
 
@@ -390,13 +420,11 @@ public class Regis extends AppCompatActivity {
             uploadImage(bitmap);
             }
         }
-        //graphicOverlay.draw(boundingBox, scaleX, scaleY, name);
     }
 
     /** Recognize Processor */
     private void addFace() {
         System.out.println("list:3 addFace");
-//        start=false;
         x = 2;
         startCamera();
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -412,11 +440,9 @@ public class Regis extends AppCompatActivity {
         builder.setPositiveButton("新增", (dialog, which) -> {
             //Toast.makeText(context, input.getText().toString(), Toast.LENGTH_SHORT).show();
             //Create and Initialize new object with Face embeddings and Name.
-
-//            start = true;
+            mDatabase.child("face").child("temi1").child("regis").child("id").setValue(input.getText().toString());
         });
         builder.setNegativeButton("取消", (dialog, which) -> {
-//            start = true;
             dialog.cancel();
         });
         builder.show();
@@ -424,7 +450,7 @@ public class Regis extends AppCompatActivity {
 
     /** Bitmap Converter
      * @return*/
-    private Bitmap mediaImgToBmp(InputImage image2, int rotation, Rect boundingBox) {
+    private Bitmap mediaImgToBmp(InputImage image2, int rotation) {
         System.out.println("list:2 mediaImgToBmp");
         System.out.println("list:2 mediaImgToBmp image: " +image2);
         Bitmap frame_bmp1 = null;
@@ -435,59 +461,7 @@ public class Regis extends AppCompatActivity {
         //Adjust orientation of Face
         frame_bmp1 = rotateBitmap(frame_bmp, rotation, flipX);
 
-        //Crop out bounding box from whole Bitmap(image)
-        float padding = 0.0f;
-        RectF adjustedBoundingBox = new RectF(
-                boundingBox.left - padding,
-                boundingBox.top - padding,
-                boundingBox.right + padding,
-                boundingBox.bottom + padding);
-        Bitmap cropped_face = getCropBitmapByCPU(frame_bmp1, adjustedBoundingBox);
-        //Resize bitmap to 112,112
-//        return getResizedBitmap(cropped_face);
-        return frame_bmp;
-    }
-
-    private Bitmap getResizedBitmap(Bitmap bm) {
-        System.out.println("list:2 getResizedBitmap");
-        int width = bm.getWidth();
-        int height = bm.getHeight();
-        float scaleWidth = ((float) 112) / width;
-        float scaleHeight = ((float) 112) / height;
-        // CREATE A MATRIX FOR THE MANIPULATION
-        Matrix matrix = new Matrix();
-        // RESIZE THE BIT MAP
-        matrix.postScale(scaleWidth, scaleHeight);
-        // "RECREATE" THE NEW BITMAP
-        Bitmap resizedBitmap = Bitmap.createBitmap(
-                bm, 0, 0, width, height, matrix, false);
-        bm.recycle();
-        return resizedBitmap;
-    }
-
-    private static Bitmap getCropBitmapByCPU(Bitmap source, RectF cropRectF) {
-        System.out.println("list:2 getCropBitmapByCPU");
-        Bitmap resultBitmap = Bitmap.createBitmap((int) cropRectF.width(),
-                (int) cropRectF.height(), Bitmap.Config.ARGB_8888);
-        Canvas canvas = new Canvas(resultBitmap);
-
-        // draw background
-        Paint paint = new Paint(Paint.FILTER_BITMAP_FLAG);
-        paint.setColor(Color.WHITE);
-        canvas.drawRect(//from  w w  w. ja v  a  2s. c  om
-                new RectF(0, 0, cropRectF.width(), cropRectF.height()),
-                paint);
-
-        Matrix matrix = new Matrix();
-        matrix.postTranslate(-cropRectF.left, -cropRectF.top);
-
-        canvas.drawBitmap(source, matrix, paint);
-
-        if (source != null && !source.isRecycled()) {
-            source.recycle();
-        }
-
-        return resultBitmap;
+        return frame_bmp1;
     }
 
     private static Bitmap rotateBitmap(Bitmap bitmap, int rotationDegrees, boolean flipX) {
@@ -608,6 +582,5 @@ public class Regis extends AppCompatActivity {
 
         return BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.length);
     }
-
 
 }
