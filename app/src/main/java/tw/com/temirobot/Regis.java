@@ -290,7 +290,18 @@ public class Regis extends AppCompatActivity {
                             // whenever data at this location is updated.
                             Boolean value1 = dataSnapshot.getValue(Boolean.class);
                             Log.d("TAG", "Value1 is: " + value1);
-                            if (value1 == true){}
+                            if (value1 == true){
+                                AlertDialog.Builder builder = new AlertDialog.Builder(Regis.this);
+                                builder.setTitle("照片註冊成功!");
+                                // Set up the buttons
+                                builder.setPositiveButton("確認", (dialog, which) -> {
+                                    //Toast.makeText(context, input.getText().toString(), Toast.LENGTH_SHORT).show();
+                                    //Create and Initialize new object with Face embeddings and Name.
+                                    dialog.cancel();
+                                    startCamera();
+                                });
+                                builder.show();
+                            }
                         }
                         @Override
                         public void onCancelled(DatabaseError error) {
