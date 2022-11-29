@@ -310,7 +310,7 @@ public class MainActivity extends AppCompatActivity
         String strpatrol2 = "";
         for (String strpatrol : patrolid) {
             strpatrol2 = strpatrol;
-            DatabaseReference hrsRef = database.getReference("/patrol/temi1/" + strpatrol2 + "/hrs");
+            DatabaseReference hrsRef = database.getReference("/temi1/" + strpatrol2 + "/hrs");
             String finalStrpatrol = strpatrol2;
             hrsRef.addValueEventListener(new ValueEventListener() {
                 @Override
@@ -320,7 +320,7 @@ public class MainActivity extends AppCompatActivity
                     String hrs = dataSnapshot.getValue(String.class);
                     Log.d("TAG", "hrs: " + hrs);
 
-                    DatabaseReference minRef = database.getReference("/patrol/temi1/" + finalStrpatrol + "/min");
+                    DatabaseReference minRef = database.getReference("/temi1/" + finalStrpatrol + "/min");
                     minRef.addValueEventListener(new ValueEventListener() {
                         @Override
                         public void onDataChange(DataSnapshot dataSnapshot) {
@@ -329,7 +329,7 @@ public class MainActivity extends AppCompatActivity
                             String min = dataSnapshot.getValue(String.class);
                             Log.d("TAG", "min: " + min);
 
-                            DatabaseReference placeRef = database.getReference("/patrol/temi1/" + finalStrpatrol + "/min");
+                            DatabaseReference placeRef = database.getReference("/temi1/" + finalStrpatrol + "/min");
                             placeRef.addValueEventListener(new ValueEventListener() {
                                 @Override
                                 public void onDataChange(DataSnapshot dataSnapshot) {

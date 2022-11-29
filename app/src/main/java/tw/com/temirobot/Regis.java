@@ -93,6 +93,7 @@ public class Regis extends AppCompatActivity {
     private ImageView btnhome;
     private ImageView btnadd;
     private ImageView bggreblank;
+    private EditText etid;
 
     private boolean flipX = false;
     private int x = 1;
@@ -116,6 +117,7 @@ public class Regis extends AppCompatActivity {
         btnhome = findViewById(R.id.btnhome);
         bggreblank = findViewById(R.id.bggreblank);
         btnadd = findViewById(R.id.btnadd);
+        etid = findViewById(R.id.etid);
 
         mStorageRef = FirebaseStorage.getInstance().getReference();
         mDatabase = FirebaseDatabase.getInstance().getReference();
