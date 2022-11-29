@@ -183,6 +183,7 @@ public class Welcome extends AppCompatActivity implements
                     mDatabase.child("face").child("temi1").child("welcome").child("py").setValue(true);
                     mDatabase.child("face").child("temi1").child("welcome").child("and").setValue(false);
                     startCamera();
+                    robot.goTo("labin");
                 }
                 else{
                     mDatabase.child("face").child("temi1").child("welcome").child("py").setValue(false);
