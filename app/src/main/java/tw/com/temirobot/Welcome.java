@@ -194,6 +194,7 @@ public class Welcome extends AppCompatActivity implements
                     x = 1;
                     System.out.println("list: name2, x = " + x);
                 }
+                System.out.println("list: value1 = " + value1);
                 Log.d("TAG", "Value1 is: " + value1);
             }
 
@@ -414,7 +415,7 @@ public class Welcome extends AppCompatActivity implements
 
         ImageAnalysis.Builder builder = new ImageAnalysis.Builder();
         builder.setTargetAspectRatio(AspectRatio.RATIO_4_3);
-        builder.setTargetRotation(getRotation());
+//        builder.setTargetRotation(getRotation());
 
         analysisUseCase = builder.build();
         analysisUseCase.setAnalyzer(cameraExecutor, this::analyze);
@@ -426,11 +427,11 @@ public class Welcome extends AppCompatActivity implements
             Log.e(TAG, "Error when bind analysis", e);
         }
     }
-
-    protected int getRotation() throws NullPointerException {
-        System.out.println("list:2 getRotation");
-        return previewView.getDisplay().getRotation();
-    }
+//
+//    protected int getRotation() throws NullPointerException {
+//        System.out.println("list:2 getRotation");
+//        return previewView.getDisplay().getRotation();
+//    }
 
     public void uploadImage(Bitmap bitmap) {
         Log.d(TAG_f, "list: upload");
