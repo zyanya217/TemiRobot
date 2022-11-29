@@ -113,8 +113,6 @@ public class Patrol extends AppCompatActivity implements
     private SimpleDateFormat dateFormat= new SimpleDateFormat("yyyy-MM-dd-hh-mm-ss");
     private String t = dateFormat.format(calendar.getTime());
     //語音文件保存路徑
-    private final File file2 = new File(getExternalFilesDir(""),t+".mp4");
-    private String filePath = getExternalFilesDir("").getAbsolutePath() + "/"+t+".mp4";
     //語音操作對象
     private MediaRecorder recorder;
 
@@ -168,18 +166,15 @@ public class Patrol extends AppCompatActivity implements
             recorder.stop();
             recorder.release();
             recorder = null;
-            filePath = "";
         } catch (RuntimeException e) {
             Log.e(TAG,e.toString());
             recorder.reset();
             recorder.release();
             recorder = null;
 
-            File file = new File(filePath);
-            if (file.exists())
-                file.delete();
-
-            filePath = "";
+            File file2 = new File(getExternalFilesDir(""),t+".mp4");
+            if (file2.exists())
+                file2.delete();
         }
     }
 
@@ -404,7 +399,7 @@ public class Patrol extends AppCompatActivity implements
             /* ②设置音频文件的编码：AAC/AMR_NB/AMR_MB/Default 声音的（波形）的采样 */
             recorder.setAudioEncoder(MediaRecorder.AudioEncoder.AAC);
             /* ③准备 */
-            recorder.setOutputFile(new File(filePath).getAbsolutePath());
+            recorder.setOutputFile(new File(getExternalFilesDir(""),t+".mp4").getAbsolutePath());
             recorder.prepare();
             /* ④开始 */
             recorder.start();
@@ -420,7 +415,6 @@ public class Patrol extends AppCompatActivity implements
             recorder.stop();
             recorder.release();
             recorder = null;
-            filePath = "";
             uploadAudio();
         } catch (RuntimeException e) {
             Log.e(TAG,e.toString());
@@ -428,11 +422,9 @@ public class Patrol extends AppCompatActivity implements
             recorder.release();
             recorder = null;
 
-            File file = new File(filePath);
-            if (file.exists())
-                file.delete();
-
-            filePath = "";
+            File file3 = new File(getExternalFilesDir(""),t+".mp4");
+            if (file3.exists())
+                file3.delete();
         }
     }
 
@@ -456,7 +448,7 @@ public class Patrol extends AppCompatActivity implements
                 .build();
 
 //        Uri file = Uri.fromFile(new File("path/to/record_a.mp4"));
-        Uri file = Uri.fromFile(file2);
+        Uri file = Uri.fromFile(new File(getExternalFilesDir(""), t + ".mp4"));
         recordRef = storageRef.child("audios/"+file.getLastPathSegment());
         // Upload the file and metadata
         //UploadTask uploadTask = storageRef.child("audios/record_a.mpeg").putFile(file, metadata);
@@ -473,21 +465,18 @@ public class Patrol extends AppCompatActivity implements
                         recorder.stop();
                         recorder.release();
                         recorder = null;
-                        File file = file2;
+                        File file = new File(getExternalFilesDir(""), t + ".mp4");
                         if (file.exists())
                             file.delete();
-                        filePath = "";
                     } catch (RuntimeException e) {
                         Log.e(TAG,e.toString());
                         recorder.reset();
                         recorder.release();
                         recorder = null;
 
-                        File file = file2;
+                        File file = new File(getExternalFilesDir(""), t + ".mp4");
                         if (file.exists())
                             file.delete();
-
-                        filePath = "";
                     }
 
                     mDatabase.child("face").child("temi1").child("patrol").child("py").setValue(false);
