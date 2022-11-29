@@ -329,7 +329,7 @@ public class MainActivity extends AppCompatActivity
                             String min = dataSnapshot.getValue(String.class);
                             Log.d("TAG", "min: " + min);
 
-                            DatabaseReference placeRef = database.getReference("/temi1/" + finalStrpatrol + "/min");
+                            DatabaseReference placeRef = database.getReference("/temi1/" + finalStrpatrol + "/place");
                             placeRef.addValueEventListener(new ValueEventListener() {
                                 @Override
                                 public void onDataChange(DataSnapshot dataSnapshot) {
