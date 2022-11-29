@@ -96,6 +96,7 @@ public class Regis extends AppCompatActivity {
 
     private boolean flipX = false;
     private int x = 1;
+    private int y = 1;
 
     private static FirebaseStorage storage;
     private StorageReference mStorageRef;
@@ -114,13 +115,11 @@ public class Regis extends AppCompatActivity {
         graphicOverlay = findViewById(R.id.graphic_overlay);
         btnhome = findViewById(R.id.btnhome);
         bggreblank = findViewById(R.id.bggreblank);
+        btnadd = findViewById(R.id.btnadd);
 
         mStorageRef = FirebaseStorage.getInstance().getReference();
         mDatabase = FirebaseDatabase.getInstance().getReference();
         storage = FirebaseStorage.getInstance();
-
-        btnadd = findViewById(R.id.btnadd);
-//        add_btn.setOnClickListener((v -> addFace()));
     }
 
     @Override
@@ -129,27 +128,28 @@ public class Regis extends AppCompatActivity {
     }
 
     @Override
-    public void onStop()
-    {
+    public void onStop() {
         super.onStop();
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        if (x == 1){
-        startCamera();
+        if (x == 1) {
+            startCamera();
         }
     }
 
-    public void btnhome(View v){
-        Intent it = new Intent(Regis.this,MainActivity.class);
+    public void btnhome(View v) {
+        Intent it = new Intent(Regis.this, MainActivity.class);
         startActivity(it);
         finish();
     }
 
     /** 人臉辨識 */
-    /** Permissions Handler */
+    /**
+     * Permissions Handler
+     */
     private void getPermissions() {
         ActivityCompat.requestPermissions(this, new String[]{CAMERA_PERMISSION}, PERMISSION_CODE);
     }
@@ -168,9 +168,11 @@ public class Regis extends AppCompatActivity {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
 
-    /** Setup camera & use cases */
+    /**
+     * Setup camera & use cases
+     */
     private void startCamera() {
-        if(ContextCompat.checkSelfPermission(this, CAMERA_PERMISSION) == PackageManager.PERMISSION_GRANTED) {
+        if (ContextCompat.checkSelfPermission(this, CAMERA_PERMISSION) == PackageManager.PERMISSION_GRANTED) {
             setupCamera();
             System.out.println("list:2 startCamera1");
         } else {
@@ -265,7 +267,7 @@ public class Regis extends AppCompatActivity {
         return previewView.getDisplay().getRotation();
     }
 
-    public void uploadImage(Bitmap bitmap){
+    public void uploadImage(Bitmap bitmap) {
         mDatabase.child("face").child("temi1").child("regis").child("and").setValue(false);
         // Create a storage reference from our app
         StorageReference storageRef = storage.getReference();
@@ -283,55 +285,57 @@ public class Regis extends AppCompatActivity {
             public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
                 double progress = (100.0 * taskSnapshot.getBytesTransferred()) / taskSnapshot.getTotalByteCount();
                 Log.d(TAG_f, "list: Upload is " + progress + "% done");
-                if (progress >= 100){
+                if (progress >= 100) {
                     x = 1;
                     mDatabase.child("face").child("temi1").child("regis").child("py").setValue(true);
                     mDatabase.child("face").child("temi1").child("patrol").child("py").setValue(false);
                     mDatabase.child("face").child("temi1").child("checkin").child("py").setValue(false);
                     mDatabase.child("face").child("temi1").child("welcome").child("py").setValue(false);
-                    DatabaseReference myRef1 = database.getReference("/face/temi1/checkin/and");
-                    myRef1.addValueEventListener(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(DataSnapshot dataSnapshot) {
-                            // This method is called once with the initial value and again
-                            // whenever data at this location is updated.
-                            Boolean value1 = dataSnapshot.getValue(Boolean.class);
-                            Log.d("TAG", "Value1 is: " + value1);
-                            if (value1 == true){
-                                mDatabase.child("face").child("temi1").child("regis").child("and").setValue(false);
-                                AlertDialog.Builder builder = new AlertDialog.Builder(Regis.this);
-                                builder.setTitle("照片註冊成功!");
-                                // Set up the buttons
-                                builder.setPositiveButton("確認", (dialog, which) -> {
-                                    //Toast.makeText(context, input.getText().toString(), Toast.LENGTH_SHORT).show();
-                                    //Create and Initialize new object with Face embeddings and Name.
-                                    dialog.cancel();
-                                    startCamera();
-                                });
-                                builder.show();
+                    DatabaseReference myRef1 = database.getReference("/face/temi1/checkin/id");
+                    do {
+                        myRef1.addValueEventListener(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(DataSnapshot dataSnapshot) {
+                                // This method is called once with the initial value and again
+                                // whenever data at this location is updated.
+                                String value1 = dataSnapshot.getValue(String.class);
+                                Log.d("TAG", "Value1 is: " + value1);
+                                if (value1 == "Success") {
+                                    y = 3;
+                                    mDatabase.child("face").child("temi1").child("regis").child("and").setValue(false);
+                                    AlertDialog.Builder builder = new AlertDialog.Builder(Regis.this);
+                                    builder.setTitle("照片註冊成功!");
+                                    // Set up the buttons
+                                    builder.setPositiveButton("確認", (dialog, which) -> {
+                                        startCamera();
+                                        dialog.cancel();
+                                    });
+                                    builder.show();
+                                } else if (value1 == "Failed") {
+                                    y = 3;
+                                    mDatabase.child("face").child("temi1").child("regis").child("and").setValue(false);
+                                    AlertDialog.Builder builder = new AlertDialog.Builder(Regis.this);
+                                    builder.setTitle("照片辨識失敗");
+                                    // Set up the buttons
+                                    builder.setPositiveButton("確認", (dialog, which) -> {
+                                        startCamera();
+                                        dialog.cancel();
+                                    });
+                                    builder.show();
+                                } else {
+                                    y = 2;
+                                }
                             }
-                            else {
-                                mDatabase.child("face").child("temi1").child("regis").child("and").setValue(false);
-                                AlertDialog.Builder builder = new AlertDialog.Builder(Regis.this);
-                                builder.setTitle("照片註冊失敗");
-                                // Set up the buttons
-                                builder.setPositiveButton("確認", (dialog, which) -> {
-                                    //Toast.makeText(context, input.getText().toString(), Toast.LENGTH_SHORT).show();
-                                    //Create and Initialize new object with Face embeddings and Name.
-                                    dialog.cancel();
-                                    startCamera();
-                                });
-                                builder.show();
+
+                            @Override
+                            public void onCancelled(DatabaseError error) {
+                                // Failed to read value
+                                Log.w("TAG", "Failed to read value.", error.toException());
                             }
-                        }
-                        @Override
-                        public void onCancelled(DatabaseError error) {
-                            // Failed to read value
-                            Log.w("TAG", "Failed to read value.", error.toException());
-                        }
-                    });
+                        });
+                    } while (y != 3);
                 }
-                }
+            }
         }).addOnPausedListener(new OnPausedListener<UploadTask.TaskSnapshot>() {
             @Override
             public void onPaused(UploadTask.TaskSnapshot taskSnapshot) {
@@ -386,7 +390,7 @@ public class Regis extends AppCompatActivity {
                 @Override
                 public void onSuccess(FileDownloadTask.TaskSnapshot state) {
                     // Success!
-                    Log.d(TAG_f,"list: Instance Success: " + state);
+                    Log.d(TAG_f, "list: Instance Success: " + state);
                 }
             });
         }
@@ -422,14 +426,16 @@ public class Regis extends AppCompatActivity {
             System.out.println("list:2 onSuccessListener4: " + inputImage.getMediaImage());
             System.out.println("list:2 bitmap4: " + bitmap);
 
-            if (x == 2){
-            uploadImage(bitmap);
+            if (x == 2) {
+                uploadImage(bitmap);
             }
         }
     }
 
-    /** Recognize Processor */
-    private void btnadd(View v) {
+    /**
+     * Recognize Processor
+     */
+    public void btnadd(View v) {
         System.out.println("list:3 addFace");
         x = 2;
         startCamera();
@@ -438,7 +444,7 @@ public class Regis extends AppCompatActivity {
 
         // Set up the input
         final EditText input = new EditText(this);
-        input.setInputType(InputType.TYPE_CLASS_TEXT );
+        input.setInputType(InputType.TYPE_CLASS_TEXT);
         input.setMaxWidth(200);
         builder.setView(input);
 
@@ -454,11 +460,14 @@ public class Regis extends AppCompatActivity {
         builder.show();
     }
 
-    /** Bitmap Converter
-     * @return*/
+    /**
+     * Bitmap Converter
+     *
+     * @return
+     */
     private Bitmap mediaImgToBmp(InputImage image2, int rotation) {
         System.out.println("list:2 mediaImgToBmp");
-        System.out.println("list:2 mediaImgToBmp image: " +image2);
+        System.out.println("list:2 mediaImgToBmp image: " + image2);
         Bitmap frame_bmp1 = null;
 
         Image image = image2.getMediaImage();
@@ -495,10 +504,10 @@ public class Regis extends AppCompatActivity {
 
         int width = image.getWidth();//640
         int height = image.getHeight();//480
-        int ySize = width*height;
-        int uvSize = width*height/4;
+        int ySize = width * height;
+        int uvSize = width * height / 4;
 
-        byte[] nv21 = new byte[ySize + uvSize*2];
+        byte[] nv21 = new byte[ySize + uvSize * 2];
 
         //1,2,2
         ByteBuffer yBuffer = image.getPlanes()[0].getBuffer(); // Y
@@ -516,17 +525,16 @@ public class Regis extends AppCompatActivity {
         int rowStride = image.getPlanes()[0].getRowStride();
 //      Log.d(TAG, "list: rowStride[0]: "+rowStride);//640
 
-        assert(image.getPlanes()[0].getPixelStride() == 1);
+        assert (image.getPlanes()[0].getPixelStride() == 1);
 
         int pos = 0;
 
         if (rowStride == width) { // likely
             yBuffer.get(nv21, 0, ySize);
             pos += ySize;
-        }
-        else {
+        } else {
             long yBufferPos = -rowStride; // not an actual position
-            for (; pos<ySize; pos+=width) {
+            for (; pos < ySize; pos += width) {
                 yBufferPos += rowStride;
                 yBuffer.position((int) yBufferPos);
                 yBuffer.get(nv21, pos, width);
@@ -534,15 +542,15 @@ public class Regis extends AppCompatActivity {
         }
         rowStride = image.getPlanes()[2].getRowStride();
         int pixelStride = image.getPlanes()[2].getPixelStride();
-        assert(rowStride == image.getPlanes()[1].getRowStride());
-        assert(pixelStride == image.getPlanes()[1].getPixelStride());
+        assert (rowStride == image.getPlanes()[1].getRowStride());
+        assert (pixelStride == image.getPlanes()[1].getPixelStride());
 
         if (pixelStride == 2 && rowStride == width && uBuffer.get(0) == vBuffer.get(1)) {
             // maybe V an U planes overlap as per NV21, which means vBuffer[1] is alias of uBuffer[0]
             byte savePixel = vBuffer.get(1);
             try {
-                vBuffer.put(1, (byte)~savePixel);
-                if (uBuffer.get(0) == (byte)~savePixel) {
+                vBuffer.put(1, (byte) ~savePixel);
+                if (uBuffer.get(0) == (byte) ~savePixel) {
                     vBuffer.put(1, savePixel);
                     vBuffer.position(0);
                     uBuffer.position(0);
@@ -551,8 +559,7 @@ public class Regis extends AppCompatActivity {
 
                     return nv21; // shortcut
                 }
-            }
-            catch (ReadOnlyBufferException ex) {
+            } catch (ReadOnlyBufferException ex) {
                 // unfortunately, we cannot check if vBuffer and uBuffer overlap
             }
 
@@ -563,9 +570,9 @@ public class Regis extends AppCompatActivity {
         // other optimizations could check if (pixelStride == 1) or (pixelStride == 2),
         // but performance gain would be less significant
 
-        for (int row=0; row<height/2; row++) {
-            for (int col=0; col<width/2; col++) {
-                int vuPos = col*pixelStride + row*rowStride;
+        for (int row = 0; row < height / 2; row++) {
+            for (int col = 0; col < width / 2; col++) {
+                int vuPos = col * pixelStride + row * rowStride;
                 nv21[pos++] = vBuffer.get(vuPos);
                 nv21[pos++] = uBuffer.get(vuPos);
             }
@@ -577,7 +584,7 @@ public class Regis extends AppCompatActivity {
     private Bitmap toBitmap(Image image) {
         System.out.println("list:2 toBitmap");
 
-        byte[] nv21=YUV_420_888toNV21(image);
+        byte[] nv21 = YUV_420_888toNV21(image);
 
         YuvImage yuvImage = new YuvImage(nv21, ImageFormat.NV21, image.getWidth(), image.getHeight(), null);
 

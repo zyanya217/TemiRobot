@@ -1,5 +1,6 @@
 package tw.com.temirobot;
 
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.Manifest;
 import android.annotation.SuppressLint;
@@ -19,9 +20,11 @@ import android.graphics.YuvImage;
 import android.media.Image;
 import android.net.Uri;
 import android.os.Bundle;
+import android.text.InputType;
 import android.util.Log;
 import android.util.Pair;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -96,7 +99,6 @@ public class FaceRecognition extends AppCompatActivity {
     private StorageReference mStorageRef;
     private DatabaseReference mDatabase;
     private static final String TAG_f = "Firebase";
-    private static final String TAGError = "Welcome";
     private FirebaseDatabase database;
 
     @Override
@@ -115,6 +117,9 @@ public class FaceRecognition extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
+        mDatabase.child("face").child("temi1").child("checkin").child("id").setValue("");
+        mDatabase.child("face").child("temi1").child("checkin").child("py").setValue(true);
+        mDatabase.child("face").child("temi1").child("checkin").child("and").setValue(false);
         startCamera();
     }
 
@@ -134,17 +139,39 @@ public class FaceRecognition extends AppCompatActivity {
                 // This method is called once with the initial value and again
                 // whenever data at this location is updated.
                 String value1 = dataSnapshot.getValue(String.class);
-                if (value1 != null) {
+                if (value1 != "Unknown") {
+                    mDatabase.child("face").child("temi1").child("checkin").child("py").setValue(false);
+                    mDatabase.child("face").child("temi1").child("checkin").child("and").setValue(true);
+                    AlertDialog.Builder builder = new AlertDialog.Builder(FaceRecognition.this);
+                    builder.setTitle("請問是否要註冊照片?");
+
+                    // Set up the buttons
+                    builder.setPositiveButton("是", (dialog, which) -> {
+                        Intent it = new Intent(FaceRecognition.this,Regis.class);
+                        startActivity(it);
+                        finish();
+                    });
+                    builder.setNegativeButton("否", (dialog, which) -> {
+                        dialog.cancel();
+                        startCamera();
+                    });
+                    builder.show();
+                }
+                else if (value1 == "Failed"){
+                    mDatabase.child("face").child("temi1").child("checkin").child("py").setValue(true);
+                    mDatabase.child("face").child("temi1").child("checkin").child("and").setValue(false);
+                    startCamera();
+                }
+                else if (value1 == "null"){
+                    mDatabase.child("face").child("temi1").child("checkin").child("py").setValue(true);
+                    mDatabase.child("face").child("temi1").child("checkin").child("and").setValue(false);
+                }
+                else {
                     mDatabase.child("face").child("temi1").child("checkin").child("py").setValue(false);
                     mDatabase.child("face").child("temi1").child("checkin").child("and").setValue(true);
                     Intent it = new Intent(FaceRecognition.this,Todo.class);
                     startActivity(it);
                     finish();
-                }
-                else if (value1 == null){
-                    mDatabase.child("face").child("temi1").child("checkin").child("py").setValue(true);
-                    mDatabase.child("face").child("temi1").child("checkin").child("and").setValue(false);
-                    startCamera();
                 }
                 Log.d("TAG", "Value1 is: " + value1);
             }

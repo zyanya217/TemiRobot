@@ -167,7 +167,7 @@ public class Welcome extends AppCompatActivity implements
                 // This method is called once with the initial value and again
                 // whenever data at this location is updated.
                 String value1 = dataSnapshot.getValue(String.class);
-                if (value1 != null) {
+                if (value1 == "Unknown") {
                     mDatabase.child("face").child("temi1").child("welcome").child("py").setValue(false);
                     mDatabase.child("face").child("temi1").child("welcome").child("and").setValue(true);
                     if (x == 0){
@@ -175,11 +175,19 @@ public class Welcome extends AppCompatActivity implements
                     }
                     x = 1;
                 }
-                else if (value1 == null){
+                else if (value1 == "null"){
                     x = 0;
                     mDatabase.child("face").child("temi1").child("welcome").child("py").setValue(true);
                     mDatabase.child("face").child("temi1").child("welcome").child("and").setValue(false);
                     startCamera();
+                }
+                else{
+                    mDatabase.child("face").child("temi1").child("welcome").child("py").setValue(false);
+                    mDatabase.child("face").child("temi1").child("welcome").child("and").setValue(true);
+                    if (x == 0){
+                        robot.goTo("labin");
+                    }
+                    x = 1;
                 }
                 Log.d("TAG", "Value1 is: " + value1);
             }
@@ -396,7 +404,7 @@ public class Welcome extends AppCompatActivity implements
 
         ImageAnalysis.Builder builder = new ImageAnalysis.Builder();
         builder.setTargetAspectRatio(AspectRatio.RATIO_4_3);
-//        builder.setTargetRotation(getRotation());
+        builder.setTargetRotation(getRotation());
 
         analysisUseCase = builder.build();
         analysisUseCase.setAnalyzer(cameraExecutor, this::analyze);
@@ -536,6 +544,7 @@ public class Welcome extends AppCompatActivity implements
 //            System.out.println("list:2 bitmap4: " + bitmap);
 
             uploadImage(bitmapImage);
+
         }
         //graphicOverlay.draw(boundingBox, scaleX, scaleY, name);
     }
