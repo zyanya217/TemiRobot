@@ -403,7 +403,7 @@ public class Patrol extends AppCompatActivity implements
             /* ②设置音频文件的编码：AAC/AMR_NB/AMR_MB/Default 声音的（波形）的采样 */
             recorder.setAudioEncoder(MediaRecorder.AudioEncoder.AAC);
             /* ③准备 */
-            recorder.setOutputFile(filePath);
+            recorder.setOutputFile(new File(filePath).getAbsolutePath());
             recorder.prepare();
             /* ④开始 */
             recorder.start();
