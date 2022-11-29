@@ -113,6 +113,7 @@ public class Patrol extends AppCompatActivity implements
     private SimpleDateFormat dateFormat= new SimpleDateFormat("yyyy-MM-dd-hh-mm-ss");
     private String t = dateFormat.format(calendar.getTime());
     //語音文件保存路徑
+    private final File file2 = new File(getExternalFilesDir(""),t+".mp4");
     private String filePath = getExternalFilesDir("").getAbsolutePath() + "/"+t+".mp4";
     //語音操作對象
     private MediaRecorder recorder;
@@ -455,8 +456,7 @@ public class Patrol extends AppCompatActivity implements
                 .build();
 
 //        Uri file = Uri.fromFile(new File("path/to/record_a.mp4"));
-        String filePath2 = filePath;
-        Uri file = Uri.fromFile(new File(filePath2));
+        Uri file = Uri.fromFile(file2);
         recordRef = storageRef.child("audios/"+file.getLastPathSegment());
         // Upload the file and metadata
         //UploadTask uploadTask = storageRef.child("audios/record_a.mpeg").putFile(file, metadata);
@@ -473,7 +473,7 @@ public class Patrol extends AppCompatActivity implements
                         recorder.stop();
                         recorder.release();
                         recorder = null;
-                        File file = new File(filePath2);
+                        File file = file2;
                         if (file.exists())
                             file.delete();
                         filePath = "";
@@ -483,7 +483,7 @@ public class Patrol extends AppCompatActivity implements
                         recorder.release();
                         recorder = null;
 
-                        File file = new File(filePath2);
+                        File file = file2;
                         if (file.exists())
                             file.delete();
 
