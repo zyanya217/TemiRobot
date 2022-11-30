@@ -3,6 +3,8 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/AndroidDev/TemiRobot/app/src/main/res/layout/activity_equipmen_teaching.xml" value="0.1265625" />
+        <entry key="..\:/AndroidDev/TemiRobot/app/src/main/res/layout/activity_face_recognition.xml" value="0.1" />
         <entry key="..\:/AndroidDev/TemiRobot/app/src/main/res/layout/activity_game.xml" value="0.14322916666666666" />
         <entry key="..\:/AndroidDev/TemiRobot/app/src/main/res/layout/activity_main.xml" value="0.115625" />
         <entry key="..\:/AndroidDev/TemiRobot/app/src/main/res/layout/activity_patrol.xml" value="0.115625" />
