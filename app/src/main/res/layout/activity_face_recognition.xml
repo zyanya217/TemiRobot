@@ -25,7 +25,8 @@
         android:layout_height="0dp"
         android:visibility="visible"
         app:layout_constraintDimensionRatio="3:4"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.75">
 
     </androidx.camera.view.PreviewView>
 
