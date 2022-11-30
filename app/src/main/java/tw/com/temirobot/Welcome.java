@@ -192,37 +192,6 @@ public class Welcome extends AppCompatActivity implements
         super.onResume();
     }
 
-//    public void btnlock(View v) {
-//        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-//        builder.setTitle("回首頁請輸入密碼");
-//
-//        // Set up the input
-//        final EditText input = new EditText(this);
-//        input.setInputType(InputType.TYPE_CLASS_TEXT );
-//        input.setMaxWidth(6);
-//        builder.setView(input);
-//
-//        // Set up the buttons
-//        builder.setPositiveButton("確認", (dialog, which) -> {
-//            //Toast.makeText(context, input.getText().toString(), Toast.LENGTH_SHORT).show();
-//            //Create and Initialize new object with Face embeddings and Name.
-//            if (input.getText().toString() == "123456"){
-//                Intent it = new Intent(Welcome.this, MainActivity.class);
-//                startActivity(it);
-//                finish();
-//            }
-//            else dialog.cancel();
-//        });
-//        builder.setNegativeButton("取消", (dialog, which) -> {
-//            dialog.cancel();
-//        });
-//        builder.show();
-
-//        Intent it = new Intent(Welcome.this, MainActivity.class);
-//        startActivity(it);
-//        finish();
-//    }
-
     @Override
     public void onRobotReady(boolean isReady) {
         if (isReady) {
@@ -549,6 +518,7 @@ public class Welcome extends AppCompatActivity implements
                     // whenever data at this location is updated.
                     String value1 = dataSnapshot.getValue(String.class);
                     if (value1 == "Unknown") {
+                        //查無此人
                         mDatabase.child("face").child("temi1").child("welcome").child("py").setValue(false);
                         mDatabase.child("face").child("temi1").child("welcome").child("and").setValue(true);
                         if (x == 0){
@@ -559,6 +529,7 @@ public class Welcome extends AppCompatActivity implements
                         System.out.println("list: unknown2, x = " + x);
                     }
                     else if (value1.trim().length() == 0){
+                        //尚未辨識完成
                         x = 0;
                         System.out.println("list: null, x = " + x);
                         mDatabase.child("face").child("temi1").child("welcome").child("py").setValue(true);
@@ -567,6 +538,7 @@ public class Welcome extends AppCompatActivity implements
                         //robot.goTo("labin");
                     }
                     else{
+                        //辨識到人
                         mDatabase.child("face").child("temi1").child("welcome").child("py").setValue(false);
                         mDatabase.child("face").child("temi1").child("welcome").child("and").setValue(true);
                         if (x == 0){
