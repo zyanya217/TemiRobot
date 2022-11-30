@@ -218,7 +218,7 @@ public class MainActivity extends AppCompatActivity
     }
 
     public void btngame(View v) {
-        Intent it = new Intent(MainActivity.this, EquipmenTeaching.class);
+        Intent it = new Intent(MainActivity.this,Todolist.class);
         startActivity(it);
         finish();
     }

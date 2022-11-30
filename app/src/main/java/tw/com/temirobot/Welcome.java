@@ -514,7 +514,7 @@ public class Welcome extends AppCompatActivity implements
             uploadImage(bitmapImage);
 
             do {
-                DatabaseReference myRef1 = database.getReference("/face/temi1/welcome/id");
+                DatabaseReference myRef1 = database.getReference("/face/temi1/welcome/B0844230");
                 myRef1.addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {

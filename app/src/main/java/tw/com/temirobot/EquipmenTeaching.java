@@ -76,6 +76,7 @@ public class EquipmenTeaching extends AppCompatActivity implements
         finish();
     }
 
+
     public void btnlast(View v){
         if (x==2){ppt2.setVisibility(View.INVISIBLE);}
         else if (x==3){ppt3.setVisibility(View.INVISIBLE);}

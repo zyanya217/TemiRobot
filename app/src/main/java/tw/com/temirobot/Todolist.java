@@ -8,6 +8,7 @@ import android.view.View;
 
 import android.util.Log;
 import android.view.WindowManager;
+import android.widget.TextView;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -22,6 +23,8 @@ public class Todolist extends AppCompatActivity implements Robot.TtsListener {
 
     private Robot robot;
     private static final String Speak = "  ";
+    TextView todolistText=(TextView)findViewById(R.id.todolistText);
+    TextView NameText=(TextView)findViewById(R.id.textView4);
 
     protected void onStart() {
         super.onStart();
@@ -46,7 +49,7 @@ public class Todolist extends AppCompatActivity implements Robot.TtsListener {
         FirebaseDatabase database = FirebaseDatabase.getInstance();
 
         DatabaseReference myRef1 = database.getReference("/facevar/recogid");
-//
+//"+value1+"
 //        myRef.setValue("Hello, World!");
 
         myRef1.addValueEventListener(new ValueEventListener() {
@@ -56,8 +59,10 @@ public class Todolist extends AppCompatActivity implements Robot.TtsListener {
                 // whenever data at this location is updated.
                 String value1 = dataSnapshot.getValue(String.class);
                 Log.d("TAG", "Value1 is: " + value1);
+                NameText.setText(value1);
 
-                DatabaseReference myRef2 = database.getReference("/user/"+value1+"/todolist");
+
+                DatabaseReference myRef2 = database.getReference("/user/B0844227/todolist");
                 myRef2.addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
@@ -68,6 +73,7 @@ public class Todolist extends AppCompatActivity implements Robot.TtsListener {
                         Robot sRobot = Robot.getInstance();
                         TtsRequest ttsRequest = TtsRequest.create(value2,false);
                         sRobot.speak(ttsRequest);
+                        todolistText.setText(value2);
                     }
 
                     @Override

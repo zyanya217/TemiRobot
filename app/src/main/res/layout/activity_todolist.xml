@@ -70,7 +70,7 @@
             app:srcCompat="@drawable/rectangle1" />
 
         <TextView
-            android:id="@+id/textView"
+            android:id="@+id/todolistText"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="36dp"
@@ -94,7 +94,7 @@
             android:text="先生/女士 報到成功!"
             android:textColor="#381502"
             android:textSize="45sp"
-            app:layout_constraintBottom_toTopOf="@+id/textView"
+            app:layout_constraintBottom_toTopOf="@+id/todolistText"
             app:layout_constraintStart_toEndOf="@+id/textView4"
             app:layout_constraintTop_toTopOf="parent" />
 
