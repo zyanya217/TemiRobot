@@ -5,34 +5,17 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.app.Activity;
-import android.app.AlertDialog;
-import android.content.pm.ActivityInfo;
-import android.content.pm.PackageManager;
-import android.os.Bundle;
+
 import android.util.Log;
-import android.view.View;
 import android.view.WindowManager;
-import android.view.inputmethod.InputMethodManager;
-import android.widget.EditText;
-import android.widget.Toast;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.robotemi.sdk.NlpResult;
 import com.robotemi.sdk.Robot;
 import com.robotemi.sdk.TtsRequest;
-import com.robotemi.sdk.activitystream.ActivityStreamPublishMessage;
-import com.robotemi.sdk.listeners.OnBeWithMeStatusChangedListener;
-import com.robotemi.sdk.listeners.OnGoToLocationStatusChangedListener;
-import com.robotemi.sdk.listeners.OnLocationsUpdatedListener;
-import com.robotemi.sdk.listeners.OnRobotReadyListener;
-import com.robotemi.sdk.Robot;
-import com.robotemi.sdk.TtsRequest;
-import java.util.List;
 
 public class Todolist extends AppCompatActivity implements Robot.TtsListener {
     private Intent it;
