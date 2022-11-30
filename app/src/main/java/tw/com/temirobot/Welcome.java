@@ -107,7 +107,7 @@ public class Welcome extends AppCompatActivity implements
     private boolean regis = false;
     private float[][] embeddings;
     private int x = 0;
-
+    private int y = 0;
     private static final float IMAGE_MEAN = 128.0f;
     private static final float IMAGE_STD = 128.0f;
     private static final int INPUT_SIZE = 112;
@@ -510,56 +510,57 @@ public class Welcome extends AppCompatActivity implements
 
             uploadImage(bitmapImage);
 
-            DatabaseReference myRef1 = database.getReference("/face/temi1/welcome/id");
-            myRef1.addValueEventListener(new ValueEventListener() {
-                @Override
-                public void onDataChange(DataSnapshot dataSnapshot) {
-                    // This method is called once with the initial value and again
-                    // whenever data at this location is updated.
-                    String value1 = dataSnapshot.getValue(String.class);
-                    if (value1 == "Unknown") {
-                        //查無此人
-                        mDatabase.child("face").child("temi1").child("welcome").child("py").setValue(false);
-                        mDatabase.child("face").child("temi1").child("welcome").child("and").setValue(true);
-                        if (x == 0){
-                            robot.goTo("labin");
-                            System.out.println("list: unknown, x = " + x);
+            do {
+                DatabaseReference myRef1 = database.getReference("/face/temi1/welcome/id");
+                myRef1.addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        // This method is called once with the initial value and again
+                        // whenever data at this location is updated.
+                        String value1 = dataSnapshot.getValue(String.class);
+                        if (value1 == "Unknown") {
+                            //查無此人
+                            mDatabase.child("face").child("temi1").child("welcome").child("py").setValue(false);
+                            mDatabase.child("face").child("temi1").child("welcome").child("and").setValue(true);
+                            if (x == 0){
+                                robot.goTo("labin");
+                                System.out.println("list: unknown, x = " + x);
+                            }
+                            x = 1;
+                            System.out.println("list: unknown2, x = " + x);
                         }
-                        x = 1;
-                        System.out.println("list: unknown2, x = " + x);
-                    }
-                    else if (value1.trim().length() == 0){
-                        //尚未辨識完成
-                        x = 0;
-                        System.out.println("list: null, x = " + x);
-                        mDatabase.child("face").child("temi1").child("welcome").child("py").setValue(true);
-                        mDatabase.child("face").child("temi1").child("welcome").child("and").setValue(false);
-                        startCamera();
-                        //robot.goTo("labin");
-                    }
-                    else{
-                        //辨識到人
-                        mDatabase.child("face").child("temi1").child("welcome").child("py").setValue(false);
-                        mDatabase.child("face").child("temi1").child("welcome").child("and").setValue(true);
-                        if (x == 0){
-                            robot.goTo("labin");
-                            System.out.println("list: name, x = " + x);
+                        else if (value1.trim().length() == 0){
+                            //尚未辨識完成
+                            x = 0;
+                            y++;
+                            System.out.println("list: null, x = " + x);
+                            mDatabase.child("face").child("temi1").child("welcome").child("py").setValue(true);
+                            mDatabase.child("face").child("temi1").child("welcome").child("and").setValue(false);
+                            startCamera();
                         }
-                        x = 1;
-                        System.out.println("list: name2, x = " + x);
+                        else{
+                            //辨識到人
+                            mDatabase.child("face").child("temi1").child("welcome").child("py").setValue(false);
+                            mDatabase.child("face").child("temi1").child("welcome").child("and").setValue(true);
+                            if (x == 0){
+                                robot.goTo("labin");
+                                System.out.println("list: name, x = " + x);
+                            }
+                            x = 1;
+                            System.out.println("list: name2, x = " + x);
+                        }
+                        System.out.println("list: value1 = " + value1);
+                        Log.d("TAG", "Value1 is: " + value1);
                     }
-                    System.out.println("list: value1 = " + value1);
-                    Log.d("TAG", "Value1 is: " + value1);
-                }
 
-                @Override
-                public void onCancelled(DatabaseError error) {
-                    // Failed to read value
-                    Log.w("TAG", "Failed to read value.", error.toException());
-                }
-            });
+                    @Override
+                    public void onCancelled(DatabaseError error) {
+                        // Failed to read value
+                        Log.w("TAG", "Failed to read value.", error.toException());
+                    }
+                });
+            }while (x == 1||y > 10);
             System.out.println("list: now, x = " + x);
-
         }
         //graphicOverlay.draw(boundingBox, scaleX, scaleY, name);
     }
