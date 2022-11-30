@@ -190,52 +190,6 @@ public class Welcome extends AppCompatActivity implements
     @Override
     protected void onResume() {
         super.onResume();
-        DatabaseReference myRef1 = database.getReference("/face/temi1/welcome/id");
-        myRef1.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                // This method is called once with the initial value and again
-                // whenever data at this location is updated.
-                String value1 = dataSnapshot.getValue(String.class);
-                if (value1 == "Unknown") {
-                    mDatabase.child("face").child("temi1").child("welcome").child("py").setValue(false);
-                    mDatabase.child("face").child("temi1").child("welcome").child("and").setValue(true);
-                    if (x == 0){
-                        robot.goTo("labin");
-                        System.out.println("list: unknown, x = " + x);
-                    }
-                    x = 1;
-                    System.out.println("list: unknown2, x = " + x);
-                }
-                else if (value1 == "null"){
-                    x = 0;
-                    System.out.println("list: null, x = " + x);
-                    mDatabase.child("face").child("temi1").child("welcome").child("py").setValue(true);
-                    mDatabase.child("face").child("temi1").child("welcome").child("and").setValue(false);
-                    startCamera();
-                    robot.goTo("labin");
-                }
-                else{
-                    mDatabase.child("face").child("temi1").child("welcome").child("py").setValue(false);
-                    mDatabase.child("face").child("temi1").child("welcome").child("and").setValue(true);
-                    if (x == 0){
-                        robot.goTo("labin");
-                        System.out.println("list: name, x = " + x);
-                    }
-                    x = 1;
-                    System.out.println("list: name2, x = " + x);
-                }
-                System.out.println("list: value1 = " + value1);
-                Log.d("TAG", "Value1 is: " + value1);
-            }
-
-            @Override
-            public void onCancelled(DatabaseError error) {
-                // Failed to read value
-                Log.w("TAG", "Failed to read value.", error.toException());
-            }
-        });
-        System.out.println("list: now, x = " + x);
     }
 
 //    public void btnlock(View v) {
@@ -586,6 +540,53 @@ public class Welcome extends AppCompatActivity implements
 //            System.out.println("list:2 bitmap4: " + bitmap);
 
             uploadImage(bitmapImage);
+
+            DatabaseReference myRef1 = database.getReference("/face/temi1/welcome/id");
+            myRef1.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    // This method is called once with the initial value and again
+                    // whenever data at this location is updated.
+                    String value1 = dataSnapshot.getValue(String.class);
+                    if (value1 == "Unknown") {
+                        mDatabase.child("face").child("temi1").child("welcome").child("py").setValue(false);
+                        mDatabase.child("face").child("temi1").child("welcome").child("and").setValue(true);
+                        if (x == 0){
+                            robot.goTo("labin");
+                            System.out.println("list: unknown, x = " + x);
+                        }
+                        x = 1;
+                        System.out.println("list: unknown2, x = " + x);
+                    }
+                    else if (value1 == "null"){
+                        x = 0;
+                        System.out.println("list: null, x = " + x);
+                        mDatabase.child("face").child("temi1").child("welcome").child("py").setValue(true);
+                        mDatabase.child("face").child("temi1").child("welcome").child("and").setValue(false);
+                        startCamera();
+                        robot.goTo("labin");
+                    }
+                    else{
+                        mDatabase.child("face").child("temi1").child("welcome").child("py").setValue(false);
+                        mDatabase.child("face").child("temi1").child("welcome").child("and").setValue(true);
+                        if (x == 0){
+                            robot.goTo("labin");
+                            System.out.println("list: name, x = " + x);
+                        }
+                        x = 1;
+                        System.out.println("list: name2, x = " + x);
+                    }
+                    System.out.println("list: value1 = " + value1);
+                    Log.d("TAG", "Value1 is: " + value1);
+                }
+
+                @Override
+                public void onCancelled(DatabaseError error) {
+                    // Failed to read value
+                    Log.w("TAG", "Failed to read value.", error.toException());
+                }
+            });
+            System.out.println("list: now, x = " + x);
 
         }
         //graphicOverlay.draw(boundingBox, scaleX, scaleY, name);
