@@ -337,7 +337,7 @@ public class MainActivity extends AppCompatActivity
                                     // whenever data at this location is updated.
                                     String place = dataSnapshot.getValue(String.class);
                                     Log.d("TAG", "place: " + place);
-                                    if (hrs != null && min!= null && place != null) {
+                                    if (hrs.trim().length() > 0 && min.trim().length() > 0 && place.trim().length() > 0) {
                                         TimerManager(hrs, min, place);
                                     }
                                 }
