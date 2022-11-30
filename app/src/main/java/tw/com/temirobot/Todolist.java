@@ -22,29 +22,27 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-//import com.robotemi.sdk.NlpResult;
-//import com.robotemi.sdk.Robot;
-//import com.robotemi.sdk.TtsRequest;
-//import com.robotemi.sdk.activitystream.ActivityStreamPublishMessage;
-//import com.robotemi.sdk.listeners.OnBeWithMeStatusChangedListener;
-//import com.robotemi.sdk.listeners.OnGoToLocationStatusChangedListener;
-//import com.robotemi.sdk.listeners.OnLocationsUpdatedListener;
-//import com.robotemi.sdk.listeners.OnRobotReadyListener;
-
+import com.robotemi.sdk.NlpResult;
+import com.robotemi.sdk.Robot;
+import com.robotemi.sdk.TtsRequest;
+import com.robotemi.sdk.activitystream.ActivityStreamPublishMessage;
+import com.robotemi.sdk.listeners.OnBeWithMeStatusChangedListener;
+import com.robotemi.sdk.listeners.OnGoToLocationStatusChangedListener;
+import com.robotemi.sdk.listeners.OnLocationsUpdatedListener;
+import com.robotemi.sdk.listeners.OnRobotReadyListener;
+import com.robotemi.sdk.Robot;
+import com.robotemi.sdk.TtsRequest;
 import java.util.List;
 
-public class Todolist extends AppCompatActivity {
-        //implements Robot.TtsListener {
+public class Todolist extends AppCompatActivity implements Robot.TtsListener {
     private Intent it;
 
-//    private Robot robot;
-//    private static final String Speak = "123 哈囉 我是temi ";
-
-    private static String Speak = null;
+    private Robot robot;
+    private static final String Speak = "  ";
 
     protected void onStart() {
         super.onStart();
-//        Robot.getInstance().addTtsListener(this);
+        Robot.getInstance().addTtsListener(this);
 
     }
 
@@ -77,7 +75,6 @@ public class Todolist extends AppCompatActivity {
                 Log.d("TAG", "Value1 is: " + value1);
 
                 DatabaseReference myRef2 = database.getReference("/user/"+value1+"/todolist");
-
                 myRef2.addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
@@ -85,7 +82,9 @@ public class Todolist extends AppCompatActivity {
                         // whenever data at this location is updated.
                         String value2 = dataSnapshot.getValue(String.class);
                         Log.d("TAG", "Value2 is: " + value2);
-                        Speak = value2;
+                        Robot sRobot = Robot.getInstance();
+                        TtsRequest ttsRequest = TtsRequest.create(value2,false);
+                        sRobot.speak(ttsRequest);
                     }
 
                     @Override
@@ -110,15 +109,12 @@ public class Todolist extends AppCompatActivity {
         startActivity(it);
         finish();
     }
-    public void btnSpeak(View view) {
-        //TtsRequest ttsRequest = TtsRequest.create(Speak,true);
-        //robot.speak(ttsRequest);
+
+    @Override
+    public void onTtsStatusChanged(TtsRequest ttsRequest) {
+
+//         Do whatever you like upon the status changing. after the robot finishes speaking
+//         Toast.makeText(this, "speech: " + ttsRequest.getSpeech() + "\nstatus:" + ttsRequest.getStatus(), Toast.LENGTH_LONG).show();
     }
 
-    //@Override
-    //public void onTtsStatusChanged(TtsRequest ttsRequest) {
-
-        // Do whatever you like upon the status changing. after the robot finishes speaking
-        // Toast.makeText(this, "speech: " + ttsRequest.getSpeech() + "\nstatus:" + ttsRequest.getStatus(), Toast.LENGTH_LONG).show();
-    //}
 }

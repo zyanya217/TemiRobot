@@ -120,6 +120,9 @@ public class Welcome extends AppCompatActivity implements
     private static final String TAGError = "Welcome";
     private FirebaseDatabase database;
 
+    private static String Speak = null;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -551,6 +554,26 @@ public class Welcome extends AppCompatActivity implements
                         }
                         System.out.println("list: value1 = " + value1);
                         Log.d("TAG", "Value1 is: " + value1);
+
+                        //去抓 value1(辨識到的這個人)
+                        DatabaseReference myRef2 = database.getReference("/user/"+value1+"/greet");
+
+                        myRef2.addValueEventListener(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(DataSnapshot dataSnapshot) {
+                                // This method is called once with the initial value and again
+                                // whenever data at this location is updated.
+                                String value2 = dataSnapshot.getValue(String.class);
+                                Log.d("TAG", "Value2 is: " + value2);
+                                Speak = value2;
+                            }
+
+                            @Override
+                            public void onCancelled(DatabaseError error) {
+                                // Failed to read value
+                                Log.w("TAG", "Failed to read value.", error.toException());
+                            }
+                        });
                     }
 
                     @Override
