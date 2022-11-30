@@ -117,7 +117,6 @@ public class Regis extends AppCompatActivity {
         btnhome = findViewById(R.id.btnhome);
         bggreblank = findViewById(R.id.bggreblank);
         btnadd = findViewById(R.id.btnadd);
-        etid = findViewById(R.id.etid);
 
         mStorageRef = FirebaseStorage.getInstance().getReference();
         mDatabase = FirebaseDatabase.getInstance().getReference();
