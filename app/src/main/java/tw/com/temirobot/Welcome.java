@@ -558,13 +558,13 @@ public class Welcome extends AppCompatActivity implements
                         x = 1;
                         System.out.println("list: unknown2, x = " + x);
                     }
-                    else if (value1 == "null"){
+                    else if (value1.trim().length() == 0){
                         x = 0;
                         System.out.println("list: null, x = " + x);
                         mDatabase.child("face").child("temi1").child("welcome").child("py").setValue(true);
                         mDatabase.child("face").child("temi1").child("welcome").child("and").setValue(false);
                         startCamera();
-                        robot.goTo("labin");
+                        //robot.goTo("labin");
                     }
                     else{
                         mDatabase.child("face").child("temi1").child("welcome").child("py").setValue(false);
