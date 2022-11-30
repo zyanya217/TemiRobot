@@ -127,7 +127,6 @@ public class Regis extends AppCompatActivity {
             public void onClick(View v) {
                 System.out.println("list:3 addFace");
                 x = 2;
-                startCamera();
 
                 final AlertDialog.Builder builder = new AlertDialog.Builder(Regis.this);
                 builder.setTitle("請輸入ID進行照片註冊");
@@ -142,6 +141,7 @@ public class Regis extends AppCompatActivity {
                 builder.setPositiveButton("確認", (dialog, which) -> {
                     //Toast.makeText(context, input.getText().toString(), Toast.LENGTH_SHORT).show();
                     mDatabase.child("face").child("temi1").child("regis").child("id").setValue(input.getText().toString().trim());
+                    startCamera();
                 });
                 builder.setNegativeButton("取消", (dialog, which) -> {
                     dialog.cancel();
