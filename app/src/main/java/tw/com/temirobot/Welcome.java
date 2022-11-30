@@ -99,6 +99,7 @@ public class Welcome extends AppCompatActivity implements
     private ImageAnalysis analysisUseCase;
     private GraphicOverlay graphicOverlay;
     private ImageView previewImg;
+    private ImageView btnlock;
 
     private final HashMap<String, SimilarityClassifier.Recognition> registered = new HashMap<>(); //saved Faces
     private boolean flipX = false;
@@ -134,7 +135,36 @@ public class Welcome extends AppCompatActivity implements
         previewView.setScaleType(PreviewView.ScaleType.FIT_CENTER);
         graphicOverlay = findViewById(R.id.graphic_overlay);
         previewImg = findViewById(R.id.preview_img);
+        btnlock = findViewById(R.id.btnlock);
+        btnlock.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                final AlertDialog.Builder builder = new AlertDialog.Builder(Welcome.this);
+                builder.setTitle("回首頁請輸入密碼");
 
+                // Set up the input
+                final EditText input = new EditText(Welcome.this);
+                input.setInputType(InputType.TYPE_CLASS_TEXT );
+                input.setMaxWidth(6);
+                builder.setView(input);
+
+                // Set up the buttons
+                builder.setPositiveButton("確認", (dialog, which) -> {
+                    //Toast.makeText(context, input.getText().toString(), Toast.LENGTH_SHORT).show();
+                    //Create and Initialize new object with Face embeddings and Name.
+                    if (input.getText().toString() == "123456"){
+                        Intent it = new Intent(Welcome.this, MainActivity.class);
+                        startActivity(it);
+                        finish();
+                    }
+                    else dialog.cancel();
+                });
+                builder.setNegativeButton("取消", (dialog, which) -> {
+                    dialog.cancel();
+                });
+                builder.show();
+            }
+        });
     }
 
     @Override
@@ -208,7 +238,7 @@ public class Welcome extends AppCompatActivity implements
         System.out.println("list: now, x = " + x);
     }
 
-    public void btnlock(View v) {
+//    public void btnlock(View v) {
 //        AlertDialog.Builder builder = new AlertDialog.Builder(this);
 //        builder.setTitle("回首頁請輸入密碼");
 //
@@ -234,10 +264,10 @@ public class Welcome extends AppCompatActivity implements
 //        });
 //        builder.show();
 
-        Intent it = new Intent(Welcome.this, MainActivity.class);
-        startActivity(it);
-        finish();
-    }
+//        Intent it = new Intent(Welcome.this, MainActivity.class);
+//        startActivity(it);
+//        finish();
+//    }
 
     @Override
     public void onRobotReady(boolean isReady) {
