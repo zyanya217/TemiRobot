@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Welcome">
+    tools:context=".Welcome"
+    tools:ignore="ExtraText">
 
     <ImageView
         android:id="@+id/preview_img"
@@ -28,16 +29,12 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.75">
 
+        <tw.com.temirobot.GraphicOverlay
+            android:id="@+id/graphic_overlay"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:visibility="visible" />
     </androidx.camera.view.PreviewView>
-
-    <tw.com.temirobot.GraphicOverlay
-        android:id="@+id/graphic_overlay"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:visibility="visible"
-        app:layout_constraintBottom_toBottomOf="@id/previewView"
-        app:layout_constraintDimensionRatio="3:4"
-        app:layout_constraintTop_toTopOf="@id/previewView" />
 
     <ImageView
         android:id="@+id/bgwhite"
@@ -52,7 +49,8 @@
         android:layout_width="105dp"
         android:layout_height="105dp"
         android:layout_marginTop="92dp"
-        android:onClick="btnlock"
+        tools:ignore="MissingConstraints" />
+<!--        android:onClick="btnlock"-->
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.646"
         app:layout_constraintStart_toEndOf="@+id/gifImageView"
