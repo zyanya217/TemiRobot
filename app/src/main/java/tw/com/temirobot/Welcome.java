@@ -152,7 +152,7 @@ public class Welcome extends AppCompatActivity implements
                 builder.setPositiveButton("確認", (dialog, which) -> {
                     //Toast.makeText(context, input.getText().toString(), Toast.LENGTH_SHORT).show();
                     //Create and Initialize new object with Face embeddings and Name.
-                    if (input.getText().toString() == "123456"){
+                    if (input.getText().toString().trim().equals("1234")){
                         Intent it = new Intent(Welcome.this, MainActivity.class);
                         startActivity(it);
                         finish();
