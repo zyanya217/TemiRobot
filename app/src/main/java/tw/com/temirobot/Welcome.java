@@ -514,13 +514,16 @@ public class Welcome extends AppCompatActivity implements
             uploadImage(bitmapImage);
 
             do {
-                DatabaseReference myRef1 = database.getReference("/face/temi1/welcome/B0844230");
+                DatabaseReference myRef1 = database.getReference("/face/temi1/welcome/id");
                 myRef1.addValueEventListener(new ValueEventListener() {
+                    String value1 = "B0844230";//測試寫死用
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
                         // This method is called once with the initial value and again
                         // whenever data at this location is updated.
-                        String value1 = dataSnapshot.getValue(String.class);
+
+//                        String value1 = dataSnapshot.getValue(String.class); 打開
+
                         if (value1 == "Unknown") {
                             //查無此人
                             mDatabase.child("face").child("temi1").child("welcome").child("py").setValue(false);
