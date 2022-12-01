@@ -78,24 +78,77 @@ public class EquipmenTeaching extends AppCompatActivity implements
 
 
     public void btnlast(View v){
-        if (x==2){ppt2.setVisibility(View.INVISIBLE);}
-        else if (x==3){ppt3.setVisibility(View.INVISIBLE);}
-        else if (x==4){ppt4.setVisibility(View.INVISIBLE);}
-        else if (x==5){ppt5.setVisibility(View.INVISIBLE);}
-        else if (x==6){ppt6.setVisibility(View.INVISIBLE);}
-        else if (x==7){ppt7.setVisibility(View.INVISIBLE);}
-        else if (x==8){ppt8.setVisibility(View.INVISIBLE);}
-        else if (x==9){ppt9.setVisibility(View.INVISIBLE);}
-        else if (x==10){ppt10.setVisibility(View.INVISIBLE);}
-        else if (x==11){ppt11.setVisibility(View.INVISIBLE);}
-        else if (x==12){ppt12.setVisibility(View.INVISIBLE);}
-        else if (x==13){ppt13.setVisibility(View.INVISIBLE);}
-        else if (x==14){ppt14.setVisibility(View.INVISIBLE);}
-        else if (x==15){ppt15.setVisibility(View.INVISIBLE);}
-        else if (x==16){ppt16.setVisibility(View.INVISIBLE);}
-        else if (x==17){ppt17.setVisibility(View.INVISIBLE);}
-        else if (x==18){ppt18.setVisibility(View.INVISIBLE);}
-        else if (x==1){x=2;}
+        if (x==2){ppt2.setVisibility(View.INVISIBLE);
+            Robot sRobot = Robot.getInstance();
+            TtsRequest ttsRequest = TtsRequest.create("點擊RFID卡",false);
+            sRobot.speak(ttsRequest);}
+        else if (x==3){ppt3.setVisibility(View.INVISIBLE);
+            Robot sRobot = Robot.getInstance();
+            TtsRequest ttsRequest = TtsRequest.create("刷卡簽到",false);
+            sRobot.speak(ttsRequest);}
+        else if (x==4){ppt4.setVisibility(View.INVISIBLE);
+            Robot sRobot = Robot.getInstance();
+            TtsRequest ttsRequest = TtsRequest.create("簽到成功，點擊叉叉",false);
+            sRobot.speak(ttsRequest);}
+        else if (x==5){ppt5.setVisibility(View.INVISIBLE);
+            Robot sRobot = Robot.getInstance();
+            TtsRequest ttsRequest = TtsRequest.create("點擊生理量測",false);
+            sRobot.speak(ttsRequest);}
+        else if (x==6){ppt6.setVisibility(View.INVISIBLE);
+            Robot sRobot = Robot.getInstance();
+            TtsRequest ttsRequest = TtsRequest.create("點擊血壓旁邊的量測",false);
+            sRobot.speak(ttsRequest);}
+        else if (x==7){ppt7.setVisibility(View.INVISIBLE);
+            Robot sRobot = Robot.getInstance();
+            TtsRequest ttsRequest = TtsRequest.create("將壓脈帶套在手臂",false);
+            sRobot.speak(ttsRequest);}
+        else if (x==8){ppt8.setVisibility(View.INVISIBLE);
+            Robot sRobot = Robot.getInstance();
+            TtsRequest ttsRequest = TtsRequest.create("等待量測中，點擊確認",false);
+            sRobot.speak(ttsRequest);}
+        else if (x==9){ppt9.setVisibility(View.INVISIBLE);
+            Robot sRobot = Robot.getInstance();
+            TtsRequest ttsRequest = TtsRequest.create("血壓測量成功",false);
+            sRobot.speak(ttsRequest);}
+        else if (x==10){ppt10.setVisibility(View.INVISIBLE);
+            Robot sRobot = Robot.getInstance();
+            TtsRequest ttsRequest = TtsRequest.create("點擊額溫旁邊的量測",false);
+            sRobot.speak(ttsRequest);}
+        else if (x==11){ppt11.setVisibility(View.INVISIBLE);
+            Robot sRobot = Robot.getInstance();
+            TtsRequest ttsRequest = TtsRequest.create("額溫槍放置額頭5公分處壓下灰色按鈕測量",false);
+            sRobot.speak(ttsRequest);}
+        else if (x==12){ppt12.setVisibility(View.INVISIBLE);
+            Robot sRobot = Robot.getInstance();
+            TtsRequest ttsRequest = TtsRequest.create("點擊確認額溫測量成功",false);
+            sRobot.speak(ttsRequest);}
+        else if (x==13){ppt13.setVisibility(View.INVISIBLE);
+            Robot sRobot = Robot.getInstance();
+            TtsRequest ttsRequest = TtsRequest.create("將食指至於血氧機中點擊開機鈕",false);
+            sRobot.speak(ttsRequest);}
+        else if (x==14){ppt14.setVisibility(View.INVISIBLE);
+            Robot sRobot = Robot.getInstance();
+            TtsRequest ttsRequest = TtsRequest.create("點擊血氧旁邊的量測",false);
+            sRobot.speak(ttsRequest);}
+        else if (x==15){ppt15.setVisibility(View.INVISIBLE);
+            Robot sRobot = Robot.getInstance();
+            TtsRequest ttsRequest = TtsRequest.create("等待量測中，點擊確認",false);
+            sRobot.speak(ttsRequest);}
+        else if (x==16){ppt16.setVisibility(View.INVISIBLE);
+            Robot sRobot = Robot.getInstance();
+            TtsRequest ttsRequest = TtsRequest.create("血氧測量成功",false);
+            sRobot.speak(ttsRequest);}
+        else if (x==17){ppt17.setVisibility(View.INVISIBLE);
+            Robot sRobot = Robot.getInstance();
+            TtsRequest ttsRequest = TtsRequest.create("點擊上傳 點擊叉叉",false);
+            sRobot.speak(ttsRequest);}
+        else if (x==18){ppt18.setVisibility(View.INVISIBLE);
+            Robot sRobot = Robot.getInstance();
+            TtsRequest ttsRequest = TtsRequest.create("點擊右上角登出",false);
+            sRobot.speak(ttsRequest);}
+        else if (x==1){x=2; Robot sRobot = Robot.getInstance();
+            TtsRequest ttsRequest = TtsRequest.create("點擊RFID卡",false);
+            sRobot.speak(ttsRequest);}
         x--;
     }
 
