@@ -91,6 +91,7 @@ public class FaceRecognition extends AppCompatActivity {
     private int lensFacing = CameraSelector.LENS_FACING_BACK;
     private Preview previewUseCase;
     private ImageAnalysis analysisUseCase;
+    private TextView txtdetect;
 
     private final HashMap<String, SimilarityClassifier.Recognition> registered = new HashMap<>(); //saved Faces
     private boolean flipX = false;
@@ -112,6 +113,8 @@ public class FaceRecognition extends AppCompatActivity {
 
         previewView = findViewById(R.id.previewView);
         previewView.setScaleType(PreviewView.ScaleType.FIT_CENTER);
+
+        txtdetect = findViewById(R.id.detection_text);
     }
 
     @Override
@@ -417,7 +420,7 @@ public class FaceRecognition extends AppCompatActivity {
         //float scaleY = (float) previewView.getHeight() / (float) inputImage.getWidth();
 
         if (faces.size() > 0) {
-
+            txtdetect.setText("臉部辨識中，請等候三秒");
 //            // get first face detected
 //            Face face = faces.get(0);
 //

@@ -56,8 +56,8 @@
 
     <pl.droidsonroids.gif.GifImageView
         android:id="@+id/gifImageView"
-        android:layout_width="844dp"
-        android:layout_height="801dp"
+        android:layout_width="700dp"
+        android:layout_height="700dp"
         android:src="@drawable/anime_emoji"
         app:layout_constraintEnd_toEndOf="@+id/bgwhite"
         app:layout_constraintStart_toStartOf="@+id/bgwhite"
