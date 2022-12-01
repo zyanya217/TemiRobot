@@ -516,13 +516,13 @@ public class Welcome extends AppCompatActivity implements
             do {
                 DatabaseReference myRef1 = database.getReference("/face/temi1/welcome/id");
                 myRef1.addValueEventListener(new ValueEventListener() {
-//                    String value1 = "B0844230";//測試寫死用
+                    String value1 = "B0844230";//測試寫死用
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
                         // This method is called once with the initial value and again
                         // whenever data at this location is updated.
 
-                        String value1 = dataSnapshot.getValue(String.class); //打開
+//                        String value1 = dataSnapshot.getValue(String.class); //打開
 
                         if (value1 == "Unknown") {
                             //查無此人
@@ -549,7 +549,7 @@ public class Welcome extends AppCompatActivity implements
                             mDatabase.child("face").child("temi1").child("welcome").child("py").setValue(false);
                             mDatabase.child("face").child("temi1").child("welcome").child("and").setValue(true);
                             if (x == 0){
-                                robot.goTo("labin");
+//                                robot.goTo("labin");
                                 System.out.println("list: name, x = " + x);
                             }
                             x = 1;
@@ -585,8 +585,9 @@ public class Welcome extends AppCompatActivity implements
                         Log.w("TAG", "Failed to read value.", error.toException());
                     }
                 });
-            }while (x == 1||y > 10);
+            }while (x == 1||y > 5);
             System.out.println("list: now, x = " + x);
+            System.out.println("list: now, y = " + y);
         }
         //graphicOverlay.draw(boundingBox, scaleX, scaleY, name);
     }
