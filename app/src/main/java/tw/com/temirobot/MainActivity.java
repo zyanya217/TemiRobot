@@ -135,8 +135,8 @@ public class MainActivity extends AppCompatActivity
 
 //    //臉部辨識
 //    private static final String TAG_fr = "FaceRecognition";
-//    private static final int PERMISSION_CODE = 1001;
-//    private static final String CAMERA_PERMISSION = Manifest.permission.CAMERA;
+    private static final int PERMISSION_CODE = 1001;
+    private static final String CAMERA_PERMISSION = Manifest.permission.CAMERA;
 ////    private PreviewView previewView;
 //    private CameraSelector cameraSelector;
 //    private ProcessCameraProvider cameraProvider;
@@ -167,7 +167,7 @@ public class MainActivity extends AppCompatActivity
 
 //        robot = Robot.getInstance();
 
-//        checkPermission();
+        checkPermission();
 
         mStorageRef = FirebaseStorage.getInstance().getReference();
         mDatabase = FirebaseDatabase.getInstance().getReference();
@@ -440,56 +440,56 @@ public class MainActivity extends AppCompatActivity
 ////        imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
 ////    }
 //
-//    /**
-//     * 錄音權限申請
-//     */
-//    private void checkPermission() {
-//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-//            String[] permissions = new String[]{Manifest.permission.RECORD_AUDIO,Manifest.permission.WRITE_EXTERNAL_STORAGE};
-//            for (String permission : permissions) {
-//                if (ContextCompat.checkSelfPermission(this, permission) != PackageManager.PERMISSION_GRANTED) {
-//                    ActivityCompat.requestPermissions(this, permissions, 200);
-//                    return;
-//                }
-//            }
-//        }
-//    }
-//
-//
-//    @Override
-//    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[]
-//            grantResults) {
-//        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && requestCode == 200) {
-//            for (int i = 0; i < permissions.length; i++) {
-//                if (grantResults[i] != PackageManager.PERMISSION_GRANTED) {
-//                    Intent intent = new Intent();
-//                    intent.setAction(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
-//                    Uri uri = Uri.fromParts("package", getPackageName(), null);
-//                    intent.setData(uri);
-//                    startActivityForResult(intent, 200);
-//                    return;
-//                }
-//            }
-//        }
-//        for (int r : grantResults) {
-//            if (r == PackageManager.PERMISSION_DENIED) {
-//                Toast.makeText(this, "Permission Denied", Toast.LENGTH_SHORT).show();
-//                return;
-//            }
-//        }
+    /**
+     * 錄音權限申請
+     */
+    private void checkPermission() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            String[] permissions = new String[]{Manifest.permission.RECORD_AUDIO,Manifest.permission.WRITE_EXTERNAL_STORAGE};
+            for (String permission : permissions) {
+                if (ContextCompat.checkSelfPermission(this, permission) != PackageManager.PERMISSION_GRANTED) {
+                    ActivityCompat.requestPermissions(this, permissions, 200);
+                    return;
+                }
+            }
+        }
+    }
+
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[]
+            grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && requestCode == 200) {
+            for (int i = 0; i < permissions.length; i++) {
+                if (grantResults[i] != PackageManager.PERMISSION_GRANTED) {
+                    Intent intent = new Intent();
+                    intent.setAction(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+                    Uri uri = Uri.fromParts("package", getPackageName(), null);
+                    intent.setData(uri);
+                    startActivityForResult(intent, 200);
+                    return;
+                }
+            }
+        }
+        for (int r : grantResults) {
+            if (r == PackageManager.PERMISSION_DENIED) {
+                Toast.makeText(this, "Permission Denied", Toast.LENGTH_SHORT).show();
+                return;
+            }
+        }
 //        if (requestCode == PERMISSION_CODE) {
 //            setupCamera();
 //        }
-//    }
-//
-//    @Override
-//    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-//        super.onActivityResult(requestCode, resultCode, data);
-//        if (resultCode == RESULT_OK && requestCode == 200) {
-//            checkPermission();
-//        }
-//    }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == RESULT_OK && requestCode == 200) {
+            checkPermission();
+        }
+    }
 //
 //
 //            /**
@@ -758,9 +758,9 @@ public class MainActivity extends AppCompatActivity
 //
 //    /** 人臉辨識 */
 //    /** Permissions Handler */
-//    private void getPermissions() {
-//        ActivityCompat.requestPermissions(this, new String[]{CAMERA_PERMISSION}, PERMISSION_CODE);
-//    }
+    private void getPermissions() {
+        ActivityCompat.requestPermissions(this, new String[]{CAMERA_PERMISSION}, PERMISSION_CODE);
+    }
 //
 //    /** Setup camera & use cases */
 //    private void startCamera() {
