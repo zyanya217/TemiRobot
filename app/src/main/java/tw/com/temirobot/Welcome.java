@@ -120,7 +120,7 @@ public class Welcome extends AppCompatActivity implements
     private static final String TAGError = "Welcome";
     private FirebaseDatabase database;
 
-    private static String Speak = null;
+//    private static String Speak = null;
 
 
     @Override
@@ -179,7 +179,6 @@ public class Welcome extends AppCompatActivity implements
         mDatabase.child("face").child("temi1").child("welcome").child("py").setValue(true);
         mDatabase.child("face").child("temi1").child("welcome").child("and").setValue(false);
         mDatabase.child("face").child("temi1").child("welcome").child("id").setValue("");
-        startCamera();
     }
 
     @Override
@@ -193,6 +192,7 @@ public class Welcome extends AppCompatActivity implements
     @Override
     protected void onResume() {
         super.onResume();
+        startCamera();
     }
 
     @Override
@@ -245,17 +245,17 @@ public class Welcome extends AppCompatActivity implements
                     //robot.repose();
                     //robot.stopMovement();
                     Thread.sleep(5000);
-                    if (x == 1){
-                        x = 2;
-                        robot.goTo("labin2");
-                    }
-                    else if (x == 2){
-                        x = 0;
-                        mDatabase.child("face").child("temi1").child("welcome").child("py").setValue(true);
-                        mDatabase.child("face").child("temi1").child("welcome").child("and").setValue(false);
-                        mDatabase.child("face").child("temi1").child("welcome").child("id").setValue("");
-                        startCamera();
-                    }
+//                    if (x == 1){
+//                        x = 2;
+//                        robot.goTo("labin2");
+//                    }
+//                    else if (x == 2){
+//                        x = 0;
+//                        mDatabase.child("face").child("temi1").child("welcome").child("py").setValue(true);
+//                        mDatabase.child("face").child("temi1").child("welcome").child("and").setValue(false);
+//                        mDatabase.child("face").child("temi1").child("welcome").child("id").setValue("");
+//                        startCamera();
+//                    }
                     System.out.println("list: OnGoToLocationStatusChangedListener_COMPLETE");
                 } catch (Exception e) {
                     Log.e(TAGError, "list: Error:" + e.getMessage());
@@ -408,6 +408,11 @@ public class Welcome extends AppCompatActivity implements
             public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
                 double progress = (100.0 * taskSnapshot.getBytesTransferred()) / taskSnapshot.getTotalByteCount();
                 Log.d(TAG_f, "list: Upload is " + progress + "% done");
+                if (progress >= 100){
+                    Intent it = new Intent(Welcome.this, Welcome2.class);
+                    startActivity(it);
+                    finish();
+                }
             }
         }).addOnPausedListener(new OnPausedListener<UploadTask.TaskSnapshot>() {
             @Override
@@ -513,80 +518,80 @@ public class Welcome extends AppCompatActivity implements
 
             uploadImage(bitmapImage);
 
-            do {
-                DatabaseReference myRef1 = database.getReference("/face/temi1/welcome/id");
-                myRef1.addValueEventListener(new ValueEventListener() {
-//                    String value1 = "B0844230";//測試寫死用
-                    @Override
-                    public void onDataChange(DataSnapshot dataSnapshot) {
-                        // This method is called once with the initial value and again
-                        // whenever data at this location is updated.
-
-                        String value1 = dataSnapshot.getValue(String.class); //打開
-
-                        if (value1 == "Unknown") {
-                            //查無此人
-                            mDatabase.child("face").child("temi1").child("welcome").child("py").setValue(false);
-                            mDatabase.child("face").child("temi1").child("welcome").child("and").setValue(true);
-                            if (x == 0){
-                                robot.goTo("labin");
-                                System.out.println("list: unknown, x = " + x);
-                            }
-                            x = 1;
-                            System.out.println("list: unknown2, x = " + x);
-                        }
-                        else if (value1.trim().length() == 0){
-                            //尚未辨識完成
-                            x = 0;
-                            y++;
-                            System.out.println("list: null, x = " + x);
-                            mDatabase.child("face").child("temi1").child("welcome").child("py").setValue(true);
-                            mDatabase.child("face").child("temi1").child("welcome").child("and").setValue(false);
-                            startCamera();
-                        }
-                        else{
-                            //辨識到人
-                            mDatabase.child("face").child("temi1").child("welcome").child("py").setValue(false);
-                            mDatabase.child("face").child("temi1").child("welcome").child("and").setValue(true);
-                            if (x == 0){
-                                robot.goTo("labin");
-                                System.out.println("list: name, x = " + x);
-                            }
-                            x = 1;
-                            System.out.println("list: name2, x = " + x);
-                        }
-                        System.out.println("list: value1 = " + value1);
-                        Log.d("TAG", "Value1 is: " + value1);
-
-                        //去抓 value1(辨識到的這個人)
-                        DatabaseReference myRef2 = database.getReference("/user/"+value1+"/greet");
-
-                        myRef2.addValueEventListener(new ValueEventListener() {
-                            @Override
-                            public void onDataChange(DataSnapshot dataSnapshot) {
-                                // This method is called once with the initial value and again
-                                // whenever data at this location is updated.
-                                String value2 = dataSnapshot.getValue(String.class);
-                                Log.d("TAG", "Value2 is: " + value2);
-                                Speak = value2;
-                            }
-
-                            @Override
-                            public void onCancelled(DatabaseError error) {
-                                // Failed to read value
-                                Log.w("TAG", "Failed to read value.", error.toException());
-                            }
-                        });
-                    }
-
-                    @Override
-                    public void onCancelled(DatabaseError error) {
-                        // Failed to read value
-                        Log.w("TAG", "Failed to read value.", error.toException());
-                    }
-                });
-            }while (y > 10);
-            System.out.println("list: now, y = " + y + "x = " + x);
+//            do {
+//                DatabaseReference myRef1 = database.getReference("/face/temi1/welcome/id");
+//                myRef1.addValueEventListener(new ValueEventListener() {
+////                    String value1 = "B0844230";//測試寫死用
+//                    @Override
+//                    public void onDataChange(DataSnapshot dataSnapshot) {
+//                        // This method is called once with the initial value and again
+//                        // whenever data at this location is updated.
+//
+//                        String value1 = dataSnapshot.getValue(String.class); //打開
+//
+//                        if (value1 == "Unknown") {
+//                            //查無此人
+//                            mDatabase.child("face").child("temi1").child("welcome").child("py").setValue(false);
+//                            mDatabase.child("face").child("temi1").child("welcome").child("and").setValue(true);
+//                            if (x == 0){
+//                                robot.goTo("labin");
+//                                System.out.println("list: unknown, x = " + x);
+//                            }
+//                            x = 1;
+//                            System.out.println("list: unknown2, x = " + x);
+//                        }
+//                        else if (value1.trim().length() == 0){
+//                            //尚未辨識完成
+//                            x = 0;
+//                            y++;
+//                            System.out.println("list: null, x = " + x);
+//                            mDatabase.child("face").child("temi1").child("welcome").child("py").setValue(true);
+//                            mDatabase.child("face").child("temi1").child("welcome").child("and").setValue(false);
+//                            startCamera();
+//                        }
+//                        else{
+//                            //辨識到人
+//                            mDatabase.child("face").child("temi1").child("welcome").child("py").setValue(false);
+//                            mDatabase.child("face").child("temi1").child("welcome").child("and").setValue(true);
+//                            if (x == 0){
+//                                robot.goTo("labin");
+//                                System.out.println("list: name, x = " + x);
+//                            }
+//                            x = 1;
+//                            System.out.println("list: name2, x = " + x);
+//                        }
+//                        System.out.println("list: value1 = " + value1);
+//                        Log.d("TAG", "Value1 is: " + value1);
+//
+//                        //去抓 value1(辨識到的這個人)
+//                        DatabaseReference myRef2 = database.getReference("/user/"+value1+"/greet");
+//
+//                        myRef2.addValueEventListener(new ValueEventListener() {
+//                            @Override
+//                            public void onDataChange(DataSnapshot dataSnapshot) {
+//                                // This method is called once with the initial value and again
+//                                // whenever data at this location is updated.
+//                                String value2 = dataSnapshot.getValue(String.class);
+//                                Log.d("TAG", "Value2 is: " + value2);
+//                                Speak = value2;
+//                            }
+//
+//                            @Override
+//                            public void onCancelled(DatabaseError error) {
+//                                // Failed to read value
+//                                Log.w("TAG", "Failed to read value.", error.toException());
+//                            }
+//                        });
+//                    }
+//
+//                    @Override
+//                    public void onCancelled(DatabaseError error) {
+//                        // Failed to read value
+//                        Log.w("TAG", "Failed to read value.", error.toException());
+//                    }
+//                });
+//            }while (y > 10);
+//            System.out.println("list: now, y = " + y + "x = " + x);
         }
         //graphicOverlay.draw(boundingBox, scaleX, scaleY, name);
     }
