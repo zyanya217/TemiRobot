@@ -218,6 +218,7 @@ public class EquipmenTeaching extends AppCompatActivity implements
             TtsRequest ttsRequest = TtsRequest.create("點擊右上角登出",false);
             sRobot.speak(ttsRequest);}
         else if (x==18){ppt18.setVisibility(View.VISIBLE);
+
             Robot sRobot = Robot.getInstance();
             TtsRequest ttsRequest = TtsRequest.create("恭喜您完成報到",false);
             sRobot.speak(ttsRequest);}
