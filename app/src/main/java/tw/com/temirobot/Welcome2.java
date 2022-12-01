@@ -48,11 +48,6 @@ public class Welcome2 extends AppCompatActivity implements
 
         mDatabase = FirebaseDatabase.getInstance().getReference();
 
-        mDatabase.child("face").child("temi1").child("regis").child("py").setValue(true);
-        mDatabase.child("face").child("temi1").child("patrol").child("py").setValue(false);
-        mDatabase.child("face").child("temi1").child("checkin").child("py").setValue(false);
-        mDatabase.child("face").child("temi1").child("welcome").child("py").setValue(false);
-
         btnlock = findViewById(R.id.btnlock);
         btnlock.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -93,9 +88,6 @@ public class Welcome2 extends AppCompatActivity implements
         robot.addOnCurrentPositionChangedListener(this);
         robot.addOnGoToLocationStatusChangedListener(this);
         robot.addOnRobotReadyListener(this);
-        mDatabase.child("face").child("temi1").child("welcome").child("py").setValue(true);
-        mDatabase.child("face").child("temi1").child("welcome").child("and").setValue(false);
-        mDatabase.child("face").child("temi1").child("welcome").child("id").setValue("");
     }
 
     @Override
@@ -195,8 +187,6 @@ public class Welcome2 extends AppCompatActivity implements
                     else if (value1.trim().length() == 0){
                         //尚未辨識完成
                         y++;
-                        mDatabase.child("face").child("temi1").child("welcome").child("py").setValue(true);
-                        mDatabase.child("face").child("temi1").child("welcome").child("and").setValue(false);
                     }
                     else{
                         //辨識到人
