@@ -256,6 +256,7 @@ public class EquipmenTeaching extends AppCompatActivity implements
         DatabaseReference ACCheck = database.getReference("/user/B0844230/measure/AC");
         DatabaseReference BPCheck = database.getReference("/user/B0844230/measure/BP");
         DatabaseReference BTCheck = database.getReference("/user/B0844230/measure/BT");
+        DatabaseReference SPO2Check = database.getReference("/user/B0844230/measure/SPO2");
 
         ACCheck.addValueEventListener(new ValueEventListener() {
             @Override
@@ -284,14 +285,24 @@ public class EquipmenTeaching extends AppCompatActivity implements
             public void onDataChange(DataSnapshot dataSnapshot) {
                 // This method is called once with the initial value and again
                 // whenever data at this location is updated.
-                String value1 = dataSnapshot.getValue(String.class);
-                Log.d("TAG", "Value1 is: " + value1);
+                String BP = dataSnapshot.getValue(String.class);
+                Log.d("TAG", "Value1 is: " + BP);
+                if (BP!=null)
+                { ppt18.setVisibility(View.VISIBLE);
+                    Robot sRobot = Robot.getInstance();
+                    TtsRequest ttsRequest = TtsRequest.create("恭喜您完成報到",false);
+                    sRobot.speak(ttsRequest); }
+                else{
+                    Robot sRobot = Robot.getInstance();
+                    TtsRequest ttsRequest = TtsRequest.create("您還未量測血壓",true);
+                    sRobot.speak(ttsRequest);
+                }
 
             }
             @Override
             public void onCancelled(DatabaseError error) {
                 // Failed to read value
-                Log.w("TAG", "Failed to read value.", error.toException());
+                Log.w("TAG", "Failed to read BP.", error.toException());
             }
 
         });
@@ -300,17 +311,53 @@ public class EquipmenTeaching extends AppCompatActivity implements
             public void onDataChange(DataSnapshot dataSnapshot) {
                 // This method is called once with the initial value and again
                 // whenever data at this location is updated.
-                String value1 = dataSnapshot.getValue(String.class);
-                Log.d("TAG", "Value1 is: " + value1);
+                String BT= dataSnapshot.getValue(String.class);
+                Log.d("TAG", "Value1 is: " + BT);
+                if (BT!=null)
+                { ppt18.setVisibility(View.VISIBLE);
+                    Robot sRobot = Robot.getInstance();
+                    TtsRequest ttsRequest = TtsRequest.create("恭喜您完成報到",false);
+                    sRobot.speak(ttsRequest); }
+                else{
+                    Robot sRobot = Robot.getInstance();
+                    TtsRequest ttsRequest = TtsRequest.create("您還未量測血壓",true);
+                    sRobot.speak(ttsRequest);
+                }
 
             }
             @Override
             public void onCancelled(DatabaseError error) {
                 // Failed to read value
-                Log.w("TAG", "Failed to read value.", error.toException());
+                Log.w("TAG", "Failed to read BT.", error.toException());
             }
 
         });
+        SPO2Check.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                // This method is called once with the initial value and again
+                // whenever data at this location is updated.
+                String SPO2= dataSnapshot.getValue(String.class);
+                Log.d("TAG", "Value1 is: " + SPO2);
+                if (SPO2!=null)
+                { ppt18.setVisibility(View.VISIBLE);
+                    Robot sRobot = Robot.getInstance();
+                    TtsRequest ttsRequest = TtsRequest.create("恭喜您完成報到",false);
+                    sRobot.speak(ttsRequest); }
+                else{
+                    Robot sRobot = Robot.getInstance();
+                    TtsRequest ttsRequest = TtsRequest.create("您還未量測血氧",true);
+                    sRobot.speak(ttsRequest);
+                }
+            }
+            @Override
+            public void onCancelled(DatabaseError error) {
+                // Failed to read value
+                Log.w("TAG", "Failed to read SPO2.", error.toException());
+            }
+
+        });
+
 
     }
 
