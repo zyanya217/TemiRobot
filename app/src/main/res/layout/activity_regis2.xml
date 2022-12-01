@@ -23,22 +23,11 @@
         android:layout_marginBottom="490dp"
         android:ems="2"
         android:gravity="center"
-        android:text="預覽照片"
+        android:text="照片註冊"
         android:textColor="#381502"
         android:textSize="70sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
-
-    <ImageView
-        android:id="@+id/btnadd"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:layout_marginStart="1110dp"
-        android:layout_marginTop="600dp"
-        android:contentDescription="@string/register_face"
-        android:src="@drawable/btnadd"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
         android:id="@+id/btnhome"
@@ -52,14 +41,16 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
-    <ImageView
-        android:id="@+id/ivphoto"
-        android:layout_width="820dp"
-        android:layout_height="550dp"
-        android:layout_marginEnd="220dp"
-        android:layout_marginBottom="120dp"
-        android:src=""
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+    <TextView
+        android:id="@+id/txtRegis"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="500dp"
+        android:layout_marginTop="450dp"
+        android:textColor="#381502"
+        android:textSize="60sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

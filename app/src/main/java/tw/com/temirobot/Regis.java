@@ -126,7 +126,6 @@ public class Regis extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 System.out.println("list:3 addFace");
-                x = 2;
 
                 final AlertDialog.Builder builder = new AlertDialog.Builder(Regis.this);
                 builder.setTitle("請輸入ID進行照片註冊");
@@ -141,7 +140,7 @@ public class Regis extends AppCompatActivity {
                 builder.setPositiveButton("確認", (dialog, which) -> {
                     //Toast.makeText(context, input.getText().toString(), Toast.LENGTH_SHORT).show();
                     mDatabase.child("face").child("temi1").child("regis").child("id").setValue(input.getText().toString().trim());
-                    startCamera();
+                    x = 2;
                 });
                 builder.setNegativeButton("取消", (dialog, which) -> {
                     dialog.cancel();
@@ -164,9 +163,7 @@ public class Regis extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        if (x == 1) {
-            startCamera();
-        }
+        startCamera();
     }
 
     public void btnhome(View v) {
@@ -315,54 +312,9 @@ public class Regis extends AppCompatActivity {
                 double progress = (100.0 * taskSnapshot.getBytesTransferred()) / taskSnapshot.getTotalByteCount();
                 Log.d(TAG_f, "list: Upload is " + progress + "% done");
                 if (progress >= 100) {
-                    x = 1;
-                    mDatabase.child("face").child("temi1").child("regis").child("py").setValue(true);
-                    mDatabase.child("face").child("temi1").child("patrol").child("py").setValue(false);
-                    mDatabase.child("face").child("temi1").child("checkin").child("py").setValue(false);
-                    mDatabase.child("face").child("temi1").child("welcome").child("py").setValue(false);
-                    DatabaseReference myRef1 = database.getReference("/face/temi1/checkin/id");
-                    do {
-                        myRef1.addValueEventListener(new ValueEventListener() {
-                            @Override
-                            public void onDataChange(DataSnapshot dataSnapshot) {
-                                // This method is called once with the initial value and again
-                                // whenever data at this location is updated.
-                                String value1 = dataSnapshot.getValue(String.class);
-                                Log.d("TAG", "Value1 is: " + value1);
-                                if (value1 == "Success") {
-                                    y = 3;
-                                    mDatabase.child("face").child("temi1").child("regis").child("and").setValue(false);
-                                    AlertDialog.Builder builder = new AlertDialog.Builder(Regis.this);
-                                    builder.setTitle("照片註冊成功!");
-                                    // Set up the buttons
-                                    builder.setPositiveButton("確認", (dialog, which) -> {
-                                        startCamera();
-                                        dialog.cancel();
-                                    });
-                                    builder.show();
-                                } else if (value1 == "Failed") {
-                                    y = 3;
-                                    mDatabase.child("face").child("temi1").child("regis").child("and").setValue(false);
-                                    AlertDialog.Builder builder = new AlertDialog.Builder(Regis.this);
-                                    builder.setTitle("照片辨識失敗");
-                                    // Set up the buttons
-                                    builder.setPositiveButton("確認", (dialog, which) -> {
-                                        startCamera();
-                                        dialog.cancel();
-                                    });
-                                    builder.show();
-                                } else {
-                                    y = 2;
-                                }
-                            }
-
-                            @Override
-                            public void onCancelled(DatabaseError error) {
-                                // Failed to read value
-                                Log.w("TAG", "Failed to read value.", error.toException());
-                            }
-                        });
-                    } while (y != 3);
+                    Intent it = new Intent(Regis.this, Regis2.class);
+                    startActivity(it);
+                    finish();
                 }
             }
         }).addOnPausedListener(new OnPausedListener<UploadTask.TaskSnapshot>() {
