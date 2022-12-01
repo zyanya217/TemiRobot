@@ -231,4 +231,8 @@ public class EquipmenTeaching extends AppCompatActivity implements
         // Toast.makeText(this, "speech: " + ttsRequest.getSpeech() + "\nstatus:" + ttsRequest.getStatus(), Toast.LENGTH_LONG).show();
     }
 
+    public void measurement_check(){
+
+    }
+
 }
