@@ -23,7 +23,7 @@ public class Todolist extends AppCompatActivity implements Robot.TtsListener {
 
     private Robot robot;
     private static final String Speak = "  ";
-    TextView todolistText=(TextView)findViewById(R.id.todolistText);
+    TextView todolist=(TextView)findViewById(R.id.todolistText);
     TextView NameText=(TextView)findViewById(R.id.textView4);
 
     protected void onStart() {
@@ -73,7 +73,7 @@ public class Todolist extends AppCompatActivity implements Robot.TtsListener {
                         Robot sRobot = Robot.getInstance();
                         TtsRequest ttsRequest = TtsRequest.create(value2,false);
                         sRobot.speak(ttsRequest);
-                        todolistText.setText(value2);
+                        todolist.setText(value2);
                     }
 
                     @Override

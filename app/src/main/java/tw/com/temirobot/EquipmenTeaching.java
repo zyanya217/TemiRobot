@@ -114,11 +114,11 @@ public class EquipmenTeaching extends AppCompatActivity implements
             TtsRequest ttsRequest = TtsRequest.create("點擊生理量測",false);
             sRobot.speak(ttsRequest);}
         else if (x==5){ppt5.setVisibility(View.VISIBLE);Robot sRobot = Robot.getInstance();
-            TtsRequest ttsRequest = TtsRequest.create("將壓脈帶套在手臂",false);
+            TtsRequest ttsRequest = TtsRequest.create("點擊血壓旁邊的量測",false);
             sRobot.speak(ttsRequest);}
         else if (x==6){ppt6.setVisibility(View.VISIBLE);
             Robot sRobot = Robot.getInstance();
-            TtsRequest ttsRequest = TtsRequest.create("點擊血壓旁邊的量測",false);
+            TtsRequest ttsRequest = TtsRequest.create("將壓脈帶套在手臂",false);
             sRobot.speak(ttsRequest);}
         else if (x==7){ppt7.setVisibility(View.VISIBLE);
             Robot sRobot = Robot.getInstance();
