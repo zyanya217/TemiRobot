@@ -6,4 +6,60 @@
     android:layout_height="match_parent"
     tools:context=".Regis2">
 
+    <ImageView
+        android:id="@+id/bggre"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:srcCompat="@drawable/bggre" />
+
+    <TextView
+        android:id="@+id/txtFace"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="40dp"
+        android:layout_marginBottom="490dp"
+        android:ems="2"
+        android:gravity="center"
+        android:text="預覽照片"
+        android:textColor="#381502"
+        android:textSize="70sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <ImageView
+        android:id="@+id/btnadd"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_marginStart="1110dp"
+        android:layout_marginTop="600dp"
+        android:contentDescription="@string/register_face"
+        android:src="@drawable/btnadd"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/btnhome"
+        android:layout_width="105dp"
+        android:layout_height="105dp"
+        android:layout_marginEnd="40dp"
+        android:layout_marginBottom="600dp"
+        android:clickable="true"
+        android:onClick="btnhome"
+        android:src="@drawable/homewhite"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <ImageView
+        android:id="@+id/ivphoto"
+        android:layout_width="820dp"
+        android:layout_height="550dp"
+        android:layout_marginEnd="220dp"
+        android:layout_marginBottom="120dp"
+        android:src=""
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
