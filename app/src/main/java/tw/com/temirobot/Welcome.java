@@ -537,7 +537,7 @@ public class Welcome extends AppCompatActivity implements
                         }
                         else if (value1.trim().length() == 0){
                             //尚未辨識完成
-                            x = 0;
+                            x = 1;
                             y++;
                             System.out.println("list: null, x = " + x);
                             mDatabase.child("face").child("temi1").child("welcome").child("py").setValue(true);
@@ -585,8 +585,8 @@ public class Welcome extends AppCompatActivity implements
                         Log.w("TAG", "Failed to read value.", error.toException());
                     }
                 });
-            }while (x == 1||y > 10);
-            System.out.println("list: now, x = " + x);
+            }while (y > 10);
+            System.out.println("list: now, y = " + y + "x = " + x);
         }
         //graphicOverlay.draw(boundingBox, scaleX, scaleY, name);
     }
