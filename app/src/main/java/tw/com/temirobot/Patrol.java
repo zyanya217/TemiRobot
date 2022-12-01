@@ -168,13 +168,14 @@ public class Patrol extends AppCompatActivity implements
             recorder = null;
         } catch (RuntimeException e) {
             Log.e(TAG,e.toString());
-            recorder.reset();
+//            recorder.reset();
             recorder.release();
             recorder = null;
 
             File file2 = new File(getExternalFilesDir(""),t+".mp4");
             if (file2.exists())
                 file2.delete();
+            System.out.println("list: file2: " + t);
         }
     }
 
@@ -215,7 +216,7 @@ public class Patrol extends AppCompatActivity implements
         builder.setPositiveButton("確認", (dialog, which) -> {
             //Toast.makeText(context, input.getText().toString(), Toast.LENGTH_SHORT).show();
             //Create and Initialize new object with Face embeddings and Name.
-            if (input.getText().toString() == "123456"){
+            if (input.getText().toString().trim() == "1234"){
                 Intent it = new Intent(Patrol.this, MainActivity.class);
                 startActivity(it);
                 finish();
@@ -390,6 +391,7 @@ public class Patrol extends AppCompatActivity implements
             recorder = new MediaRecorder();
         try {
             /* ②setAudioSource/setVedioSource */
+            System.out.println("list: 錄音: " + recorder);
             recorder.setAudioSource(MediaRecorder.AudioSource.MIC);// 设置麦克风
             /*
              * ②设置输出文件的格式：THREE_GPP/MPEG-4/RAW_AMR/Default THREE_GPP(3gp格式
@@ -412,19 +414,21 @@ public class Patrol extends AppCompatActivity implements
 
     public void stoprec(){
         try {
+            System.out.println("list: 錄音: " + recorder);
             recorder.stop();
             recorder.release();
             recorder = null;
             uploadAudio();
         } catch (RuntimeException e) {
             Log.e(TAG,e.toString());
-            recorder.reset();
+//            recorder.reset();
             recorder.release();
             recorder = null;
 
             File file3 = new File(getExternalFilesDir(""),t+".mp4");
             if (file3.exists())
                 file3.delete();
+            System.out.println("list: file3: " + t);
         }
     }
 
@@ -470,13 +474,15 @@ public class Patrol extends AppCompatActivity implements
                             file.delete();
                     } catch (RuntimeException e) {
                         Log.e(TAG,e.toString());
-                        recorder.reset();
+//                        recorder.reset();
                         recorder.release();
                         recorder = null;
 
                         File file = new File(getExternalFilesDir(""), t + ".mp4");
                         if (file.exists())
                             file.delete();
+                        System.out.println("list: file: " + t);
+
                     }
 
                     mDatabase.child("face").child("temi1").child("patrol").child("py").setValue(false);
