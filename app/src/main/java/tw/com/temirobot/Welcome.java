@@ -537,7 +537,7 @@ public class Welcome extends AppCompatActivity implements
                         }
                         else if (value1.trim().length() == 0){
                             //尚未辨識完成
-                            x = 1;
+                            x = 0;
                             y++;
                             System.out.println("list: null, x = " + x);
                             mDatabase.child("face").child("temi1").child("welcome").child("py").setValue(true);
