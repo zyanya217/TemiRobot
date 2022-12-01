@@ -23,8 +23,6 @@ public class Todolist extends AppCompatActivity implements Robot.TtsListener {
 
     private Robot robot;
     private static final String Speak = "  ";
-    TextView todolist=(TextView)findViewById(R.id.todolistText);
-    TextView NameText=(TextView)findViewById(R.id.textView4);
 
     protected void onStart() {
         super.onStart();
@@ -37,6 +35,10 @@ public class Todolist extends AppCompatActivity implements Robot.TtsListener {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_todolist);
 
+        TextView todolist=findViewById(R.id.todolistText);
+        TextView NameText=findViewById(R.id.textView4);
+
+
         it = getIntent();
         // 通過key得到得到物件
         // getSerializableExtra得到序列化資料
@@ -48,9 +50,8 @@ public class Todolist extends AppCompatActivity implements Robot.TtsListener {
 
         FirebaseDatabase database = FirebaseDatabase.getInstance();
 
-        DatabaseReference myRef1 = database.getReference("/facevar/recogid");
-//"+value1+"
-//        myRef.setValue("Hello, World!");
+        DatabaseReference myRef1 = database.getReference("/face/temi1/regis/id");
+
 
         myRef1.addValueEventListener(new ValueEventListener() {
             @Override
@@ -59,10 +60,9 @@ public class Todolist extends AppCompatActivity implements Robot.TtsListener {
                 // whenever data at this location is updated.
                 String value1 = dataSnapshot.getValue(String.class);
                 Log.d("TAG", "Value1 is: " + value1);
-                NameText.setText(value1);
 
 
-                DatabaseReference myRef2 = database.getReference("/user/B0844227/todolist");
+                DatabaseReference myRef2 = database.getReference("/user/"+value1+"/todolist");
                 myRef2.addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
@@ -73,6 +73,7 @@ public class Todolist extends AppCompatActivity implements Robot.TtsListener {
                         Robot sRobot = Robot.getInstance();
                         TtsRequest ttsRequest = TtsRequest.create(value2,false);
                         sRobot.speak(ttsRequest);
+                        NameText.setText(value1);
                         todolist.setText(value2);
                     }
 
