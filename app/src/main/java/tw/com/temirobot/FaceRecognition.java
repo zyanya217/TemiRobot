@@ -132,56 +132,56 @@ public class FaceRecognition extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        DatabaseReference myRef1 = database.getReference("/face/temi1/checkin/id");
-        myRef1.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                // This method is called once with the initial value and again
-                // whenever data at this location is updated.
-                String value1 = dataSnapshot.getValue(String.class);
-                if (value1 != "Unknown") {
-                    mDatabase.child("face").child("temi1").child("checkin").child("py").setValue(false);
-                    mDatabase.child("face").child("temi1").child("checkin").child("and").setValue(true);
-                    AlertDialog.Builder builder = new AlertDialog.Builder(FaceRecognition.this);
-                    builder.setTitle("請問是否要註冊照片?");
-
-                    // Set up the buttons
-                    builder.setPositiveButton("是", (dialog, which) -> {
-                        Intent it = new Intent(FaceRecognition.this,Regis.class);
-                        startActivity(it);
-                        finish();
-                    });
-                    builder.setNegativeButton("否", (dialog, which) -> {
-                        dialog.cancel();
-                        startCamera();
-                    });
-                    builder.show();
-                }
-                else if (value1 == "Failed"){
-                    mDatabase.child("face").child("temi1").child("checkin").child("py").setValue(true);
-                    mDatabase.child("face").child("temi1").child("checkin").child("and").setValue(false);
-                    startCamera();
-                }
-                else if (value1 == "null"){
-                    mDatabase.child("face").child("temi1").child("checkin").child("py").setValue(true);
-                    mDatabase.child("face").child("temi1").child("checkin").child("and").setValue(false);
-                }
-                else {
-                    mDatabase.child("face").child("temi1").child("checkin").child("py").setValue(false);
-                    mDatabase.child("face").child("temi1").child("checkin").child("and").setValue(true);
-                    Intent it = new Intent(FaceRecognition.this,Todo.class);
-                    startActivity(it);
-                    finish();
-                }
-                Log.d("TAG", "Value1 is: " + value1);
-            }
-
-            @Override
-            public void onCancelled(DatabaseError error) {
-                // Failed to read value
-                Log.w("TAG", "Failed to read value.", error.toException());
-            }
-        });
+//        DatabaseReference myRef1 = database.getReference("/face/temi1/checkin/id");
+//        myRef1.addValueEventListener(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(DataSnapshot dataSnapshot) {
+//                // This method is called once with the initial value and again
+//                // whenever data at this location is updated.
+//                String value1 = dataSnapshot.getValue(String.class);
+//                if (value1 != "Unknown") {
+//                    mDatabase.child("face").child("temi1").child("checkin").child("py").setValue(false);
+//                    mDatabase.child("face").child("temi1").child("checkin").child("and").setValue(true);
+//                    AlertDialog.Builder builder = new AlertDialog.Builder(FaceRecognition.this);
+//                    builder.setTitle("請問是否要註冊照片?");
+//
+//                    // Set up the buttons
+//                    builder.setPositiveButton("是", (dialog, which) -> {
+//                        Intent it = new Intent(FaceRecognition.this,Regis.class);
+//                        startActivity(it);
+//                        finish();
+//                    });
+//                    builder.setNegativeButton("否", (dialog, which) -> {
+//                        dialog.cancel();
+//                        startCamera();
+//                    });
+//                    builder.show();
+//                }
+//                else if (value1 == "Failed"){
+//                    mDatabase.child("face").child("temi1").child("checkin").child("py").setValue(true);
+//                    mDatabase.child("face").child("temi1").child("checkin").child("and").setValue(false);
+//                    startCamera();
+//                }
+//                else if (value1 == "null"){
+//                    mDatabase.child("face").child("temi1").child("checkin").child("py").setValue(true);
+//                    mDatabase.child("face").child("temi1").child("checkin").child("and").setValue(false);
+//                }
+//                else {
+//                    mDatabase.child("face").child("temi1").child("checkin").child("py").setValue(false);
+//                    mDatabase.child("face").child("temi1").child("checkin").child("and").setValue(true);
+//                    Intent it = new Intent(FaceRecognition.this,Todo.class);
+//                    startActivity(it);
+//                    finish();
+//                }
+//                Log.d("TAG", "Value1 is: " + value1);
+//            }
+//
+//            @Override
+//            public void onCancelled(DatabaseError error) {
+//                // Failed to read value
+//                Log.w("TAG", "Failed to read value.", error.toException());
+//            }
+//        });
     }
 
     public void btnhome(View v){
