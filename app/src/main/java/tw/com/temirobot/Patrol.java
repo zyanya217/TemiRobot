@@ -116,9 +116,9 @@ public class Patrol extends AppCompatActivity implements
     //語音操作對象
     private MediaRecorder recorder;
 
-//    private MainActivity.Type type1 = MainActivity.Type.AAC_AAC;
-//    private MainActivity.Type type2 = MainActivity.Type.AAC_M4A;
-//    private MainActivity.Type type3 = MainActivity.Type.AMR_AMR;
+    private Patrol.Type type1 = Patrol.Type.AAC_AAC;
+    private Patrol.Type type2 = Patrol.Type.AAC_M4A;
+    private Patrol.Type type3 = Patrol.Type.AMR_AMR;
 
     private static String place;
 
@@ -397,9 +397,11 @@ public class Patrol extends AppCompatActivity implements
              * ②设置输出文件的格式：THREE_GPP/MPEG-4/RAW_AMR/Default THREE_GPP(3gp格式
              * ，H263视频/ARM音频编码)、MPEG-4、RAW_AMR(只支持音频且音频编码要求为AMR_NB)
              */
-            recorder.setOutputFormat(MediaRecorder.OutputFormat.MPEG_4);
+//            recorder.setOutputFormat(MediaRecorder.OutputFormat.MPEG_4);
+            recorder.setOutputFormat(type1.outputFormat);
             /* ②设置音频文件的编码：AAC/AMR_NB/AMR_MB/Default 声音的（波形）的采样 */
-            recorder.setAudioEncoder(MediaRecorder.AudioEncoder.AAC);
+//            recorder.setAudioEncoder(MediaRecorder.AudioEncoder.AAC);
+            recorder.setAudioEncoder(type1.audioEncoder);
             /* ③准备 */
             recorder.setOutputFile(new File(getExternalFilesDir(""),t+".mp4").getAbsolutePath());
             recorder.prepare();
