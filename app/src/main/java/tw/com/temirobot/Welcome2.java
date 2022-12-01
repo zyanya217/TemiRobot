@@ -80,8 +80,6 @@ public class Welcome2 extends AppCompatActivity implements
         });
     }
 
-
-
     @Override
     protected void onStart() {
         super.onStart();
