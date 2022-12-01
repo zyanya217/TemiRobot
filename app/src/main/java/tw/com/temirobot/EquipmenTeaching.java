@@ -176,4 +176,5 @@ public class EquipmenTeaching extends AppCompatActivity implements
         // Do whatever you like upon the status changing. after the robot finishes speaking
         // Toast.makeText(this, "speech: " + ttsRequest.getSpeech() + "\nstatus:" + ttsRequest.getStatus(), Toast.LENGTH_LONG).show();
     }
+
 }
