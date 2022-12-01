@@ -4,13 +4,23 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.ImageView;
+
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.robotemi.sdk.Robot;
 import com.robotemi.sdk.TtsRequest;
 
 public class EquipmenTeaching extends AppCompatActivity implements
         Robot.TtsListener {
+
+    private Intent it;
 
     private Robot robot;
 
@@ -45,6 +55,7 @@ public class EquipmenTeaching extends AppCompatActivity implements
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_equipmen_teaching);
+
 
         ppt1 = (ImageView) findViewById(R.id.ppt1);
         ppt2 = (ImageView) findViewById(R.id.ppt2);
@@ -217,11 +228,9 @@ public class EquipmenTeaching extends AppCompatActivity implements
             Robot sRobot = Robot.getInstance();
             TtsRequest ttsRequest = TtsRequest.create("點擊右上角登出",false);
             sRobot.speak(ttsRequest);}
-        else if (x==18){ppt18.setVisibility(View.VISIBLE);
-
-            Robot sRobot = Robot.getInstance();
-            TtsRequest ttsRequest = TtsRequest.create("恭喜您完成報到",false);
-            sRobot.speak(ttsRequest);}
+        else if (x==18){
+            measurement_check();
+           }
         else if (x==19){x=18;}
     }
 
@@ -233,6 +242,93 @@ public class EquipmenTeaching extends AppCompatActivity implements
 
     public void measurement_check(){
 
-    }
+        it = getIntent();
+        // 通過key得到得到物件
+        // getSerializableExtra得到序列化資料
+        String name = (String) it.getSerializableExtra("key");
 
+        //        initViews();
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
+        //robot = Robot.getInstance(); // get an instance of the robot in order to begin using its features.
+
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+
+
+        DatabaseReference BPCheck = database.getReference("/user/B0844230/measure/BP");
+        DatabaseReference BTCheck = database.getReference("/user/B0844230/measure/BT");
+        DatabaseReference SPO2Check = database.getReference("/user/B0844230/measure/SPO2");
+
+        BPCheck.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                // This method is called once with the initial value and again
+                // whenever data at this location is updated.
+                String BP = dataSnapshot.getValue(String.class);
+                Log.d("TAG", "BP is: " + BP);
+                if (BP !=null){
+                    BTCheck.addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot) {
+                            // This method is called once with the initial value and again
+                            // whenever data at this location is updated.
+                            String BT= dataSnapshot.getValue(String.class);
+                            Log.d("TAG", "BT is: " + BT);
+                            if (BT!=null)
+                            {
+                                SPO2Check.addValueEventListener(new ValueEventListener() {
+                                    @Override
+                                    public void onDataChange(DataSnapshot dataSnapshot) {
+                                        // This method is called once with the initial value and again
+                                        // whenever data at this location is updated.
+                                        String SPO2= dataSnapshot.getValue(String.class);
+                                        Log.d("TAG", "SPO2 is: " + SPO2);
+                                        if (SPO2!=null)
+                                        { ppt18.setVisibility(View.VISIBLE);
+                                            Robot sRobot = Robot.getInstance();
+                                            TtsRequest ttsRequest = TtsRequest.create("恭喜您完成報到",false);
+                                            sRobot.speak(ttsRequest); }
+                                        else{
+                                            Robot sRobot = Robot.getInstance();
+                                            TtsRequest ttsRequest = TtsRequest.create("您還未量測血氧",true);
+                                            sRobot.speak(ttsRequest);
+                                        }
+                                    }
+                                    @Override
+                                    public void onCancelled(DatabaseError error) {
+                                        // Failed to read value
+                                        Log.w("TAG", "Failed to read SPO2.", error.toException());
+                                    }
+
+                                });
+
+                            }
+                            else{
+                                Robot sRobot = Robot.getInstance();
+                                TtsRequest ttsRequest = TtsRequest.create("您還未量測血壓",true);
+                                sRobot.speak(ttsRequest);
+                            }
+                        }
+                        @Override
+                        public void onCancelled(DatabaseError error) {
+                            // Failed to read value
+                            Log.w("TAG", "Failed to read BT.", error.toException());
+                        }
+
+                    });
+
+                }else {
+                    Robot sRobot = Robot.getInstance();
+                    TtsRequest ttsRequest = TtsRequest.create("您還未量測血壓",true);
+                    sRobot.speak(ttsRequest);
+                }
+
+            }
+            @Override
+            public void onCancelled(DatabaseError error) {
+                // Failed to read value
+                Log.w("TAG", "Failed to read BP.", error.toException());
+            }
+
+        });
+    }
 }
