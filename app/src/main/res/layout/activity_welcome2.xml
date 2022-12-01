@@ -6,4 +6,32 @@
     android:layout_height="match_parent"
     tools:context=".Welcome2">
 
+    <ImageView
+        android:id="@+id/bgwhite"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/gifImageView"
+        app:srcCompat="@drawable/bgwhite" />
+
+    <ImageView
+        android:id="@+id/btnlock"
+        android:layout_width="105dp"
+        android:layout_height="105dp"
+        android:layout_marginTop="92dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.646"
+        app:layout_constraintStart_toEndOf="@+id/gifImageView"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/btnlock" />
+
+    <pl.droidsonroids.gif.GifImageView
+        android:id="@+id/gifImageView"
+        android:layout_width="844dp"
+        android:layout_height="801dp"
+        android:src="@drawable/anime_emoji"
+        app:layout_constraintEnd_toEndOf="@+id/bgwhite"
+        app:layout_constraintStart_toStartOf="@+id/bgwhite"
+        app:layout_constraintTop_toTopOf="parent" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
