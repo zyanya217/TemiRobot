@@ -312,6 +312,10 @@ public class Regis extends AppCompatActivity {
                 double progress = (100.0 * taskSnapshot.getBytesTransferred()) / taskSnapshot.getTotalByteCount();
                 Log.d(TAG_f, "list: Upload is " + progress + "% done");
                 if (progress >= 100) {
+                    mDatabase.child("face").child("temi1").child("regis").child("py").setValue(true);
+                    mDatabase.child("face").child("temi1").child("patrol").child("py").setValue(false);
+                    mDatabase.child("face").child("temi1").child("checkin").child("py").setValue(false);
+                    mDatabase.child("face").child("temi1").child("welcome").child("py").setValue(false);
                     Intent it = new Intent(Regis.this, Regis2.class);
                     startActivity(it);
                     finish();
