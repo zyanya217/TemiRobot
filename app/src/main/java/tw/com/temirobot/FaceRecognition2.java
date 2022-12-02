@@ -84,6 +84,7 @@ public class FaceRecognition2 extends AppCompatActivity {
                     }
                     else if (value1 == "Failed"){
                         //辨識失敗
+
                         Intent it = new Intent(FaceRecognition2.this,FaceRecognition.class);
                         startActivity(it);
                         finish();

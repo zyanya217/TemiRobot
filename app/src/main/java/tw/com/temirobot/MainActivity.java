@@ -186,6 +186,8 @@ public class MainActivity extends AppCompatActivity implements
         bgwhite = findViewById(R.id.bgwhite);
         gifImageView = findViewById(R.id.gifImageView);
 
+
+
         DBTime();
     }
 
@@ -195,9 +197,12 @@ public class MainActivity extends AppCompatActivity implements
         robot.addOnCurrentPositionChangedListener(this);
         robot.addOnGoToLocationStatusChangedListener(this);
         robot.addOnRobotReadyListener(this);
+
+
 //        timerval = 1;
 //        robot.goTo(place);
-//        startrec();
+        startrec();
+        stoprec();
 //        startCamera();
 //        mDatabase.child("face").child("temi1").child("patrol").child("py").setValue(true);
 //        mDatabase.child("face").child("temi1").child("checkin").child("py").setValue(false);
@@ -322,8 +327,8 @@ public class MainActivity extends AppCompatActivity implements
                 mDatabase.child("face").child("temi1").child("checkin").child("py").setValue(false);
                 mDatabase.child("face").child("temi1").child("regis").child("py").setValue(false);
                 mDatabase.child("face").child("temi1").child("welcome").child("py").setValue(false);
-                bgwhite.setVisibility(View.VISIBLE);
-                gifImageView.setVisibility(View.VISIBLE);
+//                bgwhite.setVisibility(View.VISIBLE);
+//                gifImageView.setVisibility(View.VISIBLE);
                 robot.goTo(place2);
                 startrec();
 //                Intent it = new Intent();
@@ -478,8 +483,8 @@ public class MainActivity extends AppCompatActivity implements
                     stoprec();
                     Thread.sleep(2000);
 //                    mDatabase.child("face").child("temi1").child("patrol").child("py").setValue(false);
-                    bgwhite.setVisibility(View.INVISIBLE);
-                    gifImageView.setVisibility(View.INVISIBLE);
+//                    bgwhite.setVisibility(View.INVISIBLE);
+//                    gifImageView.setVisibility(View.INVISIBLE);
                     System.out.println("list: OnGoToLocationStatusChangedListener_COMPLETE");
                 } catch (Exception e) {
                     Log.e(TAGError, "list: Error:" + e.getMessage());
@@ -508,6 +513,7 @@ public class MainActivity extends AppCompatActivity implements
      * 錄音權限申請
      */
     private void checkPermission() {
+        System.out.println("list3: checkPermission");
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             String[] permissions = new String[]{Manifest.permission.RECORD_AUDIO, Manifest.permission.WRITE_EXTERNAL_STORAGE};
             for (String permission : permissions) {
