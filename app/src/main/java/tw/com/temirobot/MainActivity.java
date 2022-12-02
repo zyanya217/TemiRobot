@@ -101,7 +101,7 @@ public class MainActivity extends AppCompatActivity implements
         OnCurrentPositionChangedListener,
         OnRobotReadyListener {
     private static final String LOG_TAG = "MainActivity";
-    private static final String TAG = "FaceRecognition";
+    private static final String TAG = "MediaRecorderUtil";
 
     private static Robot robot;
     private static FirebaseStorage storage;
@@ -113,10 +113,9 @@ public class MainActivity extends AppCompatActivity implements
 //    private final String FileName = getExternalFilesDir("").getAbsolutePath();
     //語音操作對象
 //    private MediaPlayer mPlayer = null;
-//    private static final String TAG = "MediaRecorderUtil";
 
-    private Calendar calendar= Calendar.getInstance();
-    private SimpleDateFormat dateFormat= new SimpleDateFormat("yyyy-MM-dd-hh-mm-ss");
+    private Calendar calendar = Calendar.getInstance();
+    private SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd-hh-mm-ss");
     private String t = dateFormat.format(calendar.getTime());
     //語音操作對象
     private MediaRecorder recorder;
@@ -137,7 +136,7 @@ public class MainActivity extends AppCompatActivity implements
     private static final long PERIOD_DAY = 24 * 60 * 60 * 1000;
     private static final String TAGError = "Recorder";
 
-//    //臉部辨識
+    //    //臉部辨識
 //    private static final String TAG_fr = "FaceRecognition";
     private static final int PERMISSION_CODE = 1001;
     private static final String CAMERA_PERMISSION = Manifest.permission.CAMERA;
@@ -147,7 +146,9 @@ public class MainActivity extends AppCompatActivity implements
     private int lensFacing = CameraSelector.LENS_FACING_BACK;
     private Preview previewUseCase;
     private ImageAnalysis analysisUseCase;
-//    private GraphicOverlay graphicOverlay;
+    private pl.droidsonroids.gif.GifImageView gifImageView;
+    private ImageView bgwhite;
+    //    private GraphicOverlay graphicOverlay;
 //    private ImageView previewImg;
 //
 //    private final HashMap<String, SimilarityClassifier.Recognition> registered = new HashMap<>(); //saved Faces
@@ -184,6 +185,9 @@ public class MainActivity extends AppCompatActivity implements
 //        graphicOverlay = findViewById(R.id.graphic_overlay);
 //        previewImg = findViewById(R.id.preview_img);
 
+        bgwhite = findViewById(R.id.bgwhite);
+        gifImageView = findViewById(R.id.gifImageView);
+
         DBTime();
     }
 
@@ -197,10 +201,10 @@ public class MainActivity extends AppCompatActivity implements
 //        robot.goTo(place);
 //        startrec();
 //        startCamera();
-        mDatabase.child("face").child("temi1").child("patrol").child("py").setValue(true);
-        mDatabase.child("face").child("temi1").child("checkin").child("py").setValue(false);
-        mDatabase.child("face").child("temi1").child("regis").child("py").setValue(false);
-        mDatabase.child("face").child("temi1").child("welcome").child("py").setValue(false);
+//        mDatabase.child("face").child("temi1").child("patrol").child("py").setValue(true);
+//        mDatabase.child("face").child("temi1").child("checkin").child("py").setValue(false);
+//        mDatabase.child("face").child("temi1").child("regis").child("py").setValue(false);
+//        mDatabase.child("face").child("temi1").child("welcome").child("py").setValue(false);
     }
 
     @Override
@@ -209,21 +213,21 @@ public class MainActivity extends AppCompatActivity implements
         robot.removeOnCurrentPositionChangedListener(this);
         robot.removeOnGoToLocationStatusChangedListener(this);
         robot.removeOnRobotReadyListener(this);
-        try {
-            recorder.stop();
-            recorder.release();
-            recorder = null;
-        } catch (RuntimeException e) {
-            Log.e(TAG,e.toString());
-//            recorder.reset();
-            recorder.release();
-            recorder = null;
-
-            File file2 = new File(getExternalFilesDir(""),t+".mp4");
-            if (file2.exists())
-                file2.delete();
-            System.out.println("list: file2: " + t);
-        }
+//        try {
+//            recorder.stop();
+//            recorder.release();
+//            recorder = null;
+//        } catch (RuntimeException e) {
+//            Log.e(TAG,e.toString());
+////            recorder.reset();
+//            recorder.release();
+//            recorder = null;
+//
+//            File file2 = new File(getExternalFilesDir(""),t+".mp4");
+//            if (file2.exists())
+//                file2.delete();
+//            System.out.println("list: file2: " + t);
+//        }
 //        timerval = 0;
 //        if (recorder != null) {
 //            recorder.stop();
@@ -236,7 +240,7 @@ public class MainActivity extends AppCompatActivity implements
     @Override
     protected void onResume() {
         super.onResume();
-        DatabaseReference myRef2 = mDatabase.child("face").child("temi1").child("patrol").child("and");
+        DatabaseReference myRef2 = mDatabase.child("face").child("temi1").child("patrol").child("py");
         myRef2.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -244,10 +248,11 @@ public class MainActivity extends AppCompatActivity implements
                 // whenever data at this location is updated.
                 Boolean value2 = dataSnapshot.getValue(Boolean.class);
                 Log.d("TAG", "Value2 is: " + value2);
-                if (value2 == true){
+                if (value2 == true) {
                     startCamera();
                 }
             }
+
             @Override
             public void onCancelled(DatabaseError error) {
                 // Failed to read value
@@ -263,7 +268,7 @@ public class MainActivity extends AppCompatActivity implements
     }
 
     public void btngame(View v) {
-        Intent it = new Intent(MainActivity.this,EquipmenTeaching.class);
+        Intent it = new Intent(MainActivity.this, EquipmenTeaching.class);
         startActivity(it);
         finish();
     }
@@ -298,7 +303,7 @@ public class MainActivity extends AppCompatActivity implements
 //        System.out.println("list: 停止播放錄音");
 //    }
 
-    public void TimerManager(String hrs, String min, String place) {
+    public void TimerManager(String hrs, String min, String place2) {
         int inthrs = Integer.parseInt(hrs);
         int intmin = Integer.parseInt(min);
         Calendar calendar = Calendar.getInstance();
@@ -315,14 +320,22 @@ public class MainActivity extends AppCompatActivity implements
         TimerTask task = new TimerTask() {
             @Override
             public void run() {
-                Intent it = new Intent();
-                it.setClass(MainActivity.this, Patrol.class);
-                Bundle bundle = new Bundle();
-                bundle.putString("place", place);
-                it.putExtras(bundle);   // 記得put進去，不然資料不會帶過去哦
-                System.out.println("list: 執行定時巡邏");
-                startActivity(it);
-                finish();
+                mDatabase.child("face").child("temi1").child("patrol").child("py").setValue(true);
+                mDatabase.child("face").child("temi1").child("checkin").child("py").setValue(false);
+                mDatabase.child("face").child("temi1").child("regis").child("py").setValue(false);
+                mDatabase.child("face").child("temi1").child("welcome").child("py").setValue(false);
+                bgwhite.setVisibility(View.VISIBLE);
+                gifImageView.setVisibility(View.VISIBLE);
+                robot.goTo(place2);
+                startrec();
+//                Intent it = new Intent();
+//                it.setClass(MainActivity.this, Patrol.class);
+//                Bundle bundle = new Bundle();
+//                bundle.putString("place", place);
+//                it.putExtras(bundle);   // 記得put進去，不然資料不會帶過去哦
+//                System.out.println("list: 執行定時巡邏");
+//                startActivity(it);
+//                finish();
             }
         };
         //安排指定的任務在指定的時間開始進行重複的固定延遲執行。
@@ -394,22 +407,24 @@ public class MainActivity extends AppCompatActivity implements
                                 }
                             });
                         }
-                    @Override
-                    public void onCancelled (DatabaseError error){
-                        // Failed to read value
-                        Log.w("TAG", "Failed to read value.", error.toException());
-                    }
-                });
-            }
-            @Override
-            public void onCancelled (DatabaseError error){
-                // Failed to read value
-                Log.w("TAG", "Failed to read value.", error.toException());
-            }
-        });
-    }
 
-}
+                        @Override
+                        public void onCancelled(DatabaseError error) {
+                            // Failed to read value
+                            Log.w("TAG", "Failed to read value.", error.toException());
+                        }
+                    });
+                }
+
+                @Override
+                public void onCancelled(DatabaseError error) {
+                    // Failed to read value
+                    Log.w("TAG", "Failed to read value.", error.toException());
+                }
+            });
+        }
+
+    }
 
     @Override
     public void onRobotReady(boolean isReady) {
@@ -425,7 +440,7 @@ public class MainActivity extends AppCompatActivity implements
 
     @Override
     public void onCurrentPositionChanged(Position position) {
-        System.out.println("list:onCurrentPosition Position: "+position.toString());
+        System.out.println("list:onCurrentPosition Position: " + position.toString());
     }
 
     @Override
@@ -436,7 +451,7 @@ public class MainActivity extends AppCompatActivity implements
                 try {
                     robot.tiltAngle(55);
                     robot.setGoToSpeed(SpeedLevel.SLOW);
-                    startrec();
+//                    startrec();
                     System.out.println("list: OnGoToLocationStatusChangedListener_START");
                 } catch (Exception e) {
                     Log.e(TAGError, "list:Error:" + e.getMessage());
@@ -461,9 +476,12 @@ public class MainActivity extends AppCompatActivity implements
                     robot.tiltAngle(55);
                     //robot.repose();
                     //robot.stopMovement();
-                    Thread.sleep(5000);
-                    System.out.println("list: OnGoToLocationStatusChangedListener_COMPLETE");
                     stoprec();
+                    Thread.sleep(2000);
+//                    mDatabase.child("face").child("temi1").child("patrol").child("py").setValue(false);
+                    bgwhite.setVisibility(View.INVISIBLE);
+                    gifImageView.setVisibility(View.INVISIBLE);
+                    System.out.println("list: OnGoToLocationStatusChangedListener_COMPLETE");
                 } catch (Exception e) {
                     Log.e(TAGError, "list: Error:" + e.getMessage());
                 }
@@ -492,7 +510,7 @@ public class MainActivity extends AppCompatActivity implements
      */
     private void checkPermission() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            String[] permissions = new String[]{Manifest.permission.RECORD_AUDIO,Manifest.permission.WRITE_EXTERNAL_STORAGE};
+            String[] permissions = new String[]{Manifest.permission.RECORD_AUDIO, Manifest.permission.WRITE_EXTERNAL_STORAGE};
             for (String permission : permissions) {
                 if (ContextCompat.checkSelfPermission(this, permission) != PackageManager.PERMISSION_GRANTED) {
                     ActivityCompat.requestPermissions(this, permissions, 200);
@@ -537,7 +555,7 @@ public class MainActivity extends AppCompatActivity implements
         }
     }
 
-            /**
+    /**
      * 枚舉了兩種常用的類型
      */
     public enum Type {
@@ -547,6 +565,7 @@ public class MainActivity extends AppCompatActivity implements
         String ext;
         int audioEncoder;
         int outputFormat;
+
         Type(String ext, int audioEncoder, int outputFormat) {
             this.ext = ext;
             this.audioEncoder = audioEncoder;
@@ -649,8 +668,7 @@ public class MainActivity extends AppCompatActivity implements
 //        lastDbCount = dbCount;
 //        return lastDbCount;
 //    }
-
-    public void startrec(){
+    public void startrec() {
 //        try {
 //            if (recorder != null) {
 //                recorder.reset();
@@ -676,11 +694,14 @@ public class MainActivity extends AppCompatActivity implements
 
         // 开始录音
         /* ①Initial：实例化MediaRecorder对象 */
-        if (recorder == null)
+        if (recorder == null){
             recorder = new MediaRecorder();
+            System.out.println("list: 開始錄音: " + recorder);
+        }else{
+            System.out.println("list: 開始錄音(nonnull): " + recorder);
+        }
         try {
             /* ②setAudioSource/setVedioSource */
-            System.out.println("list: 錄音: " + recorder);
             recorder.setAudioSource(MediaRecorder.AudioSource.MIC);// 设置麦克风
             /*
              * ②设置输出文件的格式：THREE_GPP/MPEG-4/RAW_AMR/Default THREE_GPP(3gp格式
@@ -692,46 +713,48 @@ public class MainActivity extends AppCompatActivity implements
 //            recorder.setAudioEncoder(MediaRecorder.AudioEncoder.AAC);
             recorder.setAudioEncoder(type1.audioEncoder);
             /* ③准备 */
-            recorder.setOutputFile(new File(getExternalFilesDir(""),t+".mp4").getAbsolutePath());
+            recorder.setOutputFile(new File(getExternalFilesDir(""), t + ".mp4").getAbsolutePath());
             recorder.prepare();
             /* ④开始 */
             recorder.start();
         } catch (IllegalStateException e) {
-            Log.i(TAG,"call startAmr(File mRecAudioFile) failed!" + e.getMessage());
+            Log.i(TAG, "call startAmr(File mRecAudioFile) failed!" + e.getMessage());
         } catch (IOException e) {
-            Log.i(TAG,"call startAmr(File mRecAudioFile) failed!" + e.getMessage());
+            Log.i(TAG, "call startAmr(File mRecAudioFile) failed!" + e.getMessage());
         }
     }
 
-    public void stoprec(){
+    public void stoprec() {
         try {
-            System.out.println("list: 錄音: " + recorder);
+            System.out.println("list: 錄音2: " + recorder);
             recorder.stop();
             recorder.release();
             recorder = null;
             uploadAudio();
         } catch (RuntimeException e) {
-            Log.e(TAG,e.toString());
+            Log.e(TAG, e.toString());
+            System.out.println("list: 錄音3: " + recorder);
 //            recorder.reset();
-            recorder.release();
+//            recorder.release();
             recorder = null;
 
-            File file3 = new File(getExternalFilesDir(""),t+".mp4");
+            File file3 = new File(getExternalFilesDir(""), t + ".mp4");
             if (file3.exists())
                 file3.delete();
             System.out.println("list: file3: " + t);
         }
     }
 
-    public void uploadAudio(){
+
+    public void uploadAudio() {
         // Create a storage reference from our app
         StorageReference storageRef = storage.getReference();
 
         // Create a reference to "record_a.mp4"
-        StorageReference recordRef = storageRef.child("record_a.mp4");
+        StorageReference recordRef = storageRef.child(t + ".mp4");
 
         // Create a reference to 'audios/record_a.mp4'
-        StorageReference recordAudiosRef = storageRef.child("audios/record_a.mp4");
+        StorageReference recordAudiosRef = storageRef.child("audios/" + t + ".mp4");
 
         // While the file names are the same, the references point to different files
         recordRef.getName().equals(recordAudiosRef.getName());    // true
@@ -743,11 +766,11 @@ public class MainActivity extends AppCompatActivity implements
                 .build();
 
 //        Uri file = Uri.fromFile(new File("path/to/record_a.mp4"));
-        Uri file = Uri.fromFile(new File(getExternalFilesDir("").getAbsolutePath() + "/record_a.mp4"));
-        recordRef = storageRef.child("audios/"+file.getLastPathSegment());
+        Uri file = Uri.fromFile(new File(getExternalFilesDir(""), t + ".mp4"));
+        recordRef = storageRef.child("audios/" + file.getLastPathSegment());
         // Upload the file and metadata
         //UploadTask uploadTask = storageRef.child("audios/record_a.mpeg").putFile(file, metadata);
-        UploadTask uploadTask = recordRef.putFile(file,metadata);
+        UploadTask uploadTask = recordRef.putFile(file, metadata);
 
         // Observe state change events such as progress, pause, and resume
         uploadTask.addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
@@ -755,6 +778,13 @@ public class MainActivity extends AppCompatActivity implements
             public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
                 double progress = (100.0 * taskSnapshot.getBytesTransferred()) / taskSnapshot.getTotalByteCount();
                 Log.d(TAG_f, "list: Upload is " + progress + "% done");
+                if (progress >= 100) {
+                    File file = new File(getExternalFilesDir(""), t + ".mp4");
+                    if (file.exists())
+                        file.delete();
+                    System.out.println("list: file: " + t);
+                    mDatabase.child("face").child("temi1").child("patrol").child("py").setValue(false);
+                }
             }
         }).addOnPausedListener(new OnPausedListener<UploadTask.TaskSnapshot>() {
             @Override
@@ -771,8 +801,8 @@ public class MainActivity extends AppCompatActivity implements
                 int errorCode = ((StorageException) exception).getErrorCode();
                 String errorMessage = exception.getMessage();
                 // test the errorCode and errorMessage, and handle accordingly
-                Log.d(TAG_f,"list: upload failure");
-                Log.d(TAG_f,"list: errorCode: " + errorCode +", errorMessage: " + errorMessage);
+                Log.d(TAG_f, "list: upload failure");
+                Log.d(TAG_f, "list: errorCode: " + errorCode + ", errorMessage: " + errorMessage);
             }
         }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
             @Override
@@ -790,7 +820,7 @@ public class MainActivity extends AppCompatActivity implements
         // If there's an upload in progress, save the reference so you can query it later
         if (mStorageRef != null) {
             outState.putString("reference", mStorageRef.toString());
-            Log.d(TAG_f,"list: outstate: " + mStorageRef.toString());
+            Log.d(TAG_f, "list: outstate: " + mStorageRef.toString());
         }
     }
 
@@ -816,7 +846,7 @@ public class MainActivity extends AppCompatActivity implements
                 @Override
                 public void onSuccess(UploadTask.TaskSnapshot state) {
                     // Success!
-                    Log.d(TAG_f,"list: upload state: " + state.toString());
+                    Log.d(TAG_f, "list: upload state: " + state.toString());
                 }
             });
         }
@@ -832,23 +862,26 @@ public class MainActivity extends AppCompatActivity implements
                 @Override
                 public void onSuccess(FileDownloadTask.TaskSnapshot state) {
                     // Success!
-                    Log.d(TAG_f,"list: Instance Success: " + state);
+                    Log.d(TAG_f, "list: Instance Success: " + state);
                 }
             });
         }
     }
 
 
-
     /** 人臉辨識 */
-    /** Permissions Handler */
+    /**
+     * Permissions Handler
+     */
     private void getPermissions() {
         ActivityCompat.requestPermissions(this, new String[]{CAMERA_PERMISSION}, PERMISSION_CODE);
     }
 
-    /** Setup camera & use cases */
+    /**
+     * Setup camera & use cases
+     */
     private void startCamera() {
-        if(ContextCompat.checkSelfPermission(this, CAMERA_PERMISSION) == PackageManager.PERMISSION_GRANTED) {
+        if (ContextCompat.checkSelfPermission(this, CAMERA_PERMISSION) == PackageManager.PERMISSION_GRANTED) {
             setupCamera();
             System.out.println("list:2 startCamera1");
         } else {
@@ -1101,7 +1134,7 @@ public class MainActivity extends AppCompatActivity implements
         }
     }
 
-    public void uploadImage(Bitmap bitmap){
+    public void uploadImage(Bitmap bitmap) {
         Log.d(TAG_f, "list: upload");
         // Create a storage reference from our app
         StorageReference storageRef = storage.getReference();
@@ -1226,11 +1259,14 @@ public class MainActivity extends AppCompatActivity implements
 
 
     /** Recognize Processor */
-    /** Bitmap Converter
-     * @return*/
+    /**
+     * Bitmap Converter
+     *
+     * @return
+     */
     private Bitmap mediaImgToBmp(InputImage image2, int rotation, Rect boundingBox) {
         System.out.println("list:2 mediaImgToBmp");
-        System.out.println("list:2 mediaImgToBmp image: " +image2);
+        System.out.println("list:2 mediaImgToBmp image: " + image2);
         Bitmap frame_bmp1 = null;
 
         Image image = image2.getMediaImage();
@@ -1267,10 +1303,10 @@ public class MainActivity extends AppCompatActivity implements
 
         int width = image.getWidth();//640
         int height = image.getHeight();//480
-        int ySize = width*height;
-        int uvSize = width*height/4;
+        int ySize = width * height;
+        int uvSize = width * height / 4;
 
-        byte[] nv21 = new byte[ySize + uvSize*2];
+        byte[] nv21 = new byte[ySize + uvSize * 2];
 
         //1,2,2
         ByteBuffer yBuffer = image.getPlanes()[0].getBuffer(); // Y
@@ -1288,17 +1324,16 @@ public class MainActivity extends AppCompatActivity implements
         int rowStride = image.getPlanes()[0].getRowStride();
 //      Log.d(TAG, "list: rowStride[0]: "+rowStride);//640
 
-        assert(image.getPlanes()[0].getPixelStride() == 1);
+        assert (image.getPlanes()[0].getPixelStride() == 1);
 
         int pos = 0;
 
         if (rowStride == width) { // likely
             yBuffer.get(nv21, 0, ySize);
             pos += ySize;
-        }
-        else {
+        } else {
             long yBufferPos = -rowStride; // not an actual position
-            for (; pos<ySize; pos+=width) {
+            for (; pos < ySize; pos += width) {
                 yBufferPos += rowStride;
                 yBuffer.position((int) yBufferPos);
                 yBuffer.get(nv21, pos, width);
@@ -1306,15 +1341,15 @@ public class MainActivity extends AppCompatActivity implements
         }
         rowStride = image.getPlanes()[2].getRowStride();
         int pixelStride = image.getPlanes()[2].getPixelStride();
-        assert(rowStride == image.getPlanes()[1].getRowStride());
-        assert(pixelStride == image.getPlanes()[1].getPixelStride());
+        assert (rowStride == image.getPlanes()[1].getRowStride());
+        assert (pixelStride == image.getPlanes()[1].getPixelStride());
 
         if (pixelStride == 2 && rowStride == width && uBuffer.get(0) == vBuffer.get(1)) {
             // maybe V an U planes overlap as per NV21, which means vBuffer[1] is alias of uBuffer[0]
             byte savePixel = vBuffer.get(1);
             try {
-                vBuffer.put(1, (byte)~savePixel);
-                if (uBuffer.get(0) == (byte)~savePixel) {
+                vBuffer.put(1, (byte) ~savePixel);
+                if (uBuffer.get(0) == (byte) ~savePixel) {
                     vBuffer.put(1, savePixel);
                     vBuffer.position(0);
                     uBuffer.position(0);
@@ -1323,8 +1358,7 @@ public class MainActivity extends AppCompatActivity implements
 
                     return nv21; // shortcut
                 }
-            }
-            catch (ReadOnlyBufferException ex) {
+            } catch (ReadOnlyBufferException ex) {
                 // unfortunately, we cannot check if vBuffer and uBuffer overlap
             }
 
@@ -1335,9 +1369,9 @@ public class MainActivity extends AppCompatActivity implements
         // other optimizations could check if (pixelStride == 1) or (pixelStride == 2),
         // but performance gain would be less significant
 
-        for (int row=0; row<height/2; row++) {
-            for (int col=0; col<width/2; col++) {
-                int vuPos = col*pixelStride + row*rowStride;
+        for (int row = 0; row < height / 2; row++) {
+            for (int col = 0; col < width / 2; col++) {
+                int vuPos = col * pixelStride + row * rowStride;
                 nv21[pos++] = vBuffer.get(vuPos);
                 nv21[pos++] = uBuffer.get(vuPos);
             }
@@ -1349,7 +1383,7 @@ public class MainActivity extends AppCompatActivity implements
     private Bitmap toBitmap(Image image) {
         System.out.println("list:2 toBitmap");
 
-        byte[] nv21=YUV_420_888toNV21(image);
+        byte[] nv21 = YUV_420_888toNV21(image);
 
         YuvImage yuvImage = new YuvImage(nv21, ImageFormat.NV21, image.getWidth(), image.getHeight(), null);
 
