@@ -52,6 +52,8 @@ public class Todolist extends AppCompatActivity implements Robot.TtsListener {
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
         //robot = Robot.getInstance(); // get an instance of the robot in order to begin using its features.
 
+
+
         FirebaseDatabase database = FirebaseDatabase.getInstance();
 
         DatabaseReference myRef1 = database.getReference("/face/temi1/regis/id");

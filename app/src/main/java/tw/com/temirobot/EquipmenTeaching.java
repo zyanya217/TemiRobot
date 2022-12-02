@@ -253,83 +253,102 @@ public class EquipmenTeaching extends AppCompatActivity implements
 
         FirebaseDatabase database = FirebaseDatabase.getInstance();
 
-
-        DatabaseReference BPCheck = database.getReference("/user/B0844230/measure/BP");
-        DatabaseReference BTCheck = database.getReference("/user/B0844230/measure/BT");
-        DatabaseReference SPO2Check = database.getReference("/user/B0844230/measure/SPO2");
-
-        BPCheck.addValueEventListener(new ValueEventListener() {
+        DatabaseReference myRef2 = database.getReference("/face/temi1/regis/id");
+        myRef2.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 // This method is called once with the initial value and again
                 // whenever data at this location is updated.
-                String BP = dataSnapshot.getValue().toString();
-                Log.d("TAG", "BP is: " + BP);
-                if (BP !=null){
-                    BTCheck.addValueEventListener(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(DataSnapshot dataSnapshot) {
-                            // This method is called once with the initial value and again
-                            // whenever data at this location is updated.
-                            String BT= dataSnapshot.getValue().toString();
-                            Log.d("TAG", "BT is: " + BT);
-                            if (BT!=null)
-                            {
-                                SPO2Check.addValueEventListener(new ValueEventListener() {
-                                    @Override
-                                    public void onDataChange(DataSnapshot dataSnapshot) {
-                                        // This method is called once with the initial value and again
-                                        // whenever data at this location is updated.
-                                        String SPO2= dataSnapshot.getValue().toString();
-                                        Log.d("TAG", "SPO2 is: " + SPO2);
-                                        if (SPO2!=null)
-                                        {
-                                            Intent it = new Intent(EquipmenTeaching.this,Todolist.class);
-                                            startActivity(it);
-                                            finish();
-                                        }
-                                        else{
-                                            Robot sRobot = Robot.getInstance();
-                                            TtsRequest ttsRequest = TtsRequest.create("您還未量測血氧",true);
-                                            sRobot.speak(ttsRequest);
-                                        }
+                String value2 = dataSnapshot.getValue(String.class);
+                Log.d("TAG", "Value2 is: " + value2);
+
+                DatabaseReference BPCheck = database.getReference("/user/"+value2+"/measure/BP");
+                DatabaseReference BTCheck = database.getReference("/user/"+value2+"/measure/BT");
+                DatabaseReference SPO2Check = database.getReference("/user/"+value2+"/measure/SPO2");
+
+                BPCheck.addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        // This method is called once with the initial value and again
+                        // whenever data at this location is updated.
+                        String BP = dataSnapshot.getValue().toString();
+                        Log.d("TAG", "BP is: " + BP);
+                        if (BP !=null){
+                            BTCheck.addValueEventListener(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(DataSnapshot dataSnapshot) {
+                                    // This method is called once with the initial value and again
+                                    // whenever data at this location is updated.
+                                    String BT= dataSnapshot.getValue().toString();
+                                    Log.d("TAG", "BT is: " + BT);
+                                    if (BT!=null)
+                                    {
+                                        SPO2Check.addValueEventListener(new ValueEventListener() {
+                                            @Override
+                                            public void onDataChange(DataSnapshot dataSnapshot) {
+                                                // This method is called once with the initial value and again
+                                                // whenever data at this location is updated.
+                                                String SPO2= dataSnapshot.getValue().toString();
+                                                Log.d("TAG", "SPO2 is: " + SPO2);
+                                                if (SPO2!=null)
+                                                {
+                                                    Intent it = new Intent(EquipmenTeaching.this,Todolist.class);
+                                                    startActivity(it);
+                                                    finish();
+                                                }
+                                                else{
+                                                    Robot sRobot = Robot.getInstance();
+                                                    TtsRequest ttsRequest = TtsRequest.create("您還未量測血氧",true);
+                                                    sRobot.speak(ttsRequest);
+                                                }
+                                            }
+                                            @Override
+                                            public void onCancelled(DatabaseError error) {
+                                                // Failed to read value
+                                                Log.w("TAG", "Failed to read SPO2.", error.toException());
+                                            }
+
+                                        });
+
                                     }
-                                    @Override
-                                    public void onCancelled(DatabaseError error) {
-                                        // Failed to read value
-                                        Log.w("TAG", "Failed to read SPO2.", error.toException());
+                                    else{
+                                        Robot sRobot = Robot.getInstance();
+                                        TtsRequest ttsRequest = TtsRequest.create("您還未量測血壓",true);
+                                        sRobot.speak(ttsRequest);
                                     }
+                                }
+                                @Override
+                                public void onCancelled(DatabaseError error) {
+                                    // Failed to read value
+                                    Log.w("TAG", "Failed to read BT.", error.toException());
+                                }
 
-                                });
+                            });
 
-                            }
-                            else{
-                                Robot sRobot = Robot.getInstance();
-                                TtsRequest ttsRequest = TtsRequest.create("您還未量測血壓",true);
-                                sRobot.speak(ttsRequest);
-                            }
+                        }else {
+                            Robot sRobot = Robot.getInstance();
+                            TtsRequest ttsRequest = TtsRequest.create("您還未量測血壓",true);
+                            sRobot.speak(ttsRequest);
                         }
-                        @Override
-                        public void onCancelled(DatabaseError error) {
-                            // Failed to read value
-                            Log.w("TAG", "Failed to read BT.", error.toException());
-                        }
 
-                    });
+                    }
+                    @Override
+                    public void onCancelled(DatabaseError error) {
+                        // Failed to read value
+                        Log.w("TAG", "Failed to read BP.", error.toException());
+                    }
 
-                }else {
-                    Robot sRobot = Robot.getInstance();
-                    TtsRequest ttsRequest = TtsRequest.create("您還未量測血壓",true);
-                    sRobot.speak(ttsRequest);
-                }
+                });
+
 
             }
+
             @Override
             public void onCancelled(DatabaseError error) {
                 // Failed to read value
-                Log.w("TAG", "Failed to read BP.", error.toException());
+                Log.w("TAG", "Failed to read value.", error.toException());
             }
-
         });
+
     }
 }

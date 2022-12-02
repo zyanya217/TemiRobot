@@ -194,7 +194,7 @@ public class Welcome2 extends AppCompatActivity implements
                         robot.goTo("labin");
                         //跟長者說這裡是koisk
                         Robot sRobot = Robot.getInstance();
-                        TtsRequest ttsRequest = TtsRequest.create("請在這裡進行報到",true);
+                        TtsRequest ttsRequest = TtsRequest.create("請在這裡進行報到，按下另一台機器人臉上的智能報到",true);
                         sRobot.speak(ttsRequest);
                     }
                     System.out.println("list: value1 = " + value1);
