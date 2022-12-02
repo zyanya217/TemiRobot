@@ -263,7 +263,7 @@ public class EquipmenTeaching extends AppCompatActivity implements
             public void onDataChange(DataSnapshot dataSnapshot) {
                 // This method is called once with the initial value and again
                 // whenever data at this location is updated.
-                String BP = dataSnapshot.getValue(String.class);
+                String BP = dataSnapshot.getValue().toString();
                 Log.d("TAG", "BP is: " + BP);
                 if (BP !=null){
                     BTCheck.addValueEventListener(new ValueEventListener() {
@@ -271,7 +271,7 @@ public class EquipmenTeaching extends AppCompatActivity implements
                         public void onDataChange(DataSnapshot dataSnapshot) {
                             // This method is called once with the initial value and again
                             // whenever data at this location is updated.
-                            String BT= dataSnapshot.getValue(String.class);
+                            String BT= dataSnapshot.getValue().toString();
                             Log.d("TAG", "BT is: " + BT);
                             if (BT!=null)
                             {
@@ -280,7 +280,7 @@ public class EquipmenTeaching extends AppCompatActivity implements
                                     public void onDataChange(DataSnapshot dataSnapshot) {
                                         // This method is called once with the initial value and again
                                         // whenever data at this location is updated.
-                                        String SPO2= dataSnapshot.getValue(String.class);
+                                        String SPO2= dataSnapshot.getValue().toString();
                                         Log.d("TAG", "SPO2 is: " + SPO2);
                                         if (SPO2!=null)
                                         {
