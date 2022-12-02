@@ -62,6 +62,7 @@ public class FaceRecognition2 extends AppCompatActivity {
                     // whenever data at this location is updated.
                     String value1 = dataSnapshot.getValue(String.class);
                     if (value1 == "Unknown") {
+                        y = 10;
                         //查無此人
                         mDatabase.child("face").child("temi1").child("checkin").child("py").setValue(false);
                         mDatabase.child("face").child("temi1").child("checkin").child("and").setValue(true);
@@ -83,8 +84,8 @@ public class FaceRecognition2 extends AppCompatActivity {
                         builder.show();
                     }
                     else if (value1 == "Failed"){
+                        y = 10;
                         //辨識失敗
-
                         Intent it = new Intent(FaceRecognition2.this,FaceRecognition.class);
                         startActivity(it);
                         finish();
@@ -94,6 +95,7 @@ public class FaceRecognition2 extends AppCompatActivity {
                         y++;
                     }
                     else {
+                        y = 10;
                         //辨識到人
                         mDatabase.child("face").child("temi1").child("checkin").child("py").setValue(false);
                         mDatabase.child("face").child("temi1").child("checkin").child("and").setValue(true);
