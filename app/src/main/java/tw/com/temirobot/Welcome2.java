@@ -176,6 +176,7 @@ public class Welcome2 extends AppCompatActivity implements
                     String value1 = dataSnapshot.getValue(String.class); //打開
 
                     if (value1 == "Unknown") {
+                        y = 10;
                         //查無此人
                         mDatabase.child("face").child("temi1").child("welcome").child("py").setValue(false);
                         mDatabase.child("face").child("temi1").child("welcome").child("and").setValue(true);
@@ -188,6 +189,7 @@ public class Welcome2 extends AppCompatActivity implements
                         y++;
                     }
                     else{
+                        y = 10;
                         //辨識到人
                         mDatabase.child("face").child("temi1").child("welcome").child("py").setValue(false);
                         mDatabase.child("face").child("temi1").child("welcome").child("and").setValue(true);
