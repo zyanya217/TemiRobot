@@ -123,7 +123,6 @@ public class FaceRecognition extends AppCompatActivity {
         mDatabase.child("face").child("temi1").child("checkin").child("id").setValue("");
         mDatabase.child("face").child("temi1").child("checkin").child("py").setValue(true);
         mDatabase.child("face").child("temi1").child("checkin").child("and").setValue(false);
-        startCamera();
     }
 
     @Override
@@ -135,6 +134,7 @@ public class FaceRecognition extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
+        startCamera();
 //        DatabaseReference myRef1 = database.getReference("/face/temi1/checkin/id");
 //        myRef1.addValueEventListener(new ValueEventListener() {
 //            @Override
