@@ -61,27 +61,13 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
-    <TextView
-        android:id="@+id/txtTeamName2"
-        android:layout_width="45dp"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="30dp"
-        android:ems="1"
-        android:gravity="center_vertical|left"
-        android:text="↑點按即可與機器人對話"
-        android:textColor="#381502"
-        android:textSize="40sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/txtTeamName"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
     <ImageView
         android:id="@+id/btnface"
         android:layout_width="274dp"
         android:layout_height="481dp"
+        android:layout_marginBottom="100dp"
         android:onClick="btnface"
-        app:layout_constraintBottom_toBottomOf="@+id/txtTeamName2"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="@+id/txtTeamName"
         app:srcCompat="@drawable/btnface" />
 
@@ -111,6 +97,20 @@
         app:layout_constraintBottom_toBottomOf="@+id/btnwelcome"
         app:layout_constraintStart_toEndOf="@+id/btnwelcome"
         app:srcCompat="@drawable/btnregis" />
+
+    <TextView
+        android:id="@+id/txtTeamName2"
+        android:layout_width="45dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="60dp"
+        android:ems="1"
+        android:gravity="center_vertical|left"
+        android:text="↑點按即可與機器人對話"
+        android:textColor="#381502"
+        android:textSize="40sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
 
