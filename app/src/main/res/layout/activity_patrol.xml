@@ -51,7 +51,6 @@
         android:layout_width="105dp"
         android:layout_height="105dp"
         android:layout_marginTop="92dp"
-        android:onClick="btnlock"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.646"
         app:layout_constraintStart_toEndOf="@+id/gifImageView"
