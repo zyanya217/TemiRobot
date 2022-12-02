@@ -191,34 +191,39 @@ public class Welcome2 extends AppCompatActivity implements
                         //辨識到人
                         mDatabase.child("face").child("temi1").child("welcome").child("py").setValue(false);
                         mDatabase.child("face").child("temi1").child("welcome").child("and").setValue(true);
-                        robot.goTo("labin");
+                        //去抓 value1(辨識到的這個人)
+                        DatabaseReference myRef2 = database.getReference("/user/"+value1+"/greet");
+
+                        myRef2.addValueEventListener(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(DataSnapshot dataSnapshot) {
+                                // This method is called once with the initial value and again
+                                // whenever data at this location is updated.
+                                String value2 = dataSnapshot.getValue(String.class);
+                                Log.d("TAG", "Value2 is: " + value2);
+                                Speak = value2;
+                            }
+
+                            @Override
+                            public void onCancelled(DatabaseError error) {
+                                // Failed to read value
+                                Log.w("TAG", "Failed to read value.", error.toException());
+                            }
+                        });
                         //跟長者說這裡是koisk
-                        Robot sRobot = Robot.getInstance();
-                        TtsRequest ttsRequest = TtsRequest.create("請在這裡進行報到，按下另一台機器人臉上的智能報到",true);
-                        sRobot.speak(ttsRequest);
+                        Robot sRobot1 = Robot.getInstance();
+                        TtsRequest ttsRequest1 = TtsRequest.create("我帶你去找報到機器人請跟著我來",true);
+                        sRobot1.speak(ttsRequest1);
+
+                        robot.goTo("labin");
+
+                        Robot sRobot2 = Robot.getInstance();
+                        TtsRequest ttsRequest2 = TtsRequest.create("請在這邊進行報到喔，請按下機器人上的智能報到按鈕，我先回去囉下次見。",true);
+                        sRobot2.speak(ttsRequest2);
                     }
                     System.out.println("list: value1 = " + value1);
                     Log.d("TAG", "Value1 is: " + value1);
 
-                    //去抓 value1(辨識到的這個人)
-                    DatabaseReference myRef2 = database.getReference("/user/"+value1+"/greet");
-
-                    myRef2.addValueEventListener(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(DataSnapshot dataSnapshot) {
-                            // This method is called once with the initial value and again
-                            // whenever data at this location is updated.
-                            String value2 = dataSnapshot.getValue(String.class);
-                            Log.d("TAG", "Value2 is: " + value2);
-                            Speak = value2;
-                        }
-
-                        @Override
-                        public void onCancelled(DatabaseError error) {
-                            // Failed to read value
-                            Log.w("TAG", "Failed to read value.", error.toException());
-                        }
-                    });
                 }
 
                 @Override
