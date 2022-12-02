@@ -251,7 +251,7 @@ public class EquipmenTeaching extends AppCompatActivity implements
 
         FirebaseDatabase database = FirebaseDatabase.getInstance();
 
-        DatabaseReference myRef2 = database.getReference("/face/temi1/regis/id");
+        DatabaseReference myRef2 = database.getReference("/face/temi1/checkin/id");
         myRef2.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
