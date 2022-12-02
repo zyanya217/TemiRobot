@@ -35,6 +35,10 @@ public class Todolist extends AppCompatActivity implements Robot.TtsListener {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_todolist);
 
+        Robot sRobot = Robot.getInstance();
+        TtsRequest ttsRequest = TtsRequest.create("恭喜您完成報到",true);
+        sRobot.speak(ttsRequest);
+
         TextView todolist=findViewById(R.id.todolistText);
         TextView NameText=findViewById(R.id.textView4);
 
@@ -84,7 +88,6 @@ public class Todolist extends AppCompatActivity implements Robot.TtsListener {
                     }
                 });
             }
-
             @Override
             public void onCancelled(DatabaseError error) {
                 // Failed to read value
