@@ -187,7 +187,6 @@ public class MainActivity extends AppCompatActivity implements
         gifImageView = findViewById(R.id.gifImageView);
 
 
-
         DBTime();
     }
 
@@ -243,25 +242,26 @@ public class MainActivity extends AppCompatActivity implements
     @Override
     protected void onResume() {
         super.onResume();
-        DatabaseReference myRef2 = mDatabase.child("face").child("temi1").child("patrol").child("py");
-        myRef2.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                // This method is called once with the initial value and again
-                // whenever data at this location is updated.
-                Boolean value2 = dataSnapshot.getValue(Boolean.class);
-                Log.d("TAG", "Value2 is: " + value2);
-                if (value2 == true) {
-                    startCamera();
-                }
-            }
-
-            @Override
-            public void onCancelled(DatabaseError error) {
-                // Failed to read value
-                Log.w("TAG", "Failed to read value.", error.toException());
-            }
-        });
+        startCamera();
+//        DatabaseReference myRef2 = mDatabase.child("face").child("temi1").child("patrol").child("py");
+//        myRef2.addValueEventListener(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(DataSnapshot dataSnapshot) {
+//                // This method is called once with the initial value and again
+//                // whenever data at this location is updated.
+//                Boolean value2 = dataSnapshot.getValue(Boolean.class);
+//                Log.d("TAG", "Value2 is: " + value2);
+//                if (value2 == true) {
+//                    startCamera();
+//                }
+//            }
+//
+//            @Override
+//            public void onCancelled(DatabaseError error) {
+//                // Failed to read value
+//                Log.w("TAG", "Failed to read value.", error.toException());
+//            }
+//        });
     }
 
     public void btnface(View v) {
@@ -329,8 +329,8 @@ public class MainActivity extends AppCompatActivity implements
                 mDatabase.child("face").child("temi1").child("welcome").child("py").setValue(false);
 //                bgwhite.setVisibility(View.VISIBLE);
 //                gifImageView.setVisibility(View.VISIBLE);
-                robot.goTo(place2);
                 startrec();
+                robot.goTo(place2);
 //                Intent it = new Intent();
 //                it.setClass(MainActivity.this, Patrol.class);
 //                Bundle bundle = new Bundle();
@@ -699,10 +699,10 @@ public class MainActivity extends AppCompatActivity implements
 
         // 开始录音
         /* ①Initial：实例化MediaRecorder对象 */
-        if (recorder == null){
+        if (recorder == null) {
             recorder = new MediaRecorder();
             System.out.println("list: 開始錄音: " + recorder);
-        }else{
+        } else {
             System.out.println("list: 開始錄音(nonnull): " + recorder);
         }
         try {
@@ -783,7 +783,7 @@ public class MainActivity extends AppCompatActivity implements
             public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
                 double progress = (100.0 * taskSnapshot.getBytesTransferred()) / taskSnapshot.getTotalByteCount();
                 Log.d(TAG_f, "list: Upload is " + progress + "% done");
-                if (progress >= 100) {
+                if (progress >= 100.0) {
                     File file = new File(getExternalFilesDir(""), t + ".mp4");
                     if (file.exists())
                         file.delete();
@@ -1118,7 +1118,6 @@ public class MainActivity extends AppCompatActivity implements
         //String name = null;
         //float scaleX = (float) previewView.getWidth() / (float) inputImage.getHeight();
         //float scaleY = (float) previewView.getHeight() / (float) inputImage.getWidth();
-        y++;
         if (faces.size() > 0) {
 
 //            // get first face detected
@@ -1135,16 +1134,17 @@ public class MainActivity extends AppCompatActivity implements
 //            System.out.println("list:2 onSuccessListener4: " + inputImage.getMediaImage());
 //            System.out.println("list:2 bitmap4: " + bitmap);
 
-            if (y == 1){
+            if (y == 1) {
                 uploadImage2(bitmapImage);
             }
-
-            uploadImage(bitmapImage);
+            if (y >= 1) {
+                uploadImage(bitmapImage);
+            }
         }
     }
 
     public void uploadImage(Bitmap bitmap) {
-        Log.d(TAG_f, "list: upload");
+        Log.d(TAG_f, "list: uploadImage1");
         // Create a storage reference from our app
         StorageReference storageRef = storage.getReference();
 
@@ -1162,12 +1162,12 @@ public class MainActivity extends AppCompatActivity implements
             @Override
             public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
                 double progress = (100.0 * taskSnapshot.getBytesTransferred()) / taskSnapshot.getTotalByteCount();
-                Log.d(TAG_f, "list: Upload is " + progress + "% done");
+                Log.d(TAG_f, "list: Upload1 is " + progress + "% done");
             }
         }).addOnPausedListener(new OnPausedListener<UploadTask.TaskSnapshot>() {
             @Override
             public void onPaused(UploadTask.TaskSnapshot taskSnapshot) {
-                Log.d(TAG_f, "list: Upload is paused");
+                Log.d(TAG_f, "list: Upload1 is paused");
             }
         });
 
@@ -1187,11 +1187,11 @@ public class MainActivity extends AppCompatActivity implements
 
 
     public void uploadImage2(Bitmap bitmap) {
-        Log.d(TAG_f, "list: upload");
+        Log.d(TAG_f, "list: uploadImage2");
         // Create a storage reference from our app
         StorageReference storageRef = storage.getReference();
 
-        StorageReference checkinRef = storageRef.child("images").child("patrol").child(t+".jpg");
+        StorageReference checkinRef = storageRef.child("images").child("patrol").child(t + ".jpg");
 
 //        UploadTask uploadTask = checkinRef.putFile(file);
 
@@ -1205,12 +1205,12 @@ public class MainActivity extends AppCompatActivity implements
             @Override
             public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
                 double progress = (100.0 * taskSnapshot.getBytesTransferred()) / taskSnapshot.getTotalByteCount();
-                Log.d(TAG_f, "list: Upload is " + progress + "% done");
+                Log.d(TAG_f, "list: Upload2 is " + progress + "% done");
             }
         }).addOnPausedListener(new OnPausedListener<UploadTask.TaskSnapshot>() {
             @Override
             public void onPaused(UploadTask.TaskSnapshot taskSnapshot) {
-                Log.d(TAG_f, "list: Upload is paused");
+                Log.d(TAG_f, "list: Upload2 is paused");
             }
         });
 

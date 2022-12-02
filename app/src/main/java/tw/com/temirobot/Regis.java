@@ -247,7 +247,7 @@ public class Regis extends AppCompatActivity {
 
         Preview.Builder builder = new Preview.Builder();
         builder.setTargetAspectRatio(AspectRatio.RATIO_4_3);
-        builder.setTargetRotation(getRotation());
+//        builder.setTargetRotation(getRotation());
 
         previewUseCase = builder.build();
         previewUseCase.setSurfaceProvider(previewView.getSurfaceProvider());
@@ -275,7 +275,7 @@ public class Regis extends AppCompatActivity {
 
         ImageAnalysis.Builder builder = new ImageAnalysis.Builder();
         builder.setTargetAspectRatio(AspectRatio.RATIO_4_3);
-        builder.setTargetRotation(getRotation());
+//        builder.setTargetRotation(getRotation());
 
         analysisUseCase = builder.build();
         analysisUseCase.setAnalyzer(cameraExecutor, this::analyze);
@@ -288,10 +288,10 @@ public class Regis extends AppCompatActivity {
         }
     }
 
-    protected int getRotation() throws NullPointerException {
-        System.out.println("list:2 getRotation");
-        return previewView.getDisplay().getRotation();
-    }
+//    protected int getRotation() throws NullPointerException {
+//        System.out.println("list:2 getRotation");
+//        return previewView.getDisplay().getRotation();
+//    }
 
     public void uploadImage(Bitmap bitmap) {
         mDatabase.child("face").child("temi1").child("regis").child("and").setValue(false);
