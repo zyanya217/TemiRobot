@@ -19,6 +19,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.robotemi.sdk.Robot;
+import com.robotemi.sdk.TtsRequest;
 import com.robotemi.sdk.listeners.OnGoToLocationStatusChangedListener;
 import com.robotemi.sdk.listeners.OnRobotReadyListener;
 import com.robotemi.sdk.navigation.listener.OnCurrentPositionChangedListener;
@@ -191,6 +192,10 @@ public class Welcome2 extends AppCompatActivity implements
                         mDatabase.child("face").child("temi1").child("welcome").child("py").setValue(false);
                         mDatabase.child("face").child("temi1").child("welcome").child("and").setValue(true);
                         robot.goTo("labin");
+                        //跟長者說這裡是koisk
+                        Robot sRobot = Robot.getInstance();
+                        TtsRequest ttsRequest = TtsRequest.create("請在這裡進行報到",true);
+                        sRobot.speak(ttsRequest);
                     }
                     System.out.println("list: value1 = " + value1);
                     Log.d("TAG", "Value1 is: " + value1);
