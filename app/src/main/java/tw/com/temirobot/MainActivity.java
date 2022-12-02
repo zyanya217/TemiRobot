@@ -116,7 +116,7 @@ public class MainActivity extends AppCompatActivity implements
 
     private Calendar calendar = Calendar.getInstance();
     private SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd-hh-mm-ss");
-    private String t = dateFormat.format(calendar.getTime());
+    private String t = "";
     //語音操作對象
     private MediaRecorder recorder;
 
@@ -674,6 +674,7 @@ public class MainActivity extends AppCompatActivity implements
 //        return lastDbCount;
 //    }
     public void startrec() {
+        t = dateFormat.format(calendar.getTime());
 //        try {
 //            if (recorder != null) {
 //                recorder.reset();
@@ -782,7 +783,7 @@ public class MainActivity extends AppCompatActivity implements
             @Override
             public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
                 double progress = (100.0 * taskSnapshot.getBytesTransferred()) / taskSnapshot.getTotalByteCount();
-                Log.d(TAG_f, "list: Upload is " + progress + "% done");
+                Log.d(TAG_f, "list: UploadAudio is " + progress + "% done");
                 if (progress >= 100.0) {
                     File file = new File(getExternalFilesDir(""), t + ".mp4");
                     if (file.exists())
