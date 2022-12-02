@@ -102,7 +102,7 @@
         android:id="@+id/txtTeamName2"
         android:layout_width="45dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
+        android:layout_marginStart="25dp"
         android:layout_marginTop="60dp"
         android:ems="1"
         android:gravity="center_vertical|left"
