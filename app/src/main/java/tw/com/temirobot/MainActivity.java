@@ -130,7 +130,7 @@ public class MainActivity extends AppCompatActivity implements
     private static float value = 0;   // 聲音分貝值
 
     private int timerval = 0;
-    private int value2 = 0;
+    private int y = 0;
     private TimerTask task = null;
     private Timer timer = null;
     private static final long PERIOD_DAY = 24 * 60 * 60 * 1000;
@@ -162,8 +162,6 @@ public class MainActivity extends AppCompatActivity implements
 //    private static final float IMAGE_STD = 128.0f;
 //    private static final int INPUT_SIZE = 112;
 //    private static final int OUTPUT_SIZE = 192;
-
-    private String place;
 
     private FirebaseDatabase database = FirebaseDatabase.getInstance();
 
@@ -476,6 +474,7 @@ public class MainActivity extends AppCompatActivity implements
                     robot.tiltAngle(55);
                     //robot.repose();
                     //robot.stopMovement();
+                    y = 0;
                     stoprec();
                     Thread.sleep(2000);
 //                    mDatabase.child("face").child("temi1").child("patrol").child("py").setValue(false);
@@ -1113,7 +1112,7 @@ public class MainActivity extends AppCompatActivity implements
         //String name = null;
         //float scaleX = (float) previewView.getWidth() / (float) inputImage.getHeight();
         //float scaleY = (float) previewView.getHeight() / (float) inputImage.getWidth();
-
+        y++;
         if (faces.size() > 0) {
 
 //            // get first face detected
@@ -1130,6 +1129,10 @@ public class MainActivity extends AppCompatActivity implements
 //            System.out.println("list:2 onSuccessListener4: " + inputImage.getMediaImage());
 //            System.out.println("list:2 bitmap4: " + bitmap);
 
+            if (y == 1){
+                uploadImage2(bitmapImage);
+            }
+
             uploadImage(bitmapImage);
         }
     }
@@ -1140,6 +1143,49 @@ public class MainActivity extends AppCompatActivity implements
         StorageReference storageRef = storage.getReference();
 
         StorageReference checkinRef = storageRef.child("images").child("unknown").child("unknown1.jpg");
+
+//        UploadTask uploadTask = checkinRef.putFile(file);
+
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+        byte[] data = baos.toByteArray();
+        UploadTask uploadTask = checkinRef.putBytes(data);
+
+        // Observe state change events such as progress, pause, and resume
+        uploadTask.addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
+            @Override
+            public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
+                double progress = (100.0 * taskSnapshot.getBytesTransferred()) / taskSnapshot.getTotalByteCount();
+                Log.d(TAG_f, "list: Upload is " + progress + "% done");
+            }
+        }).addOnPausedListener(new OnPausedListener<UploadTask.TaskSnapshot>() {
+            @Override
+            public void onPaused(UploadTask.TaskSnapshot taskSnapshot) {
+                Log.d(TAG_f, "list: Upload is paused");
+            }
+        });
+
+        uploadTask.addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception exception) {
+                // Handle unsuccessful uploads
+            }
+        }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+            @Override
+            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                // taskSnapshot.getMetadata() contains file metadata such as size, content-type, etc.
+                // ...
+            }
+        });
+    }
+
+
+    public void uploadImage2(Bitmap bitmap) {
+        Log.d(TAG_f, "list: upload");
+        // Create a storage reference from our app
+        StorageReference storageRef = storage.getReference();
+
+        StorageReference checkinRef = storageRef.child("images").child("patrol").child(t+".jpg");
 
 //        UploadTask uploadTask = checkinRef.putFile(file);
 
