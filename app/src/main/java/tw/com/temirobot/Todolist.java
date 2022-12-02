@@ -76,11 +76,28 @@ public class Todolist extends AppCompatActivity implements Robot.TtsListener {
                         // whenever data at this location is updated.
                         String value2 = dataSnapshot.getValue(String.class);
                         Log.d("TAG", "Value2 is: " + value2);
-                        Robot sRobot = Robot.getInstance();
-                        TtsRequest ttsRequest = TtsRequest.create(value2,false);
-                        sRobot.speak(ttsRequest);
-                        NameText.setText(value1);
-                        todolist.setText(value2);
+
+                        DatabaseReference myRef3 = database.getReference("/user/"+value1+"/name");
+                        myRef3.addValueEventListener(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(DataSnapshot dataSnapshot) {
+                                // This method is called once with the initial value and again
+                                // whenever data at this location is updated.
+                                String value3 = dataSnapshot.getValue(String.class);
+                                Log.d("TAG", "Value3 is: " + value3);
+                                Robot sRobot = Robot.getInstance();
+                                TtsRequest ttsRequest = TtsRequest.create(value2,false);
+                                sRobot.speak(ttsRequest);
+                                NameText.setText(value3);
+                                todolist.setText(value2);
+                            }
+
+                            @Override
+                            public void onCancelled(DatabaseError error) {
+                                // Failed to read value
+                                Log.w("TAG", "Failed to read value.", error.toException());
+                            }
+                        });
                     }
 
                     @Override
