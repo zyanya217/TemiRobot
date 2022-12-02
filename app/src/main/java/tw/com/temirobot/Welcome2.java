@@ -144,6 +144,9 @@ public class Welcome2 extends AppCompatActivity implements
             case OnGoToLocationStatusChangedListener.COMPLETE:
                 try {
                     robot.tiltAngle(55);
+                    Robot sRobot2 = Robot.getInstance();
+                    TtsRequest ttsRequest2 = TtsRequest.create("請在這邊進行報到喔，請按下機器人上的智能報到按鈕，我先回去囉下次見。",true);
+                    sRobot2.speak(ttsRequest2);
                     //robot.repose();
                     //robot.stopMovement();
                     Thread.sleep(5000);
@@ -175,7 +178,7 @@ public class Welcome2 extends AppCompatActivity implements
 
                     String value1 = dataSnapshot.getValue(String.class); //打開
 
-                    if (value1 == "Unknown") {
+                    if (value1.trim() == "Unknown") {
                         y = 10;
                         //查無此人
                         mDatabase.child("face").child("temi1").child("welcome").child("py").setValue(false);
@@ -218,10 +221,6 @@ public class Welcome2 extends AppCompatActivity implements
                         sRobot1.speak(ttsRequest1);
 
                         robot.goTo("labin");
-
-                        Robot sRobot2 = Robot.getInstance();
-                        TtsRequest ttsRequest2 = TtsRequest.create("請在這邊進行報到喔，請按下機器人上的智能報到按鈕，我先回去囉下次見。",true);
-                        sRobot2.speak(ttsRequest2);
                     }
                     System.out.println("list: value1 = " + value1);
                     Log.d("TAG", "Value1 is: " + value1);

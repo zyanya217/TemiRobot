@@ -61,10 +61,10 @@ public class Regis2 extends AppCompatActivity {
                             // whenever data at this location is updated.
                             String value1 = dataSnapshot.getValue(String.class);
                             Log.d("TAG", "Value1 is: " + value1);
-                            if (value1 == "Success") {
+                            if (value1.trim() == "Success") {
                                 txtRegis.setText("恭喜註冊成功!");
                                 mDatabase.child("face").child("temi1").child("regis").child("and").setValue(false);
-                            } else if (value1 == "Failed") {
+                            } else if (value1.trim() == "Failed") {
                                 txtRegis.setText("辨識失敗，請再試一次");
                                 mDatabase.child("face").child("temi1").child("regis").child("and").setValue(false);
                             } else {
