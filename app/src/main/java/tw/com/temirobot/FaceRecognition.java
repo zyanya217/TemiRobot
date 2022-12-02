@@ -115,6 +115,7 @@ public class FaceRecognition extends AppCompatActivity {
         previewView.setScaleType(PreviewView.ScaleType.FIT_CENTER);
 
         txtdetect = findViewById(R.id.detection_text);
+        txtdetect.setText("臉部辨識中，請等候三秒");
     }
 
     @Override
@@ -332,6 +333,11 @@ public class FaceRecognition extends AppCompatActivity {
             public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
                 double progress = (100.0 * taskSnapshot.getBytesTransferred()) / taskSnapshot.getTotalByteCount();
                 Log.d(TAG_f, "list: Upload is " + progress + "% done");
+                if(progress >= 100){
+                    Intent it = new Intent(FaceRecognition.this,FaceRecognition2.class);
+                    startActivity(it);
+                    finish();
+                }
             }
         }).addOnPausedListener(new OnPausedListener<UploadTask.TaskSnapshot>() {
             @Override
@@ -420,7 +426,7 @@ public class FaceRecognition extends AppCompatActivity {
         //float scaleY = (float) previewView.getHeight() / (float) inputImage.getWidth();
 
         if (faces.size() > 0) {
-            txtdetect.setText("臉部辨識中，請等候三秒");
+
 //            // get first face detected
 //            Face face = faces.get(0);
 //
