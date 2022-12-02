@@ -283,10 +283,11 @@ public class EquipmenTeaching extends AppCompatActivity implements
                                         String SPO2= dataSnapshot.getValue(String.class);
                                         Log.d("TAG", "SPO2 is: " + SPO2);
                                         if (SPO2!=null)
-                                        { ppt18.setVisibility(View.VISIBLE);
-                                            Robot sRobot = Robot.getInstance();
-                                            TtsRequest ttsRequest = TtsRequest.create("恭喜您完成報到",false);
-                                            sRobot.speak(ttsRequest); }
+                                        {
+                                            Intent it = new Intent(EquipmenTeaching.this,Todolist.class);
+                                            startActivity(it);
+                                            finish();
+                                        }
                                         else{
                                             Robot sRobot = Robot.getInstance();
                                             TtsRequest ttsRequest = TtsRequest.create("您還未量測血氧",true);
