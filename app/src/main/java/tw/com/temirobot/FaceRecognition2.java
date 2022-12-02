@@ -97,7 +97,11 @@ public class FaceRecognition2 extends AppCompatActivity {
                         //辨識到人
                         mDatabase.child("face").child("temi1").child("checkin").child("py").setValue(false);
                         mDatabase.child("face").child("temi1").child("checkin").child("and").setValue(true);
-                        Intent it = new Intent(FaceRecognition2.this,Todo.class);
+                        Intent it = new Intent();
+                        it.setClass(FaceRecognition2.this, Todo.class);
+                        Bundle bundle = new Bundle();
+                        bundle.putString("id", value1);
+                        it.putExtras(bundle);   // 記得put進去，不然資料不會帶過去哦
                         startActivity(it);
                         finish();
                     }

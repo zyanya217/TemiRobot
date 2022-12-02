@@ -112,25 +112,5 @@
         app:layout_constraintStart_toEndOf="@+id/btnwelcome"
         app:srcCompat="@drawable/btnregis" />
 
-
-    <ImageView
-        android:id="@+id/bgwhite"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:visibility="invisible"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/gifImageView"
-        app:srcCompat="@drawable/bgwhite" />
-
-    <pl.droidsonroids.gif.GifImageView
-        android:id="@+id/gifImageView"
-        android:layout_width="844dp"
-        android:layout_height="801dp"
-        android:src="@drawable/anime_emoji"
-        android:visibility="invisible"
-        app:layout_constraintEnd_toEndOf="@+id/bgwhite"
-        app:layout_constraintStart_toStartOf="@+id/bgwhite"
-        app:layout_constraintTop_toTopOf="parent" />
-
 </androidx.constraintlayout.widget.ConstraintLayout>
 

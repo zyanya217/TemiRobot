@@ -331,14 +331,6 @@ public class MainActivity extends AppCompatActivity implements
 //                gifImageView.setVisibility(View.VISIBLE);
                 startrec();
                 robot.goTo(place2);
-//                Intent it = new Intent();
-//                it.setClass(MainActivity.this, Patrol.class);
-//                Bundle bundle = new Bundle();
-//                bundle.putString("place", place);
-//                it.putExtras(bundle);   // 記得put進去，不然資料不會帶過去哦
-//                System.out.println("list: 執行定時巡邏");
-//                startActivity(it);
-//                finish();
             }
         };
         //安排指定的任務在指定的時間開始進行重複的固定延遲執行。
