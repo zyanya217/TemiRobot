@@ -1138,6 +1138,7 @@ public class MainActivity extends AppCompatActivity implements
                 uploadImage2(bitmapImage);
             }
             if (y >= 1) {
+                y++;
                 uploadImage(bitmapImage);
             }
         }
