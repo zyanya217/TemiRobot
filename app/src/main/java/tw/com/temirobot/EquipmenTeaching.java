@@ -272,6 +272,7 @@ public class EquipmenTeaching extends AppCompatActivity implements
                         String BP = dataSnapshot.getValue().toString();
                         Log.d("TAG", "BP is: " + BP);
                         if (BP !=null){
+//                            BP.trim().length() > 0
                             BTCheck.addValueEventListener(new ValueEventListener() {
                                 @Override
                                 public void onDataChange(DataSnapshot dataSnapshot) {
