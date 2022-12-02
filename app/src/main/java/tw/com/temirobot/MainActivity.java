@@ -675,6 +675,7 @@ public class MainActivity extends AppCompatActivity implements
 //    }
     public void startrec() {
         t = dateFormat.format(calendar.getTime());
+        System.out.println("list3: t: " + t);
 //        try {
 //            if (recorder != null) {
 //                recorder.reset();
@@ -789,6 +790,7 @@ public class MainActivity extends AppCompatActivity implements
                     if (file.exists())
                         file.delete();
                     System.out.println("list: file: " + t);
+                    System.out.println("list3: t upload: " + t);
                     mDatabase.child("face").child("temi1").child("patrol").child("py").setValue(false);
                 }
             }
@@ -1119,7 +1121,7 @@ public class MainActivity extends AppCompatActivity implements
         //String name = null;
         //float scaleX = (float) previewView.getWidth() / (float) inputImage.getHeight();
         //float scaleY = (float) previewView.getHeight() / (float) inputImage.getWidth();
-        if (faces.size() > 0) {
+        //if (faces.size() > 0) {
 
 //            // get first face detected
 //            Face face = faces.get(0);
@@ -1142,7 +1144,7 @@ public class MainActivity extends AppCompatActivity implements
                 y++;
                 uploadImage(bitmapImage);
             }
-        }
+        //}
     }
 
     public void uploadImage(Bitmap bitmap) {

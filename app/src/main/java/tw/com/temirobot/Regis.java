@@ -93,10 +93,10 @@ public class Regis extends AppCompatActivity {
     private ImageView btnhome;
     private ImageView btnadd;
     private ImageView bggreblank;
-    private EditText etid;
 
     private boolean flipX = false;
     private int x = 1;
+    private String input2 = "";
     private int y = 1;
 
     private static FirebaseStorage storage;
@@ -141,6 +141,7 @@ public class Regis extends AppCompatActivity {
                     //Toast.makeText(context, input.getText().toString(), Toast.LENGTH_SHORT).show();
                     mDatabase.child("face").child("temi1").child("regis").child("id").setValue(input.getText().toString().trim());
                     x = 2;
+                    input2 = input.getText().toString().trim();
                 });
                 builder.setNegativeButton("取消", (dialog, which) -> {
                     dialog.cancel();
@@ -298,7 +299,7 @@ public class Regis extends AppCompatActivity {
         // Create a storage reference from our app
         StorageReference storageRef = storage.getReference();
 
-        StorageReference checkinRef = storageRef.child("images").child("unknown").child("checkin.jpg");
+        StorageReference checkinRef = storageRef.child("images").child("known").child(input2+".jpg");
 
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
