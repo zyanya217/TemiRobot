@@ -228,9 +228,7 @@ public class EquipmenTeaching extends AppCompatActivity implements
             Robot sRobot = Robot.getInstance();
             TtsRequest ttsRequest = TtsRequest.create("點擊右上角登出",false);
             sRobot.speak(ttsRequest);}
-        else if (x==18){
-            measurement_check();
-           }
+        else if (x==18){ measurement_check(); }
         else if (x==19){x=18;}
     }
 
@@ -260,7 +258,7 @@ public class EquipmenTeaching extends AppCompatActivity implements
                 // This method is called once with the initial value and again
                 // whenever data at this location is updated.
                 String value2 = dataSnapshot.getValue(String.class);
-                Log.d("TAG", "Value2 is: " + value2);
+                Log.d("TAG", "Value2 is: " +value2);
 
                 DatabaseReference BPCheck = database.getReference("/user/"+value2+"/measure/BP");
                 DatabaseReference BTCheck = database.getReference("/user/"+value2+"/measure/BT");
