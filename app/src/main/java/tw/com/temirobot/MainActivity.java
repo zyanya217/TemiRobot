@@ -271,7 +271,7 @@ public class MainActivity extends AppCompatActivity implements
     }
 
     public void btngame(View v) {
-        Intent it = new Intent(MainActivity.this, EquipmenTeaching.class);
+        Intent it = new Intent(MainActivity.this, Game.class);
         startActivity(it);
         finish();
     }
