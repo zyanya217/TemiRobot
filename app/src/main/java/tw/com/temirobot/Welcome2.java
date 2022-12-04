@@ -219,7 +219,9 @@ public class Welcome2 extends AppCompatActivity implements
                                 // whenever data at this location is updated.
                                 String value2 = dataSnapshot.getValue(String.class);
                                 Log.d("TAG", "Value2 is: " + value2);
-                                Speak = value2;
+                                Robot sRobot = Robot.getInstance();
+                                TtsRequest ttsRequest = TtsRequest.create(value2+"我帶你去找報到機器人請跟著我來",true);
+                                sRobot.speak(ttsRequest);
                             }
 
                             @Override
@@ -228,9 +230,6 @@ public class Welcome2 extends AppCompatActivity implements
                                 Log.w("TAG", "Failed to read value.", error.toException());
                             }
                         });
-                        //跟長者說這裡是koisk
-                        TtsRequest ttsRequest1 = TtsRequest.create("我帶你去找報到機器人請跟著我來",true);
-                        robot.speak(ttsRequest1);
 
                         robot.goTo("labin");
                         mDatabase.child("face").child("temi1").child("welcome").child("id").setValue("");
