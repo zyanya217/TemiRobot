@@ -49,6 +49,7 @@ public class Regis2 extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
+        System.out.println("list:3 y = " + y);
 //        DatabaseReference myRef1 = database.getReference("/face/temi1/regis/py");
 //        myRef1.addValueEventListener(new ValueEventListener() {
         if (y < 10) {

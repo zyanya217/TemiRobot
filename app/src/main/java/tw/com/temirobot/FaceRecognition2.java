@@ -55,6 +55,7 @@ public class FaceRecognition2 extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
+        System.out.println("list:3 y = " + y);
         if (y < 10){
             DatabaseReference myRef1 = database.getReference("/face/temi1/checkin/id");
             myRef1.addValueEventListener(new ValueEventListener() {
