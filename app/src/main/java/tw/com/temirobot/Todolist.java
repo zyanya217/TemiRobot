@@ -91,9 +91,6 @@ public class Todolist extends AppCompatActivity implements Robot.TtsListener {
                                 NameText.setText(value3);
                                 todolist.setText(value2);
 
-                                Robot sRobot1 = Robot.getInstance();
-                                TtsRequest ttsRequest1 = TtsRequest.create("請您先進教室休息喔",true);
-                                sRobot1.speak(ttsRequest1);
                             }
 
                             @Override
@@ -118,6 +115,11 @@ public class Todolist extends AppCompatActivity implements Robot.TtsListener {
             }
 
         });
+
+
+        Robot sRobot1 = Robot.getInstance();
+        TtsRequest ttsRequest1 = TtsRequest.create("請您先進教室休息喔",true);
+        sRobot1.speak(ttsRequest1);
     }
 
     public void btnhome(View v){
