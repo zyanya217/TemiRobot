@@ -97,7 +97,6 @@ public class Regis extends AppCompatActivity {
     private boolean flipX = false;
     private int x = 1;
     private String input2 = "";
-    private int y = 0;
 
     private static FirebaseStorage storage;
     private StorageReference mStorageRef;
@@ -156,6 +155,11 @@ public class Regis extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
+        mDatabase.child("face").child("temi1").child("regis").child("and").setValue(false);
+        mDatabase.child("face").child("temi1").child("regis").child("py").setValue(true);
+        mDatabase.child("face").child("temi1").child("patrol").child("py").setValue(false);
+        mDatabase.child("face").child("temi1").child("checkin").child("py").setValue(false);
+        mDatabase.child("face").child("temi1").child("welcome").child("py").setValue(false);
     }
 
     @Override
@@ -315,10 +319,6 @@ public class Regis extends AppCompatActivity {
                 double progress = (100.0 * taskSnapshot.getBytesTransferred()) / taskSnapshot.getTotalByteCount();
                 Log.d(TAG_f, "list: Upload is " + progress + "% done");
                 if (progress >= 100) {
-                    mDatabase.child("face").child("temi1").child("regis").child("py").setValue(true);
-                    mDatabase.child("face").child("temi1").child("patrol").child("py").setValue(false);
-                    mDatabase.child("face").child("temi1").child("checkin").child("py").setValue(false);
-                    mDatabase.child("face").child("temi1").child("welcome").child("py").setValue(false);
                     Intent it = new Intent(Regis.this, Regis2.class);
                     startActivity(it);
                     finish();

@@ -126,8 +126,11 @@ public class FaceRecognition extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
         mDatabase.child("face").child("temi1").child("checkin").child("id").setValue("");
-        mDatabase.child("face").child("temi1").child("checkin").child("py").setValue(true);
         mDatabase.child("face").child("temi1").child("checkin").child("and").setValue(false);
+        mDatabase.child("face").child("temi1").child("checkin").child("py").setValue(true);
+        mDatabase.child("face").child("temi1").child("regis").child("py").setValue(false);
+        mDatabase.child("face").child("temi1").child("patrol").child("py").setValue(false);
+        mDatabase.child("face").child("temi1").child("welcome").child("py").setValue(false);
     }
 
     @Override
