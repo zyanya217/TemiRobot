@@ -20,6 +20,7 @@ public class Regis2 extends AppCompatActivity {
     private FirebaseDatabase database = FirebaseDatabase.getInstance();
     private int y = 0;
     private TextView txtRegis;
+    private TextView txtFault;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,8 +30,10 @@ public class Regis2 extends AppCompatActivity {
         System.out.println("list:3 Regis2");
 
         txtRegis = findViewById(R.id.txtRegis);
-
+        txtFault = findViewById(R.id.txtFault);
         mDatabase = FirebaseDatabase.getInstance().getReference();
+
+        txtFault.setText("辨識中...請稍等");
     }
 
     @Override
@@ -65,14 +68,15 @@ public class Regis2 extends AppCompatActivity {
                     String value1 = dataSnapshot.getValue(String.class);
                     Log.d("TAG", "Value1 is: " + value1);
                     if (value1.trim() == "Success") {
+                        txtFault.setVisibility(View.INVISIBLE);
+                        txtRegis.setVisibility(View.VISIBLE);
                         txtRegis.setText("恭喜註冊成功!");
                         mDatabase.child("face").child("temi1").child("regis").child("and").setValue(false);
                     } else if (value1.trim() == "Failed") {
+                        txtFault.setVisibility(View.INVISIBLE);
+                        txtRegis.setVisibility(View.VISIBLE);
                         txtRegis.setText("辨識失敗，請再試一次");
                         mDatabase.child("face").child("temi1").child("regis").child("and").setValue(false);
-                    } else {
-                        txtRegis.setText("辨識中...請稍等");
-                        txtRegis.setVisibility(View.VISIBLE);
                     }
                 }
 
