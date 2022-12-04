@@ -444,7 +444,7 @@ public class MainActivity extends AppCompatActivity implements
         switch (status) {
             case OnGoToLocationStatusChangedListener.START:
                 try {
-                    robot.tiltAngle(55);
+                    robot.tiltAngle(0);
                     robot.setGoToSpeed(SpeedLevel.SLOW);
 //                    startrec();
                     System.out.println("list: OnGoToLocationStatusChangedListener_START");
@@ -454,7 +454,7 @@ public class MainActivity extends AppCompatActivity implements
                 break;
             case OnGoToLocationStatusChangedListener.GOING:
                 try {
-                    robot.tiltAngle(55);
+                    robot.tiltAngle(0);
                     robot.setGoToSpeed(SpeedLevel.SLOW);
                     System.out.println("list: OnGoToLocationStatusChangedListener_GOING");
                 } catch (Exception e) {
@@ -462,7 +462,7 @@ public class MainActivity extends AppCompatActivity implements
                 }
                 break;
             case OnGoToLocationStatusChangedListener.CALCULATING:
-                robot.tiltAngle(55);
+                robot.tiltAngle(0);
                 System.out.println("list: OnGoToLocationStatusChangedListener_CALCULATING");
                 //計算
                 break;
