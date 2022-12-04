@@ -12,6 +12,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -31,6 +32,7 @@ public class FaceRecognition2 extends AppCompatActivity {
     private DatabaseReference mDatabase;
     private FirebaseDatabase database = FirebaseDatabase.getInstance();
     private int y = 0;
+    private TextView txtdetect;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,6 +42,9 @@ public class FaceRecognition2 extends AppCompatActivity {
         System.out.println("list:3 FaceRecognition2");
 
         mDatabase = FirebaseDatabase.getInstance().getReference();
+
+        txtdetect = findViewById(R.id.detection_text);
+        txtdetect.setText("臉部辨識中，請等候三秒");
     }
 
     @Override
@@ -64,7 +69,7 @@ public class FaceRecognition2 extends AppCompatActivity {
                     // This method is called once with the initial value and again
                     // whenever data at this location is updated.
                     String value1 = dataSnapshot.getValue(String.class);
-                    if (value1.trim() == "Unknown") {
+                    if (value1.trim().equals("Unknown")) {
                         y = 10;
                         //查無此人
                         mDatabase.child("face").child("temi1").child("checkin").child("py").setValue(false);
@@ -86,7 +91,7 @@ public class FaceRecognition2 extends AppCompatActivity {
                         });
                         builder.show();
                     }
-                    else if (value1.trim() == "Failed"){
+                    else if (value1.trim().equals("Failed")){
                         y = 10;
                         //辨識失敗
                         Intent it = new Intent(FaceRecognition2.this,FaceRecognition.class);
