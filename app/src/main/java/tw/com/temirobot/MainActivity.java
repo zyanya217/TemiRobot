@@ -666,7 +666,7 @@ public class MainActivity extends AppCompatActivity implements
 //        return lastDbCount;
 //    }
     public void startrec(String audioname) {
-        System.out.println("list:3 t: " + audioname);
+        System.out.println("list:3 startrec t: " + audioname);
 //        try {
 //            if (recorder != null) {
 //                recorder.reset();
@@ -724,14 +724,14 @@ public class MainActivity extends AppCompatActivity implements
 
     public void stoprec() {
         try {
-            System.out.println("list:3 錄音2: " + recorder);
+            System.out.println("list:3 stoprec 錄音2: " + recorder);
             recorder.stop();
             recorder.release();
             recorder = null;
             uploadAudio(audioname);
         } catch (RuntimeException e) {
             Log.e(TAG, e.toString());
-            System.out.println("list:3 錄音3: " + recorder);
+            System.out.println("list:3 stoprec 錄音3: " + recorder);
 //            recorder.reset();
 //            recorder.release();
             recorder = null;
@@ -739,7 +739,7 @@ public class MainActivity extends AppCompatActivity implements
             File file3 = new File(getExternalFilesDir(""), audioname + ".mp4");
             if (file3.exists())
                 file3.delete();
-            System.out.println("list:3 file3: " + audioname);
+            System.out.println("list:3 stoprec file3 delete: " + audioname);
         }
     }
 
@@ -780,7 +780,7 @@ public class MainActivity extends AppCompatActivity implements
                     File file = new File(getExternalFilesDir(""), audioname2 + ".mp4");
                     if (file.exists())
                         file.delete();
-                    System.out.println("list:3 t upload: " + audioname2);
+                    System.out.println("list:3 t uploadAudio: " + audioname2);
                     mDatabase.child("face").child("temi1").child("patrol").child("py").setValue(false);
                 }
             }
