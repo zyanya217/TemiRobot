@@ -449,7 +449,7 @@ public class FaceRecognition extends AppCompatActivity {
                     boundingBox);
 //            System.out.println("list:2 onSuccessListener4: " + inputImage.getMediaImage());
 //            System.out.println("list:2 bitmap4: " + bitmap);
-            if (y == 1) {
+            if (y == 2) {
                 uploadImage(bitmapImage);
             }
             y++;
