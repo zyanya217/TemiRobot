@@ -185,6 +185,7 @@ public class Welcome2 extends AppCompatActivity implements
                         //查無此人
                         mDatabase.child("face").child("temi1").child("welcome").child("py").setValue(false);
                         mDatabase.child("face").child("temi1").child("welcome").child("and").setValue(true);
+                        mDatabase.child("face").child("temi1").child("welcome").child("id").setValue("");
                         Intent it = new Intent(Welcome2.this, Welcome.class);
                         startActivity(it);
                         finish();
@@ -198,6 +199,7 @@ public class Welcome2 extends AppCompatActivity implements
                         //查無此人
                         mDatabase.child("face").child("temi1").child("welcome").child("py").setValue(false);
                         mDatabase.child("face").child("temi1").child("welcome").child("and").setValue(true);
+                        mDatabase.child("face").child("temi1").child("welcome").child("id").setValue("");
                         Intent it = new Intent(Welcome2.this, Welcome.class);
                         startActivity(it);
                         finish();
@@ -231,6 +233,7 @@ public class Welcome2 extends AppCompatActivity implements
                         robot.speak(ttsRequest1);
 
                         robot.goTo("labin");
+                        mDatabase.child("face").child("temi1").child("welcome").child("id").setValue("");
                     }
                     System.out.println("list: value1 = " + value1);
                     Log.d("TAG", "Value1 is: " + value1);
