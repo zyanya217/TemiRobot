@@ -116,7 +116,7 @@ public class MainActivity extends AppCompatActivity implements
 
     private Calendar calendar = Calendar.getInstance();
     private SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd-hh-mm-ss");
-    private String t = "";
+    private String audioname = "";
     //語音操作對象
     private MediaRecorder recorder;
 
@@ -196,10 +196,10 @@ public class MainActivity extends AppCompatActivity implements
         robot.addOnGoToLocationStatusChangedListener(this);
         robot.addOnRobotReadyListener(this);
 
-
+        audioname = dateFormat.format(calendar.getTime());
 //        timerval = 1;
 //        robot.goTo(place);
-        startrec();
+        startrec(audioname);
         stoprec();
 //        startCamera();
 //        mDatabase.child("face").child("temi1").child("patrol").child("py").setValue(true);
@@ -328,7 +328,8 @@ public class MainActivity extends AppCompatActivity implements
                 mDatabase.child("face").child("temi1").child("welcome").child("py").setValue(false);
 //                bgwhite.setVisibility(View.VISIBLE);
 //                gifImageView.setVisibility(View.VISIBLE);
-                startrec();
+                audioname = dateFormat.format(calendar.getTime());
+                startrec(audioname);
                 robot.goTo(place2);
             }
         };
@@ -664,9 +665,8 @@ public class MainActivity extends AppCompatActivity implements
 //        lastDbCount = dbCount;
 //        return lastDbCount;
 //    }
-    public void startrec() {
-        t = dateFormat.format(calendar.getTime());
-        System.out.println("list3: t: " + t);
+    public void startrec(String audioname) {
+        System.out.println("list:3 t: " + audioname);
 //        try {
 //            if (recorder != null) {
 //                recorder.reset();
@@ -694,9 +694,9 @@ public class MainActivity extends AppCompatActivity implements
         /* ①Initial：实例化MediaRecorder对象 */
         if (recorder == null) {
             recorder = new MediaRecorder();
-            System.out.println("list: 開始錄音: " + recorder);
+            System.out.println("list:3 開始錄音: " + recorder);
         } else {
-            System.out.println("list: 開始錄音(nonnull): " + recorder);
+            System.out.println("list:3 開始錄音(nonnull): " + recorder);
         }
         try {
             /* ②setAudioSource/setVedioSource */
@@ -711,7 +711,7 @@ public class MainActivity extends AppCompatActivity implements
 //            recorder.setAudioEncoder(MediaRecorder.AudioEncoder.AAC);
             recorder.setAudioEncoder(type1.audioEncoder);
             /* ③准备 */
-            recorder.setOutputFile(new File(getExternalFilesDir(""), t + ".mp4").getAbsolutePath());
+            recorder.setOutputFile(new File(getExternalFilesDir(""), audioname + ".mp4").getAbsolutePath());
             recorder.prepare();
             /* ④开始 */
             recorder.start();
@@ -724,35 +724,35 @@ public class MainActivity extends AppCompatActivity implements
 
     public void stoprec() {
         try {
-            System.out.println("list: 錄音2: " + recorder);
+            System.out.println("list:3 錄音2: " + recorder);
             recorder.stop();
             recorder.release();
             recorder = null;
-            uploadAudio();
+            uploadAudio(audioname);
         } catch (RuntimeException e) {
             Log.e(TAG, e.toString());
-            System.out.println("list: 錄音3: " + recorder);
+            System.out.println("list:3 錄音3: " + recorder);
 //            recorder.reset();
 //            recorder.release();
             recorder = null;
 
-            File file3 = new File(getExternalFilesDir(""), t + ".mp4");
+            File file3 = new File(getExternalFilesDir(""), audioname + ".mp4");
             if (file3.exists())
                 file3.delete();
-            System.out.println("list: file3: " + t);
+            System.out.println("list:3 file3: " + audioname);
         }
     }
 
 
-    public void uploadAudio() {
+    public void uploadAudio(String audioname2) {
         // Create a storage reference from our app
         StorageReference storageRef = storage.getReference();
 
         // Create a reference to "record_a.mp4"
-        StorageReference recordRef = storageRef.child(t + ".mp4");
+        StorageReference recordRef = storageRef.child(audioname2 + ".mp4");
 
         // Create a reference to 'audios/record_a.mp4'
-        StorageReference recordAudiosRef = storageRef.child("audios/" + t + ".mp4");
+        StorageReference recordAudiosRef = storageRef.child("audios/" + audioname2 + ".mp4");
 
         // While the file names are the same, the references point to different files
         recordRef.getName().equals(recordAudiosRef.getName());    // true
@@ -764,7 +764,7 @@ public class MainActivity extends AppCompatActivity implements
                 .build();
 
 //        Uri file = Uri.fromFile(new File("path/to/record_a.mp4"));
-        Uri file = Uri.fromFile(new File(getExternalFilesDir(""), t + ".mp4"));
+        Uri file = Uri.fromFile(new File(getExternalFilesDir(""), audioname2 + ".mp4"));
         recordRef = storageRef.child("audios/" + file.getLastPathSegment());
         // Upload the file and metadata
         //UploadTask uploadTask = storageRef.child("audios/record_a.mpeg").putFile(file, metadata);
@@ -775,13 +775,12 @@ public class MainActivity extends AppCompatActivity implements
             @Override
             public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
                 double progress = (100.0 * taskSnapshot.getBytesTransferred()) / taskSnapshot.getTotalByteCount();
-                Log.d(TAG_f, "list: UploadAudio is " + progress + "% done");
+                Log.d(TAG_f, "list:3 UploadAudio is " + progress + "% done");
                 if (progress >= 100.0) {
-                    File file = new File(getExternalFilesDir(""), t + ".mp4");
+                    File file = new File(getExternalFilesDir(""), audioname2 + ".mp4");
                     if (file.exists())
                         file.delete();
-                    System.out.println("list: file: " + t);
-                    System.out.println("list3: t upload: " + t);
+                    System.out.println("list:3 t upload: " + audioname2);
                     mDatabase.child("face").child("temi1").child("patrol").child("py").setValue(false);
                 }
             }
@@ -1186,7 +1185,7 @@ public class MainActivity extends AppCompatActivity implements
         // Create a storage reference from our app
         StorageReference storageRef = storage.getReference();
 
-        StorageReference checkinRef = storageRef.child("images").child("patrol").child(t + ".jpg");
+        StorageReference checkinRef = storageRef.child("images").child("patrol").child(audioname + ".jpg");
 
 //        UploadTask uploadTask = checkinRef.putFile(file);
 
