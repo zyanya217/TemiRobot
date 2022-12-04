@@ -505,7 +505,7 @@ public class MainActivity extends AppCompatActivity implements
      * 錄音權限申請
      */
     private void checkPermission() {
-        System.out.println("list3: checkPermission");
+        System.out.println("list:3 checkPermission");
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             String[] permissions = new String[]{Manifest.permission.RECORD_AUDIO, Manifest.permission.WRITE_EXTERNAL_STORAGE};
             for (String permission : permissions) {
@@ -551,6 +551,7 @@ public class MainActivity extends AppCompatActivity implements
             checkPermission();
         }
     }
+
 
     /**
      * 枚舉了兩種常用的類型
