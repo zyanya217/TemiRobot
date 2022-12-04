@@ -734,14 +734,14 @@ public class MainActivity extends AppCompatActivity implements
         } catch (RuntimeException e) {
             Log.e(TAG, e.toString());
             System.out.println("list:3 stoprec 錄音3: " + recorder);
+            uploadAudio(audioname);
 //            recorder.reset();
 //            recorder.release();
             recorder = null;
-
-            File file3 = new File(getExternalFilesDir(""), audioname + ".mp4");
-            if (file3.exists())
-                file3.delete();
-            System.out.println("list:3 stoprec file3 delete: " + audioname);
+//            File file3 = new File(getExternalFilesDir(""), audioname + ".mp4");
+//            if (file3.exists())
+//                file3.delete();
+//            System.out.println("list:3 stoprec file3 delete: " + audioname);
         }
     }
 
