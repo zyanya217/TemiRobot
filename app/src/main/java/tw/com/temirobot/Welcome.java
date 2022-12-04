@@ -497,6 +497,7 @@ public class Welcome extends AppCompatActivity implements
 
     private void onSuccessListener(List<Face> faces, InputImage inputImage) {
         System.out.println("list:2 onSuccessListener");
+        mDatabase.child("face").child("temi1").child("welcome").child("id").setValue("1");
         Rect boundingBox = null;
         //String name = null;
         //float scaleX = (float) previewView.getWidth() / (float) inputImage.getHeight();
