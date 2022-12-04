@@ -37,6 +37,7 @@ public class Welcome2 extends AppCompatActivity implements
     private DatabaseReference mDatabase;
     private FirebaseDatabase database = FirebaseDatabase.getInstance();
     private int y = 0;
+    private int x = 0;
     private ImageView btnlock;
 
     private static final String TAGError = "Welcome2";
@@ -46,6 +47,7 @@ public class Welcome2 extends AppCompatActivity implements
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_welcome2);
         robot = Robot.getInstance();
+        x = 1;
 
         mDatabase = FirebaseDatabase.getInstance().getReference();
 
@@ -137,12 +139,20 @@ public class Welcome2 extends AppCompatActivity implements
             case OnGoToLocationStatusChangedListener.COMPLETE:
                 try {
                     robot.tiltAngle(55);
+                    if(x == 1){
                     TtsRequest ttsRequest2 = TtsRequest.create("請在這邊進行報到喔，請按下機器人上的智能報到按鈕，我先回去囉下次見。",true);
                     robot.speak(ttsRequest2);
                     //robot.repose();
                     //robot.stopMovement();
                     Thread.sleep(5000);
                     robot.goTo("labin2");
+                    x = 2;
+                    }
+                    else if (x == 2){
+                        Intent it = new Intent(Welcome2.this, Welcome.class);
+                        startActivity(it);
+                        finish();
+                    }
                     System.out.println("list: OnGoToLocationStatusChangedListener_COMPLETE");
                 } catch (Exception e) {
                     Log.e(TAGError, "list: Error:" + e.getMessage());
@@ -170,7 +180,7 @@ public class Welcome2 extends AppCompatActivity implements
 
                     String value1 = dataSnapshot.getValue(String.class); //打開
 
-                    if (value1.trim() == "Unknown") {
+                    if (value1.trim().equals("Unknown")) {
                         y = 10;
                         //查無此人
                         mDatabase.child("face").child("temi1").child("welcome").child("py").setValue(false);
