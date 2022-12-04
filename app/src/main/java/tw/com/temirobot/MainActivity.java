@@ -196,11 +196,11 @@ public class MainActivity extends AppCompatActivity implements
         robot.addOnGoToLocationStatusChangedListener(this);
         robot.addOnRobotReadyListener(this);
 
-        audioname = dateFormat.format(calendar.getTime());
+//        audioname = dateFormat.format(calendar.getTime());
 //        timerval = 1;
 //        robot.goTo(place);
-        startrec(audioname);
-        stoprec();
+//        startrec(audioname);
+//        stoprec();
 //        startCamera();
 //        mDatabase.child("face").child("temi1").child("patrol").child("py").setValue(true);
 //        mDatabase.child("face").child("temi1").child("checkin").child("py").setValue(false);
