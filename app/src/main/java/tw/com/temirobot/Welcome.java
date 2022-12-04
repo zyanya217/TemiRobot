@@ -137,7 +137,7 @@ public class Welcome extends AppCompatActivity implements
 
         mDatabase.child("face").child("temi1").child("welcome").child("py").setValue(true);
         mDatabase.child("face").child("temi1").child("welcome").child("and").setValue(false);
-        mDatabase.child("face").child("temi1").child("welcome").child("id").setValue("");
+        mDatabase.child("face").child("temi1").child("welcome").child("id").setValue("1");
 
         previewView = findViewById(R.id.previewView);
         previewView.setScaleType(PreviewView.ScaleType.FIT_CENTER);
