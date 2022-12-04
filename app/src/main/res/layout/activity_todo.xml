@@ -8,11 +8,25 @@
     tools:context=".Todo">
 
     <TextView
+        android:id="@+id/txtFace"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="40dp"
+        android:layout_marginBottom="490dp"
+        android:ems="2"
+        android:gravity="center"
+        android:text="智能報到"
+        android:textColor="#381502"
+        android:textSize="70sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
         android:id="@+id/detection_text"
         android:layout_width="450dp"
-        android:layout_height="100dp"
+        android:layout_height="200dp"
         android:layout_marginHorizontal="20dp"
-        android:layout_marginTop="420dp"
+        android:layout_marginTop="300dp"
         android:layout_marginEnd="420dp"
         android:textAlignment="center"
         android:textColor="#381502"
