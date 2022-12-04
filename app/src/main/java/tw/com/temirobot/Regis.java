@@ -149,7 +149,6 @@ public class Regis extends AppCompatActivity {
                 builder.setPositiveButton("確認", (dialog, which) -> {
                     //Toast.makeText(context, input.getText().toString(), Toast.LENGTH_SHORT).show();
                     mDatabase.child("face").child("temi1").child("regis").child("id").setValue(input.getText().toString().trim());
-                    mDatabase.child("user").child(input.getText().toString().trim()).child("id").setValue(input.getText().toString().trim());
                     System.out.println("list:3 addface id: " + input.getText().toString().trim() + ", x1 = "+ x);
                     x = 2;
                     System.out.println("list:3 addface id: " + input.getText().toString().trim() + ", x2 = "+ x);
