@@ -308,6 +308,7 @@ public class Regis extends AppCompatActivity {
 
     public void uploadImage(Bitmap bitmap) {
         mDatabase.child("face").child("temi1").child("regis").child("and").setValue(false);
+        mDatabase.child("face").child("temi1").child("regis").child("py").setValue(true);
         // Create a storage reference from our app
         StorageReference storageRef = storage.getReference();
         System.out.println("list:3 upload input2: " + input2 + ", x3 = "+ x);
