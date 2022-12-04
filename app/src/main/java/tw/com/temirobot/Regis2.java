@@ -82,12 +82,10 @@ public class Regis2 extends AppCompatActivity {
                                     txtFault.setVisibility(View.INVISIBLE);
                                     txtRegis.setVisibility(View.VISIBLE);
                                     txtRegis.setText("恭喜註冊成功!");
-                                    mDatabase.child("face").child("temi1").child("regis").child("and").setValue(false);
                                 } else if (value2 == false) {
                                     txtFault.setVisibility(View.INVISIBLE);
                                     txtRegis.setVisibility(View.VISIBLE);
-                                    txtRegis.setText("辨識失敗，請再試一次");
-                                    mDatabase.child("face").child("temi1").child("regis").child("and").setValue(false);
+//                                    txtRegis.setText("辨識失敗，請再試一次");
                                 }
                             }
 
