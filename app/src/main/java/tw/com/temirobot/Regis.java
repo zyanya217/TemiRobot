@@ -322,9 +322,9 @@ public class Regis extends AppCompatActivity {
         uploadTask.addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
             @Override
             public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
-                double progress = (100.0 * taskSnapshot.getBytesTransferred()) / taskSnapshot.getTotalByteCount();
-                Log.d(TAG_f, "list: Upload is " + progress + "% done");
-                if (progress >= 100.0) {
+                double progress2 = (100.0 * taskSnapshot.getBytesTransferred()) / taskSnapshot.getTotalByteCount();
+                Log.d(TAG_f, "list: Upload is " + progress2 + "% done");
+                if (progress2 >= 100.0) {
                     x = 1;
                     Intent it = new Intent(Regis.this, Regis2.class);
                     startActivity(it);
