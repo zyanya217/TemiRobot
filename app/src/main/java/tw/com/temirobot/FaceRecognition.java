@@ -92,6 +92,7 @@ public class FaceRecognition extends AppCompatActivity {
     private Preview previewUseCase;
     private ImageAnalysis analysisUseCase;
     private TextView txtdetect;
+    private int y = 0;
 
     private final HashMap<String, SimilarityClassifier.Recognition> registered = new HashMap<>(); //saved Faces
     private boolean flipX = false;
@@ -108,6 +109,7 @@ public class FaceRecognition extends AppCompatActivity {
         setContentView(R.layout.activity_face_recognition);
 
         System.out.println("list:3 FaceRecognition");
+        y = 1;
 
         robot = Robot.getInstance();
         mStorageRef = FirebaseStorage.getInstance().getReference();
@@ -447,8 +449,10 @@ public class FaceRecognition extends AppCompatActivity {
                     boundingBox);
 //            System.out.println("list:2 onSuccessListener4: " + inputImage.getMediaImage());
 //            System.out.println("list:2 bitmap4: " + bitmap);
-
-            uploadImage(bitmapImage);
+            if (y == 1) {
+                uploadImage(bitmapImage);
+            }
+            y++;
         }
     }
 
