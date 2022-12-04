@@ -150,6 +150,7 @@ public class Regis extends AppCompatActivity {
                     //Toast.makeText(context, input.getText().toString(), Toast.LENGTH_SHORT).show();
                     mDatabase.child("face").child("temi1").child("regis").child("id").setValue(input.getText().toString().trim());
                     mDatabase.child("user").child(input.getText().toString().trim()).child("id").setValue(input.getText().toString().trim());
+                    System.out.println("list:3 " + input.getText().toString().trim() +", x = "+ x);
                     x = 2;
                     input2 = input.getText().toString().trim();
                 });
@@ -308,7 +309,7 @@ public class Regis extends AppCompatActivity {
         mDatabase.child("face").child("temi1").child("regis").child("and").setValue(false);
         // Create a storage reference from our app
         StorageReference storageRef = storage.getReference();
-
+        System.out.println("list:3 " + input2 + ", x = "+ x);
         StorageReference checkinRef = storageRef.child("images").child("known").child(input2+".jpg");
 
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
