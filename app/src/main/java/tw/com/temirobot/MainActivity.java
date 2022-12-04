@@ -726,14 +726,14 @@ public class MainActivity extends AppCompatActivity implements
 
     public void stoprec() {
         try {
-            System.out.println("list:3 stoprec 錄音2: " + recorder);
+            System.out.println("list:3 stoprec 停止錄音2: " + recorder);
             recorder.stop();
             recorder.release();
             recorder = null;
             uploadAudio(audioname);
         } catch (RuntimeException e) {
             Log.e(TAG, e.toString());
-            System.out.println("list:3 stoprec 錄音3: " + recorder);
+            System.out.println("list:3 stoprec 停止錄音3: " + recorder);
             uploadAudio(audioname);
 //            recorder.reset();
 //            recorder.release();
@@ -776,9 +776,9 @@ public class MainActivity extends AppCompatActivity implements
         uploadTask.addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
             @Override
             public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
-                double progress = (100.0 * taskSnapshot.getBytesTransferred()) / taskSnapshot.getTotalByteCount();
-                Log.d(TAG_f, "list:3 UploadAudio is " + progress + "% done");
-                if (progress >= 100.0) {
+                double progress3 = (100.0 * taskSnapshot.getBytesTransferred()) / taskSnapshot.getTotalByteCount();
+                Log.d(TAG_f, "list:3 UploadAudio is " + progress3 + "% done");
+                if (progress3 >= 100.0) {
                     File file = new File(getExternalFilesDir(""), audioname2 + ".mp4");
                     if (file.exists())
                         file.delete();
