@@ -185,7 +185,7 @@ public class Welcome2 extends AppCompatActivity implements
                         //查無此人
                         mDatabase.child("face").child("temi1").child("welcome").child("py").setValue(false);
                         mDatabase.child("face").child("temi1").child("welcome").child("and").setValue(true);
-                        mDatabase.child("face").child("temi1").child("welcome").child("id").setValue("");
+                        mDatabase.child("face").child("temi1").child("welcome").child("id").setValue("1");
                         Intent it = new Intent(Welcome2.this, Welcome.class);
                         startActivity(it);
                         finish();
@@ -199,7 +199,7 @@ public class Welcome2 extends AppCompatActivity implements
                         //查無此人
                         mDatabase.child("face").child("temi1").child("welcome").child("py").setValue(false);
                         mDatabase.child("face").child("temi1").child("welcome").child("and").setValue(true);
-                        mDatabase.child("face").child("temi1").child("welcome").child("id").setValue("");
+                        mDatabase.child("face").child("temi1").child("welcome").child("id").setValue("1");
                         Intent it = new Intent(Welcome2.this, Welcome.class);
                         startActivity(it);
                         finish();
