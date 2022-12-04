@@ -173,6 +173,7 @@ public class MainActivity extends AppCompatActivity implements
         robot = Robot.getInstance();
 
         checkPermission();
+        y = 1;
 
         mStorageRef = FirebaseStorage.getInstance().getReference();
         mDatabase = FirebaseDatabase.getInstance().getReference();
