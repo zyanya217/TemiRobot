@@ -12,6 +12,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -31,6 +32,7 @@ public class FaceRecognition2 extends AppCompatActivity {
     private DatabaseReference mDatabase;
     private FirebaseDatabase database = FirebaseDatabase.getInstance();
     private int y = 0;
+    private TextView txtdetect;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,6 +42,9 @@ public class FaceRecognition2 extends AppCompatActivity {
         System.out.println("list:3 FaceRecognition2");
 
         mDatabase = FirebaseDatabase.getInstance().getReference();
+
+        txtdetect = findViewById(R.id.detection_text);
+        txtdetect.setText("臉部辨識中，請等候三秒");
     }
 
     @Override

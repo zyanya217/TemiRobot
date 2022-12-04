@@ -62,7 +62,7 @@ public class Todo extends AppCompatActivity {
     }
 
     public void btnyes(View v){
-        Intent it = new Intent(Todo.this,Todolist.class);
+        Intent it = new Intent(Todo.this,EquipmenTeaching.class);
         startActivity(it);
         finish();
     }
