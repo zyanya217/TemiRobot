@@ -193,6 +193,15 @@ public class Welcome2 extends AppCompatActivity implements
                         //尚未辨識完成
                         y++;
                     }
+                    else if (value1.trim().equals("Failed")) {
+                        y = 10;
+                        //查無此人
+                        mDatabase.child("face").child("temi1").child("welcome").child("py").setValue(false);
+                        mDatabase.child("face").child("temi1").child("welcome").child("and").setValue(true);
+                        Intent it = new Intent(Welcome2.this, Welcome.class);
+                        startActivity(it);
+                        finish();
+                    }
                     else{
                         y = 10;
                         //辨識到人
