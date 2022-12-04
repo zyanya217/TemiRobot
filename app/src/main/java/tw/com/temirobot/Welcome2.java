@@ -30,7 +30,6 @@ import org.jetbrains.annotations.NotNull;
 
 public class Welcome2 extends AppCompatActivity implements
         OnGoToLocationStatusChangedListener,
-        OnCurrentPositionChangedListener,
         OnRobotReadyListener {
     private static Robot robot;
     private static String Speak = null;
@@ -84,7 +83,6 @@ public class Welcome2 extends AppCompatActivity implements
     @Override
     protected void onStart() {
         super.onStart();
-        robot.addOnCurrentPositionChangedListener(this);
         robot.addOnGoToLocationStatusChangedListener(this);
         robot.addOnRobotReadyListener(this);
     }
@@ -92,7 +90,6 @@ public class Welcome2 extends AppCompatActivity implements
     @Override
     public void onStop() {
         super.onStop();
-        robot.removeOnCurrentPositionChangedListener(this);
         robot.removeOnGoToLocationStatusChangedListener(this);
         robot.removeOnRobotReadyListener(this);
     }
@@ -107,11 +104,6 @@ public class Welcome2 extends AppCompatActivity implements
                 throw new RuntimeException(e);
             }
         }
-    }
-
-    @Override
-    public void onCurrentPositionChanged(Position position) {
-        System.out.println("list:onCurrentPosition Position: " + position.toString());
     }
 
     @Override
