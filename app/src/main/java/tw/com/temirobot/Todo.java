@@ -44,7 +44,7 @@ public class Todo extends AppCompatActivity {
                 // whenever data at this location is updated.
                 String name = dataSnapshot.getValue(String.class);
                 Log.d("TAG", "Value2 is: " + name);
-                detectionTextView.setText("請問是" + id + ", " + name + "嗎?");
+                detectionTextView.setText("請問是" + id + ", " + name + " 先生/女士嗎?");
             }
 
             @Override
