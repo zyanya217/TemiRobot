@@ -189,7 +189,7 @@ public class Welcome2 extends AppCompatActivity implements
                         startActivity(it);
                         finish();
                     }
-                    else if (value1.trim().length() == 0){
+                    else if (value1.trim().equals("null")){
                         //尚未辨識完成
                         y++;
                     }
