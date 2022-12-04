@@ -63,7 +63,7 @@ public class FaceRecognition2 extends AppCompatActivity {
                     // This method is called once with the initial value and again
                     // whenever data at this location is updated.
                     String value1 = dataSnapshot.getValue(String.class);
-                    if (value1 == "Unknown") {
+                    if (value1.trim() == "Unknown") {
                         y = 10;
                         //查無此人
                         mDatabase.child("face").child("temi1").child("checkin").child("py").setValue(false);
@@ -85,7 +85,7 @@ public class FaceRecognition2 extends AppCompatActivity {
                         });
                         builder.show();
                     }
-                    else if (value1 == "Failed"){
+                    else if (value1.trim() == "Failed"){
                         y = 10;
                         //辨識失敗
                         Intent it = new Intent(FaceRecognition2.this,FaceRecognition.class);
