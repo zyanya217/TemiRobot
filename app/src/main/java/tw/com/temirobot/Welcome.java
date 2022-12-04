@@ -135,6 +135,10 @@ public class Welcome extends AppCompatActivity implements
         storage = FirebaseStorage.getInstance();
         database = FirebaseDatabase.getInstance();
 
+        mDatabase.child("face").child("temi1").child("welcome").child("py").setValue(true);
+        mDatabase.child("face").child("temi1").child("welcome").child("and").setValue(false);
+        mDatabase.child("face").child("temi1").child("welcome").child("id").setValue("");
+
         previewView = findViewById(R.id.previewView);
         previewView.setScaleType(PreviewView.ScaleType.FIT_CENTER);
         graphicOverlay = findViewById(R.id.graphic_overlay);
@@ -177,9 +181,6 @@ public class Welcome extends AppCompatActivity implements
         robot.addOnCurrentPositionChangedListener(this);
         robot.addOnGoToLocationStatusChangedListener(this);
         robot.addOnRobotReadyListener(this);
-        mDatabase.child("face").child("temi1").child("welcome").child("py").setValue(true);
-        mDatabase.child("face").child("temi1").child("welcome").child("and").setValue(false);
-        mDatabase.child("face").child("temi1").child("welcome").child("id").setValue("");
     }
 
     @Override

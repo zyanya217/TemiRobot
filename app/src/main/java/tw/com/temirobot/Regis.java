@@ -123,6 +123,12 @@ public class Regis extends AppCompatActivity {
         mDatabase = FirebaseDatabase.getInstance().getReference();
         storage = FirebaseStorage.getInstance();
 
+        mDatabase.child("face").child("temi1").child("regis").child("and").setValue(false);
+        mDatabase.child("face").child("temi1").child("regis").child("py").setValue(true);
+        mDatabase.child("face").child("temi1").child("patrol").child("py").setValue(false);
+        mDatabase.child("face").child("temi1").child("checkin").child("py").setValue(false);
+        mDatabase.child("face").child("temi1").child("welcome").child("py").setValue(false);
+
         btnadd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -155,11 +161,6 @@ public class Regis extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        mDatabase.child("face").child("temi1").child("regis").child("and").setValue(false);
-        mDatabase.child("face").child("temi1").child("regis").child("py").setValue(true);
-        mDatabase.child("face").child("temi1").child("patrol").child("py").setValue(false);
-        mDatabase.child("face").child("temi1").child("checkin").child("py").setValue(false);
-        mDatabase.child("face").child("temi1").child("welcome").child("py").setValue(false);
     }
 
     @Override
