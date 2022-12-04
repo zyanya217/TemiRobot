@@ -59,8 +59,6 @@ public class Game extends AppCompatActivity implements
         setContentView(R.layout.activity_game);
 
         buildView();
-
-
     }
 
     private void buildView() {

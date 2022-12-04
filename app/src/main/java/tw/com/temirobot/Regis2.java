@@ -101,4 +101,10 @@ public class Regis2 extends AppCompatActivity {
         startActivity(it);
         finish();
     }
+
+    public void btnreply(View v) {
+        Intent it = new Intent(Regis2.this, Regis.class);
+        startActivity(it);
+        finish();
+    }
 }
