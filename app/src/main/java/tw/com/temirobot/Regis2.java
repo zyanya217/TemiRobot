@@ -26,6 +26,8 @@ public class Regis2 extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_regis2);
 
+        System.out.println("list:3 Regis2");
+
         txtRegis = findViewById(R.id.txtRegis);
 
         mDatabase = FirebaseDatabase.getInstance().getReference();

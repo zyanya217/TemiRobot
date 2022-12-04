@@ -37,6 +37,8 @@ public class FaceRecognition2 extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_face_recognition2);
 
+        System.out.println("list:3 FaceRecognition2");
+
         mDatabase = FirebaseDatabase.getInstance().getReference();
     }
 

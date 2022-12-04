@@ -97,7 +97,7 @@ public class Regis extends AppCompatActivity {
     private boolean flipX = false;
     private int x = 1;
     private String input2 = "";
-    private int y = 1;
+    private int y = 0;
 
     private static FirebaseStorage storage;
     private StorageReference mStorageRef;
@@ -109,8 +109,10 @@ public class Regis extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         setContentView(R.layout.activity_regis);
+
+        System.out.println("list:3 Regis");
+
         previewView = findViewById(R.id.previewView);
         previewView.setScaleType(PreviewView.ScaleType.FIT_CENTER);
         graphicOverlay = findViewById(R.id.graphic_overlay);

@@ -106,6 +106,9 @@ public class FaceRecognition extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_face_recognition);
+
+        System.out.println("list:3 FaceRecognition");
+
         robot = Robot.getInstance();
         mStorageRef = FirebaseStorage.getInstance().getReference();
         mDatabase = FirebaseDatabase.getInstance().getReference();
