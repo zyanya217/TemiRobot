@@ -119,6 +119,8 @@ public class Regis extends AppCompatActivity {
         bggreblank = findViewById(R.id.bggreblank);
         btnadd = findViewById(R.id.btnadd);
 
+        x = 1;
+
         mStorageRef = FirebaseStorage.getInstance().getReference();
         mDatabase = FirebaseDatabase.getInstance().getReference();
         storage = FirebaseStorage.getInstance();
@@ -320,7 +322,8 @@ public class Regis extends AppCompatActivity {
             public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
                 double progress = (100.0 * taskSnapshot.getBytesTransferred()) / taskSnapshot.getTotalByteCount();
                 Log.d(TAG_f, "list: Upload is " + progress + "% done");
-                if (progress >= 100) {
+                if (progress >= 100.0) {
+                    x = 1;
                     Intent it = new Intent(Regis.this, Regis2.class);
                     startActivity(it);
                     finish();
