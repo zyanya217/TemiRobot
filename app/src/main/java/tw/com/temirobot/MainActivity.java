@@ -130,7 +130,7 @@ public class MainActivity extends AppCompatActivity implements
     private static float value = 0;   // 聲音分貝值
 
     private int timerval = 0;
-    private int y = 0;
+    private int y = 1;
     private TimerTask task = null;
     private Timer timer = null;
     private static final long PERIOD_DAY = 24 * 60 * 60 * 1000;
@@ -471,7 +471,7 @@ public class MainActivity extends AppCompatActivity implements
                     robot.tiltAngle(55);
                     //robot.repose();
                     //robot.stopMovement();
-                    y = 0;
+                    y = 1;
                     stoprec();
                     Thread.sleep(2000);
 //                    mDatabase.child("face").child("temi1").child("patrol").child("py").setValue(false);
@@ -1138,7 +1138,7 @@ public class MainActivity extends AppCompatActivity implements
     }
 
     public void uploadImage(Bitmap bitmap) {
-        Log.d(TAG_f, "list: uploadImage1");
+        Log.d(TAG_f, "list:3 uploadImage1");
         // Create a storage reference from our app
         StorageReference storageRef = storage.getReference();
 
@@ -1156,12 +1156,12 @@ public class MainActivity extends AppCompatActivity implements
             @Override
             public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
                 double progress = (100.0 * taskSnapshot.getBytesTransferred()) / taskSnapshot.getTotalByteCount();
-                Log.d(TAG_f, "list: Upload1 is " + progress + "% done");
+                Log.d(TAG_f, "list:3 Upload1 is " + progress + "% done");
             }
         }).addOnPausedListener(new OnPausedListener<UploadTask.TaskSnapshot>() {
             @Override
             public void onPaused(UploadTask.TaskSnapshot taskSnapshot) {
-                Log.d(TAG_f, "list: Upload1 is paused");
+                Log.d(TAG_f, "list:3 Upload1 is paused");
             }
         });
 
@@ -1181,7 +1181,7 @@ public class MainActivity extends AppCompatActivity implements
 
 
     public void uploadImage2(Bitmap bitmap) {
-        Log.d(TAG_f, "list: uploadImage2");
+        Log.d(TAG_f, "list:3 uploadImage2");
         // Create a storage reference from our app
         StorageReference storageRef = storage.getReference();
 
@@ -1199,12 +1199,12 @@ public class MainActivity extends AppCompatActivity implements
             @Override
             public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
                 double progress = (100.0 * taskSnapshot.getBytesTransferred()) / taskSnapshot.getTotalByteCount();
-                Log.d(TAG_f, "list: Upload2 is " + progress + "% done");
+                Log.d(TAG_f, "list:3 Upload2 is " + progress + "% done");
             }
         }).addOnPausedListener(new OnPausedListener<UploadTask.TaskSnapshot>() {
             @Override
             public void onPaused(UploadTask.TaskSnapshot taskSnapshot) {
-                Log.d(TAG_f, "list: Upload2 is paused");
+                Log.d(TAG_f, "list:3 Upload2 is paused");
             }
         });
 
