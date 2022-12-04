@@ -128,6 +128,7 @@ public class Welcome extends AppCompatActivity implements
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_welcome);
         robot = Robot.getInstance();
+        x = 0;
 
         mStorageRef = FirebaseStorage.getInstance().getReference();
         mDatabase = FirebaseDatabase.getInstance().getReference();
@@ -515,8 +516,10 @@ public class Welcome extends AppCompatActivity implements
                     boundingBox);
 //            System.out.println("list:2 onSuccessListener4: " + inputImage.getMediaImage());
 //            System.out.println("list:2 bitmap4: " + bitmap);
-
+            if (x == 1){
             uploadImage(bitmapImage);
+            }
+            x++;
 
 //            do {
 //                DatabaseReference myRef1 = database.getReference("/face/temi1/welcome/id");
