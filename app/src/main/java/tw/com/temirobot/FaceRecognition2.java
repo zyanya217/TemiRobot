@@ -44,7 +44,7 @@ public class FaceRecognition2 extends AppCompatActivity {
         mDatabase = FirebaseDatabase.getInstance().getReference();
 
         txtdetect = findViewById(R.id.detection_text);
-        txtdetect.setText("臉部辨識中，請等候三秒");
+//        txtdetect.setText("臉部辨識中，請等候三秒");
     }
 
     @Override

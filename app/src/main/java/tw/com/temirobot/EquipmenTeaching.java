@@ -271,7 +271,7 @@ public class EquipmenTeaching extends AppCompatActivity implements
                         // whenever data at this location is updated.
                         String BP = dataSnapshot.getValue().toString();
                         Log.d("TAG", "BP is: " + BP);
-                        if (BP !=null){
+                        if (BP !=null ){
 //                            BP.trim().length() > 0
                             BTCheck.addValueEventListener(new ValueEventListener() {
                                 @Override
