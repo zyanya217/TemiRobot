@@ -45,6 +45,7 @@ public class Welcome2 extends AppCompatActivity implements
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_welcome2);
+        robot = Robot.getInstance();
 
         mDatabase = FirebaseDatabase.getInstance().getReference();
 
@@ -136,9 +137,8 @@ public class Welcome2 extends AppCompatActivity implements
             case OnGoToLocationStatusChangedListener.COMPLETE:
                 try {
                     robot.tiltAngle(55);
-                    Robot sRobot2 = Robot.getInstance();
                     TtsRequest ttsRequest2 = TtsRequest.create("請在這邊進行報到喔，請按下機器人上的智能報到按鈕，我先回去囉下次見。",true);
-                    sRobot2.speak(ttsRequest2);
+                    robot.speak(ttsRequest2);
                     //robot.repose();
                     //robot.stopMovement();
                     Thread.sleep(5000);
@@ -208,9 +208,8 @@ public class Welcome2 extends AppCompatActivity implements
                             }
                         });
                         //跟長者說這裡是koisk
-                        Robot sRobot1 = Robot.getInstance();
                         TtsRequest ttsRequest1 = TtsRequest.create("我帶你去找報到機器人請跟著我來",true);
-                        sRobot1.speak(ttsRequest1);
+                        robot.speak(ttsRequest1);
 
                         robot.goTo("labin");
                     }

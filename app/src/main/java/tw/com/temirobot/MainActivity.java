@@ -186,7 +186,6 @@ public class MainActivity extends AppCompatActivity implements
         bgwhite = findViewById(R.id.bgwhite);
         gifImageView = findViewById(R.id.gifImageView);
 
-
         DBTime();
     }
 
