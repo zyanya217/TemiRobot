@@ -60,24 +60,43 @@ public class Regis2 extends AppCompatActivity {
 //                Boolean value1 = dataSnapshot.getValue(Boolean.class);
 //                Log.d("TAG", "Value1 is: " + value1);
 //                if (value1 == false) {
-            DatabaseReference myRef1 = database.getReference("/face/temi1/regis/id");
+            DatabaseReference myRef1 = database.getReference("/face/temi1/regis/py");
             myRef1.addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     // This method is called once with the initial value and again
                     // whenever data at this location is updated.
-                    String value1 = dataSnapshot.getValue(String.class);
+                    Boolean value1 = dataSnapshot.getValue(Boolean.class);
                     Log.d("TAG", "Value1 is: " + value1);
-                    if (value1.trim() == "Success") {
-                        txtFault.setVisibility(View.INVISIBLE);
-                        txtRegis.setVisibility(View.VISIBLE);
-                        txtRegis.setText("恭喜註冊成功!");
-                        mDatabase.child("face").child("temi1").child("regis").child("and").setValue(false);
-                    } else if (value1.trim() == "Failed") {
-                        txtFault.setVisibility(View.INVISIBLE);
-                        txtRegis.setVisibility(View.VISIBLE);
-                        txtRegis.setText("辨識失敗，請再試一次");
-                        mDatabase.child("face").child("temi1").child("regis").child("and").setValue(false);
+
+                    if (value1 == false) {
+                        DatabaseReference myRef2 = database.getReference("/face/temi1/regis/and");
+                        myRef2.addValueEventListener(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(DataSnapshot dataSnapshot) {
+                                // This method is called once with the initial value and again
+                                // whenever data at this location is updated.
+                                Boolean value2 = dataSnapshot.getValue(Boolean.class);
+                                Log.d("TAG", "Value1 is: " + value1);
+                                if (value2 == true) {
+                                    txtFault.setVisibility(View.INVISIBLE);
+                                    txtRegis.setVisibility(View.VISIBLE);
+                                    txtRegis.setText("恭喜註冊成功!");
+                                    mDatabase.child("face").child("temi1").child("regis").child("and").setValue(false);
+                                } else if (value2 == false) {
+                                    txtFault.setVisibility(View.INVISIBLE);
+                                    txtRegis.setVisibility(View.VISIBLE);
+                                    txtRegis.setText("辨識失敗，請再試一次");
+                                    mDatabase.child("face").child("temi1").child("regis").child("and").setValue(false);
+                                }
+                            }
+
+                            @Override
+                            public void onCancelled(DatabaseError error) {
+                                // Failed to read value
+                                Log.w("TAG", "Failed to read value.", error.toException());
+                            }
+                        });
                     }
                 }
 
