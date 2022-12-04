@@ -150,8 +150,9 @@ public class Regis extends AppCompatActivity {
                     //Toast.makeText(context, input.getText().toString(), Toast.LENGTH_SHORT).show();
                     mDatabase.child("face").child("temi1").child("regis").child("id").setValue(input.getText().toString().trim());
                     mDatabase.child("user").child(input.getText().toString().trim()).child("id").setValue(input.getText().toString().trim());
-                    System.out.println("list:3 " + input.getText().toString().trim() +", x = "+ x);
+                    System.out.println("list:3 addface id: " + input.getText().toString().trim() + ", x1 = "+ x);
                     x = 2;
+                    System.out.println("list:3 addface id: " + input.getText().toString().trim() + ", x2 = "+ x);
                     input2 = input.getText().toString().trim();
                 });
                 builder.setNegativeButton("取消", (dialog, which) -> {
@@ -309,7 +310,7 @@ public class Regis extends AppCompatActivity {
         mDatabase.child("face").child("temi1").child("regis").child("and").setValue(false);
         // Create a storage reference from our app
         StorageReference storageRef = storage.getReference();
-        System.out.println("list:3 " + input2 + ", x = "+ x);
+        System.out.println("list:3 upload input2: " + input2 + ", x3 = "+ x);
         StorageReference checkinRef = storageRef.child("images").child("known").child(input2+".jpg");
 
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
