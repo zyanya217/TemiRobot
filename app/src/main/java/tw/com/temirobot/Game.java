@@ -283,6 +283,8 @@ public class Game extends AppCompatActivity implements
         PcWin=0;
         PlayerWin=0;
 
+        imgWin1.setVisibility(View.INVISIBLE);
+        imgWin2.setVisibility(View.INVISIBLE);
         btnAgain.setVisibility(View.INVISIBLE);
         btnScissors.setVisibility(View.VISIBLE);
         btnStone.setVisibility(View.VISIBLE);
