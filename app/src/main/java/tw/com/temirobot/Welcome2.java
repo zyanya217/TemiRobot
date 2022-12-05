@@ -50,6 +50,10 @@ public class Welcome2 extends AppCompatActivity implements
         x = 1;
         System.out.println("list:3 Welcome2");
 
+        mDatabase.child("face").child("temi1").child("welcome").child("py").setValue(false);
+        mDatabase.child("face").child("temi1").child("welcome").child("and").setValue(false);
+        mDatabase.child("face").child("temi1").child("welcome").child("id").setValue("");
+
         mDatabase = FirebaseDatabase.getInstance().getReference();
 
         btnlock = findViewById(R.id.btnlock);
@@ -204,7 +208,7 @@ public class Welcome2 extends AppCompatActivity implements
                         startActivity(it);
                         finish();
                     }
-                    else{
+                    else if (value1.trim().length() > 6){
                         y = 10;
                         //辨識到人
                         mDatabase.child("face").child("temi1").child("welcome").child("and").setValue(true);
