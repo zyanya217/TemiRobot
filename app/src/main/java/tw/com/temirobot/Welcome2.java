@@ -48,6 +48,7 @@ public class Welcome2 extends AppCompatActivity implements
         setContentView(R.layout.activity_welcome2);
         robot = Robot.getInstance();
         x = 1;
+        System.out.println("list:3 Welcome2");
 
         mDatabase = FirebaseDatabase.getInstance().getReference();
 
@@ -170,6 +171,7 @@ public class Welcome2 extends AppCompatActivity implements
     protected void onResume() {
         super.onResume();
         if (y < 10){
+            System.out.println("list:3 y = " + y);
             DatabaseReference myRef1 = database.getReference("/face/temi1/welcome/id");
             myRef1.addValueEventListener(new ValueEventListener() {
                 //String value1 = "B0844230";//測試寫死用

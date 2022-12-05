@@ -393,7 +393,7 @@ public class Welcome extends AppCompatActivity implements
 //    }
 
     public void uploadImage(Bitmap bitmap) {
-        Log.d(TAG_f, "list: upload");
+        Log.d(TAG_f, "list:3 Welcome upload");
         // Create a storage reference from our app
         StorageReference storageRef = storage.getReference();
 
@@ -410,7 +410,7 @@ public class Welcome extends AppCompatActivity implements
             public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
                 double progress = (100.0 * taskSnapshot.getBytesTransferred()) / taskSnapshot.getTotalByteCount();
                 Log.d(TAG_f, "list: Upload is " + progress + "% done");
-                if (progress >= 100){
+                if (progress >= 100.0){
                     Intent it = new Intent(Welcome.this, Welcome2.class);
                     startActivity(it);
                     finish();
