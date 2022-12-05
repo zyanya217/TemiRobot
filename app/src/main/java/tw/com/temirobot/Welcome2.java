@@ -185,6 +185,7 @@ public class Welcome2 extends AppCompatActivity implements
                     // whenever data at this location is updated.
 
                     String value1 = dataSnapshot.getValue(String.class); //打開
+                    System.out.println("list:3 welcome2 value1 = " + value1);
 
                     if (value1.trim().equals("Unknown")) {
                         y = 10;
