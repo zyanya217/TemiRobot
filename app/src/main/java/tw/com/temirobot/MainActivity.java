@@ -117,6 +117,7 @@ public class MainActivity extends AppCompatActivity implements
     private Calendar calendar = Calendar.getInstance();
     private SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd-hh-mm-ss");
     private String audioname = "";
+    private String placename = "";
     //語音操作對象
     private MediaRecorder recorder;
 
@@ -727,14 +728,14 @@ public class MainActivity extends AppCompatActivity implements
 
     public void stoprec() {
         try {
-            System.out.println("list:3 stoprec 停止錄音2: " + recorder);
+            System.out.println("list:3 stoprec 停止錄音: " + recorder);
             recorder.stop();
             recorder.release();
             recorder = null;
             uploadAudio(audioname);
         } catch (RuntimeException e) {
             Log.e(TAG, e.toString());
-            System.out.println("list:3 stoprec 停止錄音3: " + recorder);
+            System.out.println("list:3 stoprec 停止錄音 e: " + recorder);
             uploadAudio(audioname);
 //            recorder.reset();
 //            recorder.release();
@@ -781,8 +782,8 @@ public class MainActivity extends AppCompatActivity implements
                 Log.d(TAG_f, "list:3 UploadAudio is " + progress3 + "% done");
                 if (progress3 >= 100.0) {
                     File file = new File(getExternalFilesDir(""), audioname2 + ".mp4");
-                    if (file.exists())
-                        file.delete();
+//                    if (file.exists())
+//                        file.delete();
                     System.out.println("list:3 t uploadAudio: " + audioname2);
                     mDatabase.child("face").child("temi1").child("patrol").child("py").setValue(false);
                 }
