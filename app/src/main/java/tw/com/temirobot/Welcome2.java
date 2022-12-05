@@ -50,11 +50,10 @@ public class Welcome2 extends AppCompatActivity implements
         x = 1;
         System.out.println("list:3 Welcome2");
 
+        mDatabase = FirebaseDatabase.getInstance().getReference();
         mDatabase.child("face").child("temi1").child("welcome").child("py").setValue(false);
         mDatabase.child("face").child("temi1").child("welcome").child("and").setValue(false);
         mDatabase.child("face").child("temi1").child("welcome").child("id").setValue("");
-
-        mDatabase = FirebaseDatabase.getInstance().getReference();
 
         btnlock = findViewById(R.id.btnlock);
         btnlock.setOnClickListener(new View.OnClickListener() {
