@@ -183,7 +183,6 @@ public class Welcome2 extends AppCompatActivity implements
                     if (value1.trim().equals("Unknown")) {
                         y = 10;
                         //查無此人
-                        mDatabase.child("face").child("temi1").child("welcome").child("py").setValue(false);
                         mDatabase.child("face").child("temi1").child("welcome").child("and").setValue(true);
                         mDatabase.child("face").child("temi1").child("welcome").child("id").setValue("");
                         Intent it = new Intent(Welcome2.this, Welcome.class);
@@ -197,7 +196,6 @@ public class Welcome2 extends AppCompatActivity implements
                     else if (value1.trim().equals("Failed")) {
                         y = 10;
                         //查無此人
-                        mDatabase.child("face").child("temi1").child("welcome").child("py").setValue(false);
                         mDatabase.child("face").child("temi1").child("welcome").child("and").setValue(true);
                         mDatabase.child("face").child("temi1").child("welcome").child("id").setValue("");
                         Intent it = new Intent(Welcome2.this, Welcome.class);
@@ -207,7 +205,6 @@ public class Welcome2 extends AppCompatActivity implements
                     else{
                         y = 10;
                         //辨識到人
-                        mDatabase.child("face").child("temi1").child("welcome").child("py").setValue(false);
                         mDatabase.child("face").child("temi1").child("welcome").child("and").setValue(true);
                         //去抓 value1(辨識到的這個人)
                         DatabaseReference myRef2 = database.getReference("/user/"+value1+"/greet");
