@@ -191,9 +191,7 @@ public class Welcome2 extends AppCompatActivity implements
                         //查無此人
                         mDatabase.child("face").child("temi1").child("welcome").child("and").setValue(true);
                         mDatabase.child("face").child("temi1").child("welcome").child("id").setValue("");
-                        Intent it = new Intent(Welcome2.this, Welcome.class);
-                        startActivity(it);
-                        finish();
+                        robot.goTo("labin");
                     }
                     else if (value1.trim().length() < 6){
                         //尚未辨識完成
