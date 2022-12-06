@@ -192,6 +192,9 @@ public class Welcome2 extends AppCompatActivity implements
                         mDatabase.child("face").child("temi1").child("welcome").child("and").setValue(true);
                         mDatabase.child("face").child("temi1").child("welcome").child("id").setValue("");
                         robot.goTo("labin");
+                        Robot sRobot = Robot.getInstance();
+                        TtsRequest ttsRequest = TtsRequest.create("來賓您好，我先帶您去跟照服員註冊",false);
+                        sRobot.speak(ttsRequest);
                     }
                     else if (value1.trim().length() < 6){
                         //尚未辨識完成
