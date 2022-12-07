@@ -330,7 +330,8 @@ public class MainActivity extends AppCompatActivity implements
                 mDatabase.child("face").child("temi1").child("welcome").child("py").setValue(false);
 //                bgwhite.setVisibility(View.VISIBLE);
 //                gifImageView.setVisibility(View.VISIBLE);
-                y = 1;
+//                y = 1;
+                System.out.println("list:4 y1 = " + y);
                 audioname = dateFormat.format(calendar.getTime());
                 startrec(audioname);
                 robot.goTo(place2);
@@ -475,6 +476,7 @@ public class MainActivity extends AppCompatActivity implements
                     //robot.repose();
                     //robot.stopMovement();
                     y = 1;
+                    System.out.println("list:4 y2 = " + y);
                     stoprec();
                     Thread.sleep(2000);
 //                    mDatabase.child("face").child("temi1").child("patrol").child("py").setValue(false);
@@ -768,11 +770,11 @@ public class MainActivity extends AppCompatActivity implements
                 .build();
 
 //        Uri file = Uri.fromFile(new File("path/to/record_a.mp4"));
-        Uri file = Uri.fromFile(new File(getExternalFilesDir(""), audioname2 + ".mp4"));
-        recordRef = storageRef.child("audios/" + file.getLastPathSegment());
+        Uri file1 = Uri.fromFile(new File(getExternalFilesDir(""), audioname2 + ".mp4"));
+        recordRef = storageRef.child("audios/" + file1.getLastPathSegment());
         // Upload the file and metadata
         //UploadTask uploadTask = storageRef.child("audios/record_a.mpeg").putFile(file, metadata);
-        UploadTask uploadTask = recordRef.putFile(file, metadata);
+        UploadTask uploadTask = recordRef.putFile(file1, metadata);
 
         // Observe state change events such as progress, pause, and resume
         uploadTask.addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
@@ -781,9 +783,12 @@ public class MainActivity extends AppCompatActivity implements
                 double progress3 = (100.0 * taskSnapshot.getBytesTransferred()) / taskSnapshot.getTotalByteCount();
                 Log.d(TAG_f, "list:4 UploadAudio is " + progress3 + "% done");
                 if (progress3 >= 100.0) {
-                    File file = new File(getExternalFilesDir(""), audioname2 + ".mp4");
-//                    if (file.exists())
-//                        file.delete();
+                    File file2 = new File(file1.toString());
+                    if (file2.exists()) {
+                        if (file2.isFile()) {
+                            file2.delete();
+                        }
+                    }
                     System.out.println("list:4 t uploadAudio: " + audioname2);
                     mDatabase.child("face").child("temi1").child("patrol").child("py").setValue(false);
                 }
@@ -1130,7 +1135,7 @@ public class MainActivity extends AppCompatActivity implements
                     boundingBox);
 //            System.out.println("list:2 onSuccessListener4: " + inputImage.getMediaImage());
 //            System.out.println("list:2 bitmap4: " + bitmap);
-
+            System.out.println("list:4 y3 = " + y);
             if (y == 1) {
                 uploadImage2(bitmapImage);
             }
