@@ -155,8 +155,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:visibility="invisible"
-        app:layout_constraintStart_toStartOf="@+id/ppt1"
-        app:layout_constraintTop_toTopOf="@+id/ppt1"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/ppt17" />
 
     <ImageView
@@ -164,8 +164,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:visibility="invisible"
-        app:layout_constraintStart_toStartOf="@+id/ppt1"
-        app:layout_constraintTop_toTopOf="@+id/ppt1"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/ppt18" />
 
     <ImageView
@@ -173,8 +173,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:visibility="invisible"
-        app:layout_constraintStart_toStartOf="@+id/ppt1"
-        app:layout_constraintTop_toTopOf="@+id/ppt1"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/ppt19" />
 
     <ImageView
@@ -182,8 +182,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:visibility="invisible"
-        app:layout_constraintStart_toStartOf="@+id/ppt1"
-        app:layout_constraintTop_toTopOf="@+id/ppt1"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/ppt20" />
 
     <ImageView
