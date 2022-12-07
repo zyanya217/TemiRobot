@@ -350,18 +350,18 @@ public class MainActivity extends AppCompatActivity implements
 
     public void DBTime() {
         List<String> patrolid = new ArrayList<>();
-        patrolid.add("11");
-        patrolid.add("12");
-        patrolid.add("13");
-        patrolid.add("21");
-        patrolid.add("22");
-        patrolid.add("23");
-        patrolid.add("31");
-        patrolid.add("32");
-        patrolid.add("33");
-        patrolid.add("41");
-        patrolid.add("42");
-        patrolid.add("43");
+        patrolid.add("1-1");
+        patrolid.add("1-2");
+        patrolid.add("1-3");
+//        patrolid.add("2-1");
+//        patrolid.add("2-2");
+//        patrolid.add("2-3");
+//        patrolid.add("31");
+//        patrolid.add("32");
+//        patrolid.add("33");
+//        patrolid.add("41");
+//        patrolid.add("42");
+//        patrolid.add("43");
         System.out.println(patrolid);
         String strpatrol2 = "";
         for (String strpatrol : patrolid) {
