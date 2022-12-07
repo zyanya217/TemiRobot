@@ -216,21 +216,24 @@ public class MainActivity extends AppCompatActivity implements
         robot.removeOnCurrentPositionChangedListener(this);
         robot.removeOnGoToLocationStatusChangedListener(this);
         robot.removeOnRobotReadyListener(this);
-//        try {
-//            recorder.stop();
+        try {
+            System.out.println("list:4 stop 停止錄音: " + recorder);
+            recorder.stop();
+            recorder.release();
+            recorder = null;
+            uploadAudio(audioname);
+        } catch (RuntimeException e) {
+            Log.e(TAG, e.toString());
+            System.out.println("list:4 stop 停止錄音 e: " + recorder);
+            uploadAudio(audioname);
+//            recorder.reset();
 //            recorder.release();
-//            recorder = null;
-//        } catch (RuntimeException e) {
-//            Log.e(TAG,e.toString());
-////            recorder.reset();
-//            recorder.release();
-//            recorder = null;
-//
-//            File file2 = new File(getExternalFilesDir(""),t+".mp4");
-//            if (file2.exists())
-//                file2.delete();
-//            System.out.println("list: file2: " + t);
-//        }
+            recorder = null;
+//            File file3 = new File(getExternalFilesDir(""), audioname + ".mp4");
+//            if (file3.exists())
+//                file3.delete();
+//            System.out.println("list:4 stoprec file3 delete: " + audioname);
+        }
 //        timerval = 0;
 //        if (recorder != null) {
 //            recorder.stop();
