@@ -508,7 +508,7 @@ public class MainActivity extends AppCompatActivity implements
      * 錄音權限申請
      */
     private void checkPermission() {
-        System.out.println("list:3 checkPermission");
+        System.out.println("list:4 checkPermission");
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             String[] permissions = new String[]{Manifest.permission.RECORD_AUDIO, Manifest.permission.WRITE_EXTERNAL_STORAGE};
             for (String permission : permissions) {
@@ -670,7 +670,7 @@ public class MainActivity extends AppCompatActivity implements
 //        return lastDbCount;
 //    }
     public void startrec(String audioname) {
-        System.out.println("list:3 startrec t: " + audioname);
+        System.out.println("list:4 startrec t: " + audioname);
 //        try {
 //            if (recorder != null) {
 //                recorder.reset();
@@ -698,9 +698,9 @@ public class MainActivity extends AppCompatActivity implements
         /* ①Initial：实例化MediaRecorder对象 */
         if (recorder == null) {
             recorder = new MediaRecorder();
-            System.out.println("list:3 開始錄音: " + recorder);
+            System.out.println("list:4 開始錄音: " + recorder);
         } else {
-            System.out.println("list:3 開始錄音(nonnull): " + recorder);
+            System.out.println("list:4 開始錄音(nonnull): " + recorder);
         }
         try {
             /* ②setAudioSource/setVedioSource */
@@ -728,14 +728,14 @@ public class MainActivity extends AppCompatActivity implements
 
     public void stoprec() {
         try {
-            System.out.println("list:3 stoprec 停止錄音: " + recorder);
+            System.out.println("list:4 stoprec 停止錄音: " + recorder);
             recorder.stop();
             recorder.release();
             recorder = null;
             uploadAudio(audioname);
         } catch (RuntimeException e) {
             Log.e(TAG, e.toString());
-            System.out.println("list:3 stoprec 停止錄音 e: " + recorder);
+            System.out.println("list:4 stoprec 停止錄音 e: " + recorder);
             uploadAudio(audioname);
 //            recorder.reset();
 //            recorder.release();
@@ -743,7 +743,7 @@ public class MainActivity extends AppCompatActivity implements
 //            File file3 = new File(getExternalFilesDir(""), audioname + ".mp4");
 //            if (file3.exists())
 //                file3.delete();
-//            System.out.println("list:3 stoprec file3 delete: " + audioname);
+//            System.out.println("list:4 stoprec file3 delete: " + audioname);
         }
     }
 
@@ -779,12 +779,12 @@ public class MainActivity extends AppCompatActivity implements
             @Override
             public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
                 double progress3 = (100.0 * taskSnapshot.getBytesTransferred()) / taskSnapshot.getTotalByteCount();
-                Log.d(TAG_f, "list:3 UploadAudio is " + progress3 + "% done");
+                Log.d(TAG_f, "list:4 UploadAudio is " + progress3 + "% done");
                 if (progress3 >= 100.0) {
                     File file = new File(getExternalFilesDir(""), audioname2 + ".mp4");
 //                    if (file.exists())
 //                        file.delete();
-                    System.out.println("list:3 t uploadAudio: " + audioname2);
+                    System.out.println("list:4 t uploadAudio: " + audioname2);
                     mDatabase.child("face").child("temi1").child("patrol").child("py").setValue(false);
                 }
             }
@@ -1142,7 +1142,7 @@ public class MainActivity extends AppCompatActivity implements
     }
 
     public void uploadImage(Bitmap bitmap) {
-        Log.d(TAG_f, "list:3 uploadImage1");
+        Log.d(TAG_f, "list:4 uploadImage1");
         // Create a storage reference from our app
         StorageReference storageRef = storage.getReference();
 
@@ -1160,12 +1160,12 @@ public class MainActivity extends AppCompatActivity implements
             @Override
             public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
                 double progress = (100.0 * taskSnapshot.getBytesTransferred()) / taskSnapshot.getTotalByteCount();
-                Log.d(TAG_f, "list:3 Upload1 is " + progress + "% done");
+                Log.d(TAG_f, "list:4 Upload1 is " + progress + "% done");
             }
         }).addOnPausedListener(new OnPausedListener<UploadTask.TaskSnapshot>() {
             @Override
             public void onPaused(UploadTask.TaskSnapshot taskSnapshot) {
-                Log.d(TAG_f, "list:3 Upload1 is paused");
+                Log.d(TAG_f, "list:4 Upload1 is paused");
             }
         });
 
@@ -1185,7 +1185,7 @@ public class MainActivity extends AppCompatActivity implements
 
 
     public void uploadImage2(Bitmap bitmap) {
-        Log.d(TAG_f, "list:3 uploadImage2");
+        Log.d(TAG_f, "list:4 uploadImage2");
         // Create a storage reference from our app
         StorageReference storageRef = storage.getReference();
 
@@ -1203,12 +1203,12 @@ public class MainActivity extends AppCompatActivity implements
             @Override
             public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
                 double progress = (100.0 * taskSnapshot.getBytesTransferred()) / taskSnapshot.getTotalByteCount();
-                Log.d(TAG_f, "list:3 Upload2 is " + progress + "% done");
+                Log.d(TAG_f, "list:4 Upload2 is " + progress + "% done");
             }
         }).addOnPausedListener(new OnPausedListener<UploadTask.TaskSnapshot>() {
             @Override
             public void onPaused(UploadTask.TaskSnapshot taskSnapshot) {
-                Log.d(TAG_f, "list:3 Upload2 is paused");
+                Log.d(TAG_f, "list:4 Upload2 is paused");
             }
         });
 
