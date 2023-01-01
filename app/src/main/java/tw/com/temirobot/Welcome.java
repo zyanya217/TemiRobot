@@ -101,27 +101,24 @@ public class Welcome extends AppCompatActivity implements
     private ImageView previewImg;
     private ImageView btnlock;
 
-    private final HashMap<String, SimilarityClassifier.Recognition> registered = new HashMap<>(); //saved Faces
+//    private final HashMap<String, SimilarityClassifier.Recognition> registered = new HashMap<>(); //saved Faces
     private boolean flipX = false;
     private boolean start = true;
     private boolean regis = false;
-    private float[][] embeddings;
-    private int x = 0;
-    private int y = 0;
-    private static final float IMAGE_MEAN = 128.0f;
-    private static final float IMAGE_STD = 128.0f;
-    private static final int INPUT_SIZE = 112;
-    private static final int OUTPUT_SIZE = 192;
+//    private float[][] embeddings;
+    private int x = 0; //上傳圖片變數宣告
+//    private static final float IMAGE_MEAN = 128.0f;
+//    private static final float IMAGE_STD = 128.0f;
+//    private static final int INPUT_SIZE = 112;
+//    private static final int OUTPUT_SIZE = 192;
 
     private static FirebaseStorage storage;
     private StorageReference mStorageRef;
     private DatabaseReference mDatabase;
     private static final String TAG_f = "Firebase";
     private static final String TAGError = "Welcome";
-    private FirebaseDatabase database;
 
 //    private static String Speak = null;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -133,7 +130,6 @@ public class Welcome extends AppCompatActivity implements
         mStorageRef = FirebaseStorage.getInstance().getReference();
         mDatabase = FirebaseDatabase.getInstance().getReference();
         storage = FirebaseStorage.getInstance();
-        database = FirebaseDatabase.getInstance();
 
         mDatabase.child("face").child("temi1").child("welcome").child("py").setValue(true);
         mDatabase.child("face").child("temi1").child("welcome").child("and").setValue(false);
