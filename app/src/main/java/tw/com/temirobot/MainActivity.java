@@ -188,14 +188,14 @@ public class MainActivity extends AppCompatActivity implements
         bgwhite = findViewById(R.id.bgwhite); //ui 白色背景綁定
         gifImageView = findViewById(R.id.gifImageView); //ui gif笑臉綁定
 
-        mDatabase.child("face").child("temi2").child("welcome").child("py").setValue(false); //以下為臉部辨識firebase變數初始化
-        mDatabase.child("face").child("temi2").child("welcome").child("and").setValue(false);
-        mDatabase.child("face").child("temi2").child("regis").child("py").setValue(false);
-        mDatabase.child("face").child("temi2").child("regis").child("and").setValue(false);
-        mDatabase.child("face").child("temi2").child("checkin").child("py").setValue(false);
-        mDatabase.child("face").child("temi2").child("checkin").child("and").setValue(false);
-        mDatabase.child("face").child("temi2").child("patrol").child("py").setValue(false);
-        mDatabase.child("face").child("temi2").child("patrol").child("and").setValue(false);
+        mDatabase.child("face").child("temi1").child("welcome").child("py").setValue(false); //以下為臉部辨識firebase變數初始化, 設定為temi1
+        mDatabase.child("face").child("temi1").child("welcome").child("and").setValue(false);
+        mDatabase.child("face").child("temi1").child("regis").child("py").setValue(false);
+        mDatabase.child("face").child("temi1").child("regis").child("and").setValue(false);
+        mDatabase.child("face").child("temi1").child("checkin").child("py").setValue(false);
+        mDatabase.child("face").child("temi1").child("checkin").child("and").setValue(false);
+        mDatabase.child("face").child("temi1").child("patrol").child("py").setValue(false);
+        mDatabase.child("face").child("temi1").child("patrol").child("and").setValue(false);
 
         DBTime(); //呼叫巡邏時間地點方法
     }
