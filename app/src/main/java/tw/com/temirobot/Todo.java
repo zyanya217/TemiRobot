@@ -16,12 +16,11 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 public class Todo extends AppCompatActivity {
-    ImageView btnyes;
-    ImageView btnno;
+    ImageView btnyes; //ui綁定, '是'按鈕
+    ImageView btnno; //ui綁定, '否'按鈕
     private Intent it;
-    private TextView detectionTextView;
+    private TextView detectionTextView; // //ui綁定, 辨識結果
     private FirebaseDatabase database = FirebaseDatabase.getInstance();
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,9 +32,9 @@ public class Todo extends AppCompatActivity {
 
         it = getIntent();
         // 通過key得到得到物件
-        // getSerializableExtra得到序列化資料
+        // getSerializableExtra得到上一頁回傳資料
         String id = (String) it.getSerializableExtra("id");
-        DatabaseReference myRef2 = database.getReference("/user/"+id+"/name");
+        DatabaseReference myRef2 = database.getReference("/user/"+id+"/name"); //firebase 辨識到的人的姓名位址
 
         myRef2.addValueEventListener(new ValueEventListener() {
             @Override
@@ -62,7 +61,7 @@ public class Todo extends AppCompatActivity {
     }
 
     public void btnyes(View v){
-        Intent it = new Intent(Todo.this,EquipmenTeaching.class);
+        Intent it = new Intent(Todo.this,EquipmenTeaching.class); //跳至量測教學頁面
         startActivity(it);
         finish();
     }
