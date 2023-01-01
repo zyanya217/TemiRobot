@@ -581,13 +581,13 @@ public class MainActivity extends AppCompatActivity implements
     }
 
     /**
-     * 獲取錄音的聲音聲壓值及分貝值
+     * 獲取錄音的聲音聲壓值及分貝值(沒用到)
      */
-//    public void getDB(){
-//        System.out.println("list:開始監聽, getDB");
+//    public void getDB(){ //獲取錄音的聲音聲壓值及分貝值方法(沒用到)
+//        System.out.println("list:開始監聽, getDB"); //log輸出開始監聽
 //        try {
 //                if (recorder != null) {
-//                    recorder.reset();
+//                    recorder.reset(); //安卓錄音api還原方法
 //                    System.out.println("list: ----停止錄音----");
 //                }
 //                else Log.d(TAG,"list: recorder is null.");
@@ -675,8 +675,8 @@ public class MainActivity extends AppCompatActivity implements
 //        lastDbCount = dbCount;
 //        return lastDbCount;
 //    }
-    public void startrec(String audioname) {
-        System.out.println("list:4 startrec t: " + audioname);
+    public void startrec(String audioname) { //開始錄音方法
+        System.out.println("list:4 startrec t: " + audioname); //log輸出錄音檔名稱
 //        try {
 //            if (recorder != null) {
 //                recorder.reset();
