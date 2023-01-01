@@ -431,34 +431,6 @@ public class Regis extends AppCompatActivity {
     }
 
     /**
-     * Recognize Processor
-     */
-//    public void btnadd(View v) {
-//        System.out.println("list:3 addFace");
-//        x = 2;
-//        startCamera();
-//        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-//        builder.setTitle("請輸入ID");
-//
-//        // Set up the input
-//        final EditText input = new EditText(this);
-//        input.setInputType(InputType.TYPE_CLASS_TEXT);
-//        input.setMaxWidth(200);
-//        builder.setView(input);
-//
-//        // Set up the buttons
-//        builder.setPositiveButton("新增", (dialog, which) -> {
-//            //Toast.makeText(context, input.getText().toString(), Toast.LENGTH_SHORT).show();
-//            //Create and Initialize new object with Face embeddings and Name.
-//            mDatabase.child("face").child("temi1").child("regis").child("id").setValue(input.getText().toString());
-//        });
-//        builder.setNegativeButton("取消", (dialog, which) -> {
-//            dialog.cancel();
-//        });
-//        builder.show();
-//    }
-
-    /**
      * Bitmap Converter
      *
      * @return
