@@ -150,7 +150,7 @@ public class Regis extends AppCompatActivity {
                 // Set up the buttons
                 builder.setPositiveButton("確認", (dialog, which) -> {
                     //Toast.makeText(context, input.getText().toString(), Toast.LENGTH_SHORT).show();
-                    input2 = input.getText().toString().trim();
+                    input2 = input.getText().toString().trim(); //照片檔名設定為輸入的id
                     mDatabase.child("face").child("temi1").child("regis").child("id").setValue(input.getText().toString().trim()); //firebase即時資料庫註冊id欄位設值
                     System.out.println("list:3 addface id: " + input.getText().toString().trim() + ", x1 = "+ x);
                     x = 2;
