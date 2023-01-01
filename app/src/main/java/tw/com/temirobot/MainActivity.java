@@ -97,110 +97,110 @@ import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
 public class MainActivity extends AppCompatActivity implements
-        OnGoToLocationStatusChangedListener,
-        OnCurrentPositionChangedListener,
-        OnRobotReadyListener {
-    private static final String LOG_TAG = "MainActivity";
-    private static final String TAG = "MediaRecorderUtil";
+        OnGoToLocationStatusChangedListener, //temi走路狀態監聽器
+        OnCurrentPositionChangedListener, //temi位置變更監聽器
+        OnRobotReadyListener { //應用程式顯示在temi的首頁上
+    private static final String LOG_TAG = "MainActivity"; //log首頁標記
+    private static final String TAG = "MediaRecorderUtil"; //log錄音標記
 
-    private static Robot robot;
-    private static FirebaseStorage storage;
-    private StorageReference mStorageRef;
-    private DatabaseReference mDatabase;
-    private static final String TAG_f = "Firebase";
+    private static Robot robot; //temi sdk宣告
+    private static FirebaseStorage storage; //firebase storage宣告
+    private StorageReference mStorageRef; //firebase storage 檔案位址宣告
+    private DatabaseReference mDatabase; //firebase 即時資料庫宣告
+    private static final String TAG_f = "Firebase"; //log firebase標記
 
-    //語音文件保存路徑
+    //語音文件保存路徑(沒用到)
 //    private final String FileName = getExternalFilesDir("").getAbsolutePath();
-    //語音操作對象
+    //語音操作對象(沒用到)
 //    private MediaPlayer mPlayer = null;
 
-    private Calendar calendar = Calendar.getInstance();
-    private SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd-hh-mm-ss");
-    private String audioname = "";
-    private String placename = "";
+    private Calendar calendar = Calendar.getInstance(); //時間宣告
+    private SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd-hh-mm-ss"); //日期與時間格式宣告
+    private String audioname = ""; //錄音檔名稱宣告
+    private String placename = ""; //temi定點位置名稱宣告
     //語音操作對象
-    private MediaRecorder recorder;
+    private MediaRecorder recorder; //安卓錄音宣告
 
-    private MainActivity.Type type1 = MainActivity.Type.AAC_AAC;
+    private MainActivity.Type type1 = MainActivity.Type.AAC_AAC; //安卓錄音3種類型宣告
     private MainActivity.Type type2 = MainActivity.Type.AAC_M4A;
     private MainActivity.Type type3 = MainActivity.Type.AMR_AMR;
 
-    public static float dbCount = 40;
-    private static float lastDbCount = dbCount;
-    private static float min = 0.5f;  //設置聲音最低變化
-    private static float value = 0;   // 聲音分貝值
+    public static float dbCount = 40; //分貝變化計算宣告及初始值
+    private static float lastDbCount = dbCount; //分貝變化計算宣告
+    private static float min = 0.5f; //設置聲音最低變化
+    private static float value = 0; //聲音分貝值
 
-    private int timerval = 0;
-    private int y = 0;
-    private TimerTask task = null;
-    private Timer timer = null;
-    private static final long PERIOD_DAY = 24 * 60 * 60 * 1000;
-    private static final String TAGError = "Recorder";
+    private int timerval = 0; //錄音timer變數宣告(沒用到)
+    private int y = 0; //上傳圖片變數宣告
+    private TimerTask task = null; //排程timer任務宣告
+    private Timer timer = null; //排程timer宣告
+    private static final long PERIOD_DAY = 24 * 60 * 60 * 1000; //排程週期宣告, 設為每週
+    private static final String TAGError = "Recorder"; //log錄音標記
 
-    //    //臉部辨識
-//    private static final String TAG_fr = "FaceRecognition";
-    private static final int PERMISSION_CODE = 1001;
-    private static final String CAMERA_PERMISSION = Manifest.permission.CAMERA;
-    private PreviewView previewView;
-    private CameraSelector cameraSelector;
-    private ProcessCameraProvider cameraProvider;
-    private int lensFacing = CameraSelector.LENS_FACING_BACK;
-    private Preview previewUseCase;
-    private ImageAnalysis analysisUseCase;
-    private pl.droidsonroids.gif.GifImageView gifImageView;
-    private ImageView bgwhite;
-    //    private GraphicOverlay graphicOverlay;
-//    private ImageView previewImg;
+    //臉部辨識
+//    private static final String TAG_fr = "FaceRecognition"; //log臉部辨識標記
+    private static final int PERMISSION_CODE = 1001; //相機授權碼宣告
+    private static final String CAMERA_PERMISSION = Manifest.permission.CAMERA; //相機授權宣告
+    private PreviewView previewView; //相機預覽畫面宣告
+    private CameraSelector cameraSelector; //前後相機選擇宣告
+    private ProcessCameraProvider cameraProvider; //相機提供宣告
+    private int lensFacing = CameraSelector.LENS_FACING_BACK; //後相機宣告
+    private Preview previewUseCase; //預覽畫面綁定宣告
+    private ImageAnalysis analysisUseCase; //畫面分析綁定宣告
+    private pl.droidsonroids.gif.GifImageView gifImageView; //ui gif(笑臉)宣告
+    private ImageView bgwhite; //ui 白色背景宣告
+    //    private GraphicOverlay graphicOverlay; //舊安卓端即時臉部辨識用(沒用到)
+//    private ImageView previewImg; //舊安卓端即時臉部辨識用(預覽畫面)(沒用到)
 //
-//    private final HashMap<String, SimilarityClassifier.Recognition> registered = new HashMap<>(); //saved Faces
-//    private Interpreter tfLite;
-    private boolean flipX = false;
-//    private boolean start = true;
-//    private boolean regis = false;
-//    private float[][] embeddings;
+//    private final HashMap<String, SimilarityClassifier.Recognition> registered = new HashMap<>(); //saved Faces //舊安卓端即時臉部辨識用(註冊用)(沒用到)
+//    private Interpreter tfLite; //舊安卓端即時臉部辨識用(tensorflow lite宣告)(沒用到)
+    private boolean flipX = false; //畫面旋轉宣告
+//    private boolean start = true; //舊安卓端即時臉部辨識用(控制不偵測的變數)(沒用到)
+//    private boolean regis = false; //舊安卓端即時臉部辨識用(註冊變數宣告)(沒用到)
+//    private float[][] embeddings; //舊安卓端即時臉部辨識用(註冊緩衝區存放特徵值用)(沒用到)
 //
-//    private static final float IMAGE_MEAN = 128.0f;
-//    private static final float IMAGE_STD = 128.0f;
-//    private static final int INPUT_SIZE = 112;
-//    private static final int OUTPUT_SIZE = 192;
+//    private static final float IMAGE_MEAN = 128.0f; //舊安卓端即時臉部辨識用(畫面參數宣告)(沒用到)
+//    private static final float IMAGE_STD = 128.0f; //舊安卓端即時臉部辨識用(畫面參數宣告)(沒用到)
+//    private static final int INPUT_SIZE = 112; //舊安卓端即時臉部辨識用(畫面輸入大小宣告)(沒用到)
+//    private static final int OUTPUT_SIZE = 192; //舊安卓端即時臉部辨識用(畫面輸出大小宣告)(沒用到)
 
-    private FirebaseDatabase database = FirebaseDatabase.getInstance();
+    private FirebaseDatabase database = FirebaseDatabase.getInstance(); //firebase 即時資料庫api引用宣告
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+    protected void onCreate(Bundle savedInstanceState) { //安卓Activity生命週期onCreate
+        super.onCreate(savedInstanceState); //執行生命週期onCreate
+        setContentView(R.layout.activity_main); //綁定首頁ui畫面
 
-        robot = Robot.getInstance();
+        robot = Robot.getInstance(); //temi sdk 引用
 
-        checkPermission();
-        y = 0;
+        checkPermission(); //確認相機及錄音授權
+        y = 0; //上傳圖片變數初始值
 
-        mStorageRef = FirebaseStorage.getInstance().getReference();
-        mDatabase = FirebaseDatabase.getInstance().getReference();
-        storage = FirebaseStorage.getInstance();
+        mStorageRef = FirebaseStorage.getInstance().getReference(); //firebase storage api 引用(監聽上傳狀態用)
+        mDatabase = FirebaseDatabase.getInstance().getReference(); //firebase 即時資料庫 api 引用
+        storage = FirebaseStorage.getInstance(); //firebase storage api 引用
 
-        previewView = findViewById(R.id.previewView);
-        previewView.setScaleType(PreviewView.ScaleType.FIT_CENTER);
-//        graphicOverlay = findViewById(R.id.graphic_overlay);
-//        previewImg = findViewById(R.id.preview_img);
+        previewView = findViewById(R.id.previewView); //ui 預覽畫面綁定
+        previewView.setScaleType(PreviewView.ScaleType.FIT_CENTER); //ui 預覽畫面位置綁定
+//        graphicOverlay = findViewById(R.id.graphic_overlay); //ui 偵測臉部正方形框框綁定, 舊安卓端即時臉部辨識用(沒用到)
+//        previewImg = findViewById(R.id.preview_img); //ui 預覽畫面綁定, 舊安卓端即時臉部辨識用(沒用到)
 
-        bgwhite = findViewById(R.id.bgwhite);
-        gifImageView = findViewById(R.id.gifImageView);
+        bgwhite = findViewById(R.id.bgwhite); //ui 白色背景綁定
+        gifImageView = findViewById(R.id.gifImageView); //ui gif笑臉綁定
 
-        DBTime();
+        DBTime(); //呼叫巡邏時間地點方法
     }
 
     @Override
-    protected void onStart() {
-        super.onStart();
-        robot.addOnCurrentPositionChangedListener(this);
-        robot.addOnGoToLocationStatusChangedListener(this);
-        robot.addOnRobotReadyListener(this);
+    protected void onStart() { //安卓Activity生命週期onStart
+        super.onStart(); //執行生命週期onStart
+        robot.addOnCurrentPositionChangedListener(this); //temi位置變更監聽器添加
+        robot.addOnGoToLocationStatusChangedListener(this); //temi走路狀態監聽器添加
+        robot.addOnRobotReadyListener(this); //應用程式顯示在temi的首頁上監聽器添加
 
-//        audioname = dateFormat.format(calendar.getTime());
-//        timerval = 1;
-//        robot.goTo(place);
+//        audioname = dateFormat.format(calendar.getTime()); //錄音檔名稱設置時間
+//        timerval = 1; //錄音timer變數初始值(沒用到)
+//        robot.goTo(place); //temi
 //        startrec(audioname);
 //        stoprec();
 //        startCamera();
@@ -429,7 +429,7 @@ public class MainActivity extends AppCompatActivity implements
     }
 
     @Override
-    public void onRobotReady(boolean isReady) {
+    public void onRobotReady(boolean isReady) {//應用程式顯示在temi首頁上: https://github.com/robotemi/sdk/wiki/Home_chn
         if (isReady) {
             try {
                 final ActivityInfo activityInfo = getPackageManager().getActivityInfo(getComponentName(), PackageManager.GET_META_DATA);
