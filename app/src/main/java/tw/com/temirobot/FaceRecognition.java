@@ -149,6 +149,7 @@ public class FaceRecognition extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         startCamera();
+        //以下註解部分移到FaceRecognition2頁面onResume週期
 //        DatabaseReference myRef1 = database.getReference("/face/temi1/checkin/id");
 //        myRef1.addValueEventListener(new ValueEventListener() {
 //            @Override
