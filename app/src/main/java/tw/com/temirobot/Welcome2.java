@@ -36,8 +36,8 @@ public class Welcome2 extends AppCompatActivity implements
 
     private DatabaseReference mDatabase;
     private FirebaseDatabase database = FirebaseDatabase.getInstance();
-    private int y = 0;
-    private int x = 0;
+    private int y = 0; //讀取firebase辨識結果次數變數宣告
+    private int x = 0; //迎賓換下一個人變數宣告
     private ImageView btnlock;
 
     private static final String TAGError = "Welcome2";
@@ -56,7 +56,7 @@ public class Welcome2 extends AppCompatActivity implements
         mDatabase.child("face").child("temi1").child("welcome").child("id").setValue("");
 
         btnlock = findViewById(R.id.btnlock);
-        btnlock.setOnClickListener(new View.OnClickListener() {
+        btnlock.setOnClickListener(new View.OnClickListener() { //防誤觸
             @Override
             public void onClick(View v) {
                 final AlertDialog.Builder builder = new AlertDialog.Builder(Welcome2.this);
@@ -149,11 +149,11 @@ public class Welcome2 extends AppCompatActivity implements
                     //robot.repose();
                     //robot.stopMovement();
                     Thread.sleep(5000);
-                    robot.goTo("labin2");
+                    robot.goTo("labin2"); //temi走回門口, 地點名稱寫死為labin2
                     x = 2;
                     }
-                    else if (x == 2){
-                        Intent it = new Intent(Welcome2.this, Welcome.class);
+                    else if (x == 2){ //temi走到門口後
+                        Intent it = new Intent(Welcome2.this, Welcome.class); //跳回最初迎賓頁面
                         startActivity(it);
                         finish();
                     }
@@ -183,7 +183,7 @@ public class Welcome2 extends AppCompatActivity implements
                     // This method is called once with the initial value and again
                     // whenever data at this location is updated.
 
-                    String value1 = dataSnapshot.getValue(String.class); //打開
+                    String value1 = dataSnapshot.getValue(String.class);
                     System.out.println("list:3 welcome2 value1 = " + value1);
 
                     if (value1.trim().equals("Unknown")) {
@@ -191,7 +191,7 @@ public class Welcome2 extends AppCompatActivity implements
                         //查無此人
                         mDatabase.child("face").child("temi1").child("welcome").child("and").setValue(true);
                         mDatabase.child("face").child("temi1").child("welcome").child("id").setValue("");
-                        robot.goTo("labin");
+                        robot.goTo("labin"); //temi走去櫃台, 地點名稱寫死為labin
                         Robot sRobot = Robot.getInstance();
                         TtsRequest ttsRequest = TtsRequest.create("來賓您好，我先帶您去跟照服員註冊",false);
                         sRobot.speak(ttsRequest);
@@ -202,7 +202,7 @@ public class Welcome2 extends AppCompatActivity implements
                     }
                     else if (value1.trim().equals("Failed")) {
                         y = 10;
-                        //查無此人
+                        //辨識失敗
                         mDatabase.child("face").child("temi1").child("welcome").child("and").setValue(true);
                         mDatabase.child("face").child("temi1").child("welcome").child("id").setValue("");
                         Intent it = new Intent(Welcome2.this, Welcome.class);
@@ -214,7 +214,7 @@ public class Welcome2 extends AppCompatActivity implements
                         //辨識到人
                         mDatabase.child("face").child("temi1").child("welcome").child("and").setValue(true);
                         //去抓 value1(辨識到的這個人)
-                        DatabaseReference myRef2 = database.getReference("/user/"+value1+"/greet");
+                        DatabaseReference myRef2 = database.getReference("/user/"+value1+"/greet"); //firebase個人化關懷用語greet位址
 
                         myRef2.addValueEventListener(new ValueEventListener() {
                             @Override
@@ -235,12 +235,11 @@ public class Welcome2 extends AppCompatActivity implements
                             }
                         });
 
-                        robot.goTo("labin");
-                        mDatabase.child("face").child("temi1").child("welcome").child("id").setValue("");
+                        robot.goTo("labin"); //temi走去櫃台, 地點名稱寫死為labin
+                        mDatabase.child("face").child("temi1").child("welcome").child("id").setValue(""); //firebase辨識到的id欄位初始化
                     }
                     System.out.println("list: value1 = " + value1);
                     Log.d("TAG", "Value1 is: " + value1);
-
                 }
 
                 @Override
