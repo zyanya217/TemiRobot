@@ -200,7 +200,7 @@ public class Welcome extends AppCompatActivity implements
     }
 
     @Override
-    public void onRobotReady(boolean isReady) {
+    public void onRobotReady(boolean isReady) { //此頁面沒用到
         if (isReady) {
             try {
                 final ActivityInfo activityInfo = getPackageManager().getActivityInfo(getComponentName(), PackageManager.GET_META_DATA);
@@ -212,12 +212,12 @@ public class Welcome extends AppCompatActivity implements
     }
 
     @Override
-    public void onCurrentPositionChanged(Position position) {
+    public void onCurrentPositionChanged(Position position) { //此頁面沒用到
         System.out.println("list:onCurrentPosition Position: " + position.toString());
     }
 
     @Override
-    public void onGoToLocationStatusChanged(@NotNull String location, String status, int descriptionId, @NotNull String description) {
+    public void onGoToLocationStatusChanged(@NotNull String location, String status, int descriptionId, @NotNull String description) { //此頁面沒用到
         System.out.println("list: OnGoToLocationStatusChanged");
         switch (status) {
             case OnGoToLocationStatusChangedListener.START:
