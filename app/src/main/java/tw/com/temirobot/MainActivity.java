@@ -941,7 +941,6 @@ public class MainActivity extends AppCompatActivity implements
 
         Preview.Builder builder = new Preview.Builder();
         builder.setTargetAspectRatio(AspectRatio.RATIO_4_3);
-        //builder.setTargetRotation(getRotation());
 
         previewUseCase = builder.build();
         previewUseCase.setSurfaceProvider(previewView.getSurfaceProvider());
@@ -969,7 +968,6 @@ public class MainActivity extends AppCompatActivity implements
 
         ImageAnalysis.Builder builder = new ImageAnalysis.Builder();
         builder.setTargetAspectRatio(AspectRatio.RATIO_4_3);
-//        builder.setTargetRotation(getRotation());
 
         analysisUseCase = builder.build();
         analysisUseCase.setAnalyzer(cameraExecutor, this::analyze);
@@ -982,121 +980,6 @@ public class MainActivity extends AppCompatActivity implements
         }
     }
 
-//    protected int getRotation() {
-////            throws NullPointerException {
-//        System.out.println("list:2 getRotation");
-//
-//        return previewView.getDisplay().getRotation();
-//    }
-
-//    public InputImage downloadImage(InputImage inputImage2, StorageReference pathReference, File localFile) {
-//        System.out.println("list:2 downloadImage");
-//
-////        FirebaseOptions opts = FirebaseApp.getInstance().getOptions();
-////        Log.d(TAG_f, "list: Bucket = " + opts.getStorageBucket());
-//        //list: Bucket = temirobot-1.appspot.com
-//        ///b/temirobot-1.appspot.com/o/images
-//
-////        // Create a storage reference from our app
-////        StorageReference storageRef = storage.getReference();
-//
-//        pathReference.getFile(localFile).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
-//            @Override
-//            public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
-//                Log.d(TAG_f,"list:2 download: " + taskSnapshot);
-//                // Local temp file has been created
-//            }
-//        }).addOnFailureListener(new OnFailureListener() {
-//            @Override
-//            public void onFailure(@NonNull Exception exception) {
-//                Log.d(TAG_f,"list:2 exception" + exception);
-//                // Handle any errors
-//            }
-//        });
-//        if (localFile.exists()) {
-//            try {
-//                Uri newUrl2 = Uri.fromFile(localFile);
-//                String newUrl3 = newUrl2.toString();
-//                Log.i(TAG_f, "list:2 newUrl3: " + newUrl3);
-//                inputImage2 = InputImage.fromFilePath(getApplicationContext(), newUrl2);
-//            } catch (IOException e) {
-//                Log.d(TAG, String.valueOf(e));
-//                System.out.println("list:2 input: " + e);
-//            }
-//        }
-////        if (inputImage2 !=null){
-////            System.out.println("list:2 inputImage1 success");
-////        }else System.out.println("list:2 inputImage1 null");
-//
-//        return inputImage2;
-//    }
-//
-//    /** Face detection processor */
-//    @SuppressLint("UnsafeOptInUsageError")
-//    private void regisAnalyze() {
-//        System.out.println("list:2 regisAnalyze");
-//        int i = 1;
-//        String[] matrix = new String[100];
-//        File localFile = null;
-//        StorageReference storageRef = storage.getReference();
-//        StorageReference pathReference = null;
-//        // Create a storage reference from our app
-//
-//        matrix[1] = "莊雅婷 女士, B0844230";
-//        matrix[2] = "莊雅婷女士, B0844230";
-//        matrix[3] = "胡語庭 女士, B0844132";
-//        matrix[4] = "胡語庭女士, B0844132";
-//        matrix[5] = "陳沂璇 女士, B0844227";
-//        matrix[6] = "陳沂璇女士, B0844227";
-//        matrix[7] = "郭靖嫈 女士, B0844138";
-//        matrix[8] = "郭靖嫈女士, B0844138";
-//        matrix[9] = "施懿庭 女士, B0844219";
-//        matrix[10] = "施懿庭女士, B0844219";
-//        matrix[11] = "張忠謀 先生, 11";
-//        matrix[12] = "湯明哲 校長, 12";
-//        matrix[13] = "王永慶 先生, 13";
-//        matrix[14] = "琦君 女士, 14";
-//
-//        for(i = 1; i <= 14; i++) {
-//            String i2 = Integer.toString(i);
-//            String fileName = "/" + i2 + ".jpg";
-////            System.out.println("list:3 i:" + i);
-//            // Create a reference with an initial file path and name
-//            pathReference = storageRef.child("images").child(fileName);
-//            localFile = new File(getExternalFilesDir("").getAbsolutePath() + fileName);
-//            final InputImage[] inputImage2 = new InputImage[103];
-////            System.out.println("list:3 i:" + i);
-//            System.out.println("list:2 i:" + inputImage2[i] +",path: "+ pathReference +", localFile: "+ localFile);
-//            inputImage2[i] = downloadImage(inputImage2[i], pathReference, localFile);
-//            if (inputImage2[i] != null) {
-//                System.out.println("list:2 inputImage: success");
-//                FaceDetector faceDetector = FaceDetection.getClient();
-//
-//                InputImage finalInputImage2 = inputImage2[i];
-//
-//                File finalLocalFile = localFile;
-//                faceDetector.process(finalInputImage2)
-//                            .addOnSuccessListener(faces -> onSuccessListener(faces, finalInputImage2, finalLocalFile))
-//                            .addOnFailureListener(e -> Log.e(TAG, "Barcode process failure", e));
-////                .addOnCompleteListener(task -> image2.close());
-//
-//                System.out.println("list:2 embedding1-0: " + embeddings);
-//                String input = matrix[i];
-//                embeddings = new float[1][OUTPUT_SIZE]; //output of model will be stored in this variable
-//                start = false;
-//                SimilarityClassifier.Recognition result = new SimilarityClassifier.Recognition(
-//                        "0", "", -1f);
-//                System.out.println("list:2 result: " + result);
-//                System.out.println("list:2 embedding1-1: " + embeddings);
-//                result.setExtra(embeddings);
-//                System.out.println("list:2 embedding1-2: " + embeddings);
-//                registered.put(input, result);
-//                System.out.println("list:2 registered name: " + input);
-//                System.out.println("list:2 registered1: " + registered);
-//                start = true;
-//                } else System.out.println("list:2 inputImage null");
-//        }
-//    }
 
     @SuppressLint("UnsafeOptInUsageError")
     private void analyze(@NonNull ImageProxy image) {
@@ -1235,87 +1118,6 @@ public class MainActivity extends AppCompatActivity implements
         });
     }
 
-    /** Recognize Processor */
-//    public String recognizeImage(final Bitmap bitmap, boolean regis) {
-//        System.out.println("list:2 recognizeImage");
-//        // set image to preview
-//        previewImg.setImageBitmap(bitmap);
-//
-//        //Create ByteBuffer to store normalized image
-//        ByteBuffer imgData = ByteBuffer.allocateDirect(INPUT_SIZE * INPUT_SIZE * 3 * 4);
-//        imgData.order(ByteOrder.nativeOrder());
-//        int[] intValues = new int[INPUT_SIZE * INPUT_SIZE];
-//
-//        System.out.println("list:2 imgData: " + imgData);
-//        //get pixel values from Bitmap to normalize
-//        bitmap.getPixels(intValues, 0, bitmap.getWidth(), 0, 0, bitmap.getWidth(), bitmap.getHeight());
-//        System.out.println("list:2 getPixels: intValues = " + intValues + ", offset = 0" + "bitmap.getWidth = " + bitmap.getWidth() + ", x = 0, y = 0, bitmap.getWidth = " + bitmap.getWidth() + "bitmap.getHeight = " + bitmap.getHeight());
-//        System.out.println("list:2 imgData.rewind: " + imgData);
-//        imgData.rewind();
-//
-//        for (int i = 0; i < INPUT_SIZE; ++i) {
-//            for (int j = 0; j < INPUT_SIZE; ++j) {
-//                int pixelValue = intValues[i * INPUT_SIZE + j];
-//                imgData.putFloat((((pixelValue >> 16) & 0xFF) - IMAGE_MEAN) / IMAGE_STD);
-//                imgData.putFloat((((pixelValue >> 8) & 0xFF) - IMAGE_MEAN) / IMAGE_STD);
-//                imgData.putFloat(((pixelValue & 0xFF) - IMAGE_MEAN) / IMAGE_STD);
-//            }
-//        }
-//        System.out.println("list:2 imgData.putfloat: " + imgData);
-//        //imgData is input to our model
-//        Object[] inputArray = {imgData};
-//        System.out.println("list:2 inputArray: " + inputArray);
-//        Map<Integer, Object> outputMap = new HashMap<>();
-//        System.out.println("list:2 embedding3-0: "+embeddings);
-//        embeddings = new float[1][OUTPUT_SIZE]; //output of model will be stored in this variable
-//        System.out.println("list:2 embedding3-1: "+embeddings);
-//        outputMap.put(0, embeddings);
-//        System.out.println("list:2 embedding3-2: "+embeddings);
-//        System.out.println("list:2 outputMap: " + outputMap);
-//        tfLite.runForMultipleInputsOutputs(inputArray, outputMap); //Run model
-//
-//        float distance;
-//        //Compare new face with saved Faces.
-//        if (!regis){
-//            if (registered.size() > 0 ) {
-//                final Pair<String, Float> nearest = findNearest(embeddings[0]);//Find closest matching face
-//                System.out.println("list:2 findNearest embeddings[0]: " + embeddings[0]);
-//                System.out.println("list:2 findNearest embeddings: " + embeddings);
-//                System.out.println("list:2 Nearest: " + nearest.first);
-//                if (nearest != null) {
-//                    final String name = nearest.first;
-//                    distance = nearest.second;
-//                    if (distance < 1.000f) //If distance between Closest found face is more than 1.000 ,then output UNKNOWN face.
-//                        return name;
-////                    else
-////                        return "unknown";
-//                }
-//            }
-//        }
-//        return null;
-//    }
-
-//    //Compare Faces by distance between face embeddings
-//    private Pair<String, Float> findNearest(float[] emb) {
-//        System.out.println("list:2 findNearest");
-//        Pair<String, Float> ret = null;
-//        for (Map.Entry<String, SimilarityClassifier.Recognition> entry : registered.entrySet()) {
-//            final String name = entry.getKey();
-//            final float[] knownEmb = ((float[][]) entry.getValue().getExtra())[0];
-//            float distance = 0;
-//            for (int i = 0; i < emb.length; i++) {
-//                float diff = emb[i] - knownEmb[i];
-//                distance += diff*diff;
-//            }
-//            distance = (float) Math.sqrt(distance);
-//            if (ret == null || distance < ret.second) {
-//                ret = new Pair<>(name, distance);
-//            }
-//        }
-//        System.out.println("list:2 findNearest ret: "+ ret);
-//        return ret;
-//    }
-
 
     /** Recognize Processor */
     /**
@@ -1453,27 +1255,5 @@ public class MainActivity extends AppCompatActivity implements
 
         return BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.length);
     }
-//
-//    /** Model loader */
-//    @SuppressWarnings("deprecation")
-//    private void loadModel() {
-//        System.out.println("list:2 loadModel");
-//        try {
-//            //model name
-//            String modelFile = "mobile_face_net.tflite";
-//            tfLite = new Interpreter(loadModelFile(MainActivity.this, modelFile));
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-//    }
-//
-//    private MappedByteBuffer loadModelFile(Activity activity, String MODEL_FILE) throws IOException {
-//        System.out.println("list:2 loadModelFile");
-//        AssetFileDescriptor fileDescriptor = activity.getAssets().openFd(MODEL_FILE);
-//        FileInputStream inputStream = new FileInputStream(fileDescriptor.getFileDescriptor());
-//        FileChannel fileChannel = inputStream.getChannel();
-//        long startOffset = fileDescriptor.getStartOffset();
-//        long declaredLength = fileDescriptor.getDeclaredLength();
-//        return fileChannel.map(FileChannel.MapMode.READ_ONLY, startOffset, declaredLength);
-//    }
+
 }
