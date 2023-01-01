@@ -700,8 +700,8 @@ public class MainActivity extends AppCompatActivity implements
 //            Log.d(TAG,"list: startrec 開始錄音失敗");
 //        }
 
-        // 开始录音
-        /* ①Initial：实例化MediaRecorder对象 */
+        // 開始錄音
+        /* ①Initial：實例化MediaRecorder對象 */
         if (recorder == null) {
             recorder = new MediaRecorder();
             System.out.println("list:4 開始錄音: " + recorder);
@@ -710,20 +710,20 @@ public class MainActivity extends AppCompatActivity implements
         }
         try {
             /* ②setAudioSource/setVedioSource */
-            recorder.setAudioSource(MediaRecorder.AudioSource.MIC);// 设置麦克风
+            recorder.setAudioSource(MediaRecorder.AudioSource.MIC);// 設置麥克風
             /*
-             * ②设置输出文件的格式：THREE_GPP/MPEG-4/RAW_AMR/Default THREE_GPP(3gp格式
-             * ，H263视频/ARM音频编码)、MPEG-4、RAW_AMR(只支持音频且音频编码要求为AMR_NB)
+             * ②設置輸出文件的格式：THREE_GPP/MPEG-4/RAW_AMR/Default THREE_GPP(3gp格式
+             * ，H263視頻/ARM音頻編碼)、MPEG-4、RAW_AMR(只支持音頻且音頻編碼要求为AMR_NB)
              */
 //            recorder.setOutputFormat(MediaRecorder.OutputFormat.MPEG_4);
             recorder.setOutputFormat(type1.outputFormat);
-            /* ②设置音频文件的编码：AAC/AMR_NB/AMR_MB/Default 声音的（波形）的采样 */
+            /* ②設置音頻文件的編碼：AAC/AMR_NB/AMR_MB/Default 聲音的（波形）的採樣 */
 //            recorder.setAudioEncoder(MediaRecorder.AudioEncoder.AAC);
             recorder.setAudioEncoder(type1.audioEncoder);
-            /* ③准备 */
+            /* ③準備 */
             recorder.setOutputFile(new File(getExternalFilesDir(""), audioname + ".mp4").getAbsolutePath());
             recorder.prepare();
-            /* ④开始 */
+            /* ④開始 */
             recorder.start();
         } catch (IllegalStateException e) {
             Log.i(TAG, "call startAmr(File mRecAudioFile) failed!" + e.getMessage());
@@ -735,33 +735,28 @@ public class MainActivity extends AppCompatActivity implements
     public void stoprec() {
         try {
             System.out.println("list:4 stoprec 停止錄音: " + recorder);
-            recorder.stop();
-            recorder.release();
-            recorder = null;
-            uploadAudio(audioname);
+            recorder.stop(); //停止錄音
+            recorder.release(); //釋放
+            recorder = null; //初始化
+            uploadAudio(audioname); //上傳錄音檔方法呼叫
         } catch (RuntimeException e) {
-            Log.e(TAG, e.toString());
+            Log.e(TAG, e.toString()); //log輸出bug說明
             System.out.println("list:4 stoprec 停止錄音 e: " + recorder);
-            uploadAudio(audioname);
-//            recorder.reset();
-//            recorder.release();
-            recorder = null;
-//            File file3 = new File(getExternalFilesDir(""), audioname + ".mp4");
-//            if (file3.exists())
-//                file3.delete();
-//            System.out.println("list:4 stoprec file3 delete: " + audioname);
+            uploadAudio(audioname); //上傳錄音檔方法呼叫
+//            recorder.reset(); //還原
+//            recorder.release(); //釋放
+            recorder = null; //初始化
         }
     }
 
-
-    public void uploadAudio(String audioname2) {
+    public void uploadAudio(String audioname2) { //上傳錄音檔方法
         // Create a storage reference from our app
         StorageReference storageRef = storage.getReference();
 
-        // Create a reference to "record_a.mp4"
+        // Create a reference to "audioname2.mp4"
         StorageReference recordRef = storageRef.child(audioname2 + ".mp4");
 
-        // Create a reference to 'audios/record_a.mp4'
+        // Create a reference to 'audios/audioname2.mp4'
         StorageReference recordAudiosRef = storageRef.child("audios/" + audioname2 + ".mp4");
 
         // While the file names are the same, the references point to different files
@@ -773,31 +768,31 @@ public class MainActivity extends AppCompatActivity implements
                 .setContentType("audio/mpeg")
                 .build();
 
-//        Uri file = Uri.fromFile(new File("path/to/record_a.mp4"));
+//        Uri file = Uri.fromFile(new File("path/to/audioname2.mp4"));
         Uri file1 = Uri.fromFile(new File(getExternalFilesDir(""), audioname2 + ".mp4"));
         recordRef = storageRef.child("audios/" + file1.getLastPathSegment());
         // Upload the file and metadata
         //UploadTask uploadTask = storageRef.child("audios/record_a.mpeg").putFile(file, metadata);
-        UploadTask uploadTask = recordRef.putFile(file1, metadata);
+        UploadTask uploadTask = recordRef.putFile(file1, metadata); //上傳錄音檔
 
         // Observe state change events such as progress, pause, and resume
         uploadTask.addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
             @Override
-            public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
+            public void onProgress(UploadTask.TaskSnapshot taskSnapshot) { //上傳進度
                 double progress3 = (100.0 * taskSnapshot.getBytesTransferred()) / taskSnapshot.getTotalByteCount();
-                Log.d(TAG_f, "list:4 UploadAudio is " + progress3 + "% done");
+                Log.d(TAG_f, "list:4 UploadAudio is " + progress3 + "% done"); //log輸出上傳進度
                 if (progress3 >= 100.0) {
                     File file2 = new File(file1.toString());
-                    if (file2.exists()) {
+                    if (file2.exists()) { //如果檔案存在
                         if (file2.isFile()) {
-                            file2.delete();
+                            file2.delete(); //檔案刪除
                         }
                     }
                     System.out.println("list:4 t uploadAudio: " + audioname2);
-                    mDatabase.child("face").child("temi1").child("patrol").child("py").setValue(false);
+                    mDatabase.child("face").child("temi1").child("patrol").child("py").setValue(false); //臉部辨識 firebase 變數 巡邏關閉
                 }
             }
-        }).addOnPausedListener(new OnPausedListener<UploadTask.TaskSnapshot>() {
+        }).addOnPausedListener(new OnPausedListener<UploadTask.TaskSnapshot>() { //上傳暫停
             @Override
             public void onPaused(UploadTask.TaskSnapshot taskSnapshot) {
                 Log.d(TAG_f, "list: Upload is paused");
@@ -805,7 +800,7 @@ public class MainActivity extends AppCompatActivity implements
         });
 
         // Register observers to listen for when the download is done or if it fails
-        uploadTask.addOnFailureListener(new OnFailureListener() {
+        uploadTask.addOnFailureListener(new OnFailureListener() { //上傳失敗
             @Override
             public void onFailure(@NonNull Exception exception) {
                 // Handle unsuccessful uploads
@@ -815,7 +810,7 @@ public class MainActivity extends AppCompatActivity implements
                 Log.d(TAG_f, "list: upload failure");
                 Log.d(TAG_f, "list: errorCode: " + errorCode + ", errorMessage: " + errorMessage);
             }
-        }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+        }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() { //上傳成功
             @Override
             public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                 // taskSnapshot.getMetadata() contains file metadata such as size, content-type, etc.
@@ -824,6 +819,7 @@ public class MainActivity extends AppCompatActivity implements
         });
     }
 
+    //firebase上傳狀態
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
@@ -884,14 +880,14 @@ public class MainActivity extends AppCompatActivity implements
     /**
      * Permissions Handler
      */
-    private void getPermissions() {
+    private void getPermissions() { //取得授權
         ActivityCompat.requestPermissions(this, new String[]{CAMERA_PERMISSION}, PERMISSION_CODE);
     }
 
     /**
      * Setup camera & use cases
      */
-    private void startCamera() {
+    private void startCamera() { //開啟相機
         if (ContextCompat.checkSelfPermission(this, CAMERA_PERMISSION) == PackageManager.PERMISSION_GRANTED) {
             setupCamera();
             System.out.println("list:2 startCamera1");
@@ -901,7 +897,7 @@ public class MainActivity extends AppCompatActivity implements
         }
     }
 
-    private void setupCamera() {
+    private void setupCamera() { //設置相機
         final ListenableFuture<ProcessCameraProvider> cameraProviderFuture =
                 ProcessCameraProvider.getInstance(this);
         System.out.println("list:2 setupCamera");
@@ -918,7 +914,7 @@ public class MainActivity extends AppCompatActivity implements
         }, ContextCompat.getMainExecutor(this));
     }
 
-    private void bindAllCameraUseCases() {
+    private void bindAllCameraUseCases() { //相機綁定
         System.out.println("list:2 bindAllCameraUseCases");
 
         if (cameraProvider != null) {
@@ -928,7 +924,7 @@ public class MainActivity extends AppCompatActivity implements
         }
     }
 
-    private void bindPreviewUseCase() {
+    private void bindPreviewUseCase() { //預覽畫面綁定
         System.out.println("list:2 bindPreviewUseCase");
 
         if (cameraProvider == null) {
@@ -953,7 +949,7 @@ public class MainActivity extends AppCompatActivity implements
         }
     }
 
-    private void bindAnalysisUseCase() {
+    private void bindAnalysisUseCase() { //預覽畫面分析綁定
         System.out.println("list:2 bindAnalysisUseCase");
 
         if (cameraProvider == null) {
@@ -982,32 +978,32 @@ public class MainActivity extends AppCompatActivity implements
 
 
     @SuppressLint("UnsafeOptInUsageError")
-    private void analyze(@NonNull ImageProxy image) {
+    private void analyze(@NonNull ImageProxy image) { //分析(傳入預覽畫面照片)
         System.out.println("list:2 analyze");
         mDatabase.child("face").child("temi1").child("patrol").child("id").setValue("");
 
         if (image.getImage() == null) return;
 
-        InputImage inputImage = InputImage.fromMediaImage(
+        InputImage inputImage = InputImage.fromMediaImage( //照片與角度轉換
                 image.getImage(),
                 image.getImageInfo().getRotationDegrees()
         );
 
-        FaceDetector faceDetector = FaceDetection.getClient();
+        FaceDetector faceDetector = FaceDetection.getClient(); //開啟偵測人臉
 
-        faceDetector.process(inputImage)
+        faceDetector.process(inputImage) //偵測人臉(輸入照片)
                 .addOnSuccessListener(faces -> onSuccessListener(faces, inputImage))
                 .addOnFailureListener(e -> Log.e(TAG, "Barcode process failure", e))
                 .addOnCompleteListener(task -> image.close());
     }
 
-    private void onSuccessListener(List<Face> faces, InputImage inputImage) {
-        System.out.println("list:2 onSuccessListener");
-        Rect boundingBox = null;
+    private void onSuccessListener(List<Face> faces, InputImage inputImage) { //偵測人臉成功監聽器
+        System.out.println("list:2 onSuccessListener"); //log輸出現在執行偵測人臉成功監聽器
+        Rect boundingBox = null; //方框宣告
         //String name = null;
-        //float scaleX = (float) previewView.getWidth() / (float) inputImage.getHeight();
-        //float scaleY = (float) previewView.getHeight() / (float) inputImage.getWidth();
-        if (faces.size() > 0) {
+        //float scaleX = (float) previewView.getWidth() / (float) inputImage.getHeight(); //預覽畫面計算參數(沒用到)
+        //float scaleY = (float) previewView.getHeight() / (float) inputImage.getWidth(); //預覽畫面計算參數(沒用到)
+        if (faces.size() > 0) { //如果大於0張臉
 
 //            // get first face detected
 //            Face face = faces.get(0);
@@ -1020,53 +1016,53 @@ public class MainActivity extends AppCompatActivity implements
                     inputImage,
                     inputImage.getRotationDegrees(),
                     boundingBox);
-//            System.out.println("list:2 onSuccessListener4: " + inputImage.getMediaImage());
-//            System.out.println("list:2 bitmap4: " + bitmap);
-            System.out.println("list:4 y3 = " + y);
-            if (y == 1) {
-                uploadImage2(bitmapImage);
+//            System.out.println("list:2 onSuccessListener4: " + inputImage.getMediaImage()); //log輸出圖片狀態
+//            System.out.println("list:2 bitmap4: " + bitmap); //log輸出轉換完的bitmap
+            System.out.println("list:4 y3 = " + y); //log輸出上傳圖片變數
+            if (y == 1) { //如果上傳圖片變數==1
+                uploadImage2(bitmapImage); //上傳圖片方法2呼叫
             }
-            if (y >= 1) {
+            if (y >= 1) { //如果上傳圖片變數>=1
                 y++;
-                uploadImage(bitmapImage);
+                uploadImage(bitmapImage); //上傳圖片方法1呼叫
             }
         }
     }
 
-    public void uploadImage(Bitmap bitmap) {
+    public void uploadImage(Bitmap bitmap) { //firebase上傳圖片方法1(只要偵測到人臉就不斷拍照)
         Log.d(TAG_f, "list:4 uploadImage1");
         // Create a storage reference from our app
         StorageReference storageRef = storage.getReference();
 
-        StorageReference checkinRef = storageRef.child("images").child("unknown").child("unknown1.jpg");
+        StorageReference checkinRef = storageRef.child("images").child("unknown").child("unknown1.jpg"); //firebase圖片位址, 檔名固定為unknown1.jpg
 
 //        UploadTask uploadTask = checkinRef.putFile(file);
 
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        ByteArrayOutputStream baos = new ByteArrayOutputStream(); //bitmap轉換成byte
         bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
         byte[] data = baos.toByteArray();
         UploadTask uploadTask = checkinRef.putBytes(data);
 
         // Observe state change events such as progress, pause, and resume
-        uploadTask.addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
+        uploadTask.addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() { //firebase api上傳圖片
             @Override
-            public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
+            public void onProgress(UploadTask.TaskSnapshot taskSnapshot) { //firebase api上傳進度
                 double progress = (100.0 * taskSnapshot.getBytesTransferred()) / taskSnapshot.getTotalByteCount();
-                Log.d(TAG_f, "list:4 Upload1 is " + progress + "% done");
+                Log.d(TAG_f, "list:4 Upload1 is " + progress + "% done"); //log輸出上傳進度
             }
-        }).addOnPausedListener(new OnPausedListener<UploadTask.TaskSnapshot>() {
+        }).addOnPausedListener(new OnPausedListener<UploadTask.TaskSnapshot>() { //firebase api上傳暫停
             @Override
             public void onPaused(UploadTask.TaskSnapshot taskSnapshot) {
                 Log.d(TAG_f, "list:4 Upload1 is paused");
             }
         });
 
-        uploadTask.addOnFailureListener(new OnFailureListener() {
+        uploadTask.addOnFailureListener(new OnFailureListener() { //firebase api上傳失敗
             @Override
             public void onFailure(@NonNull Exception exception) {
                 // Handle unsuccessful uploads
             }
-        }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+        }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {//firebase api上傳成功
             @Override
             public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                 // taskSnapshot.getMetadata() contains file metadata such as size, content-type, etc.
@@ -1075,41 +1071,40 @@ public class MainActivity extends AppCompatActivity implements
         });
     }
 
-
-    public void uploadImage2(Bitmap bitmap) {
+    public void uploadImage2(Bitmap bitmap) { //firebase api上傳圖片方法2(定時定點拍照一次)(偵測到人臉才拍)
         Log.d(TAG_f, "list:4 uploadImage2");
         // Create a storage reference from our app
         StorageReference storageRef = storage.getReference();
 
-        StorageReference checkinRef = storageRef.child("images").child("patrol").child(audioname + ".jpg");
+        StorageReference checkinRef = storageRef.child("images").child("patrol").child(audioname + ".jpg"); //firebase圖片位址, 檔名為時間.jpg
 
 //        UploadTask uploadTask = checkinRef.putFile(file);
 
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        ByteArrayOutputStream baos = new ByteArrayOutputStream(); //bitmap轉byte
         bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
         byte[] data = baos.toByteArray();
         UploadTask uploadTask = checkinRef.putBytes(data);
 
         // Observe state change events such as progress, pause, and resume
-        uploadTask.addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
+        uploadTask.addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() { //firebase api上傳進度
             @Override
             public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
                 double progress = (100.0 * taskSnapshot.getBytesTransferred()) / taskSnapshot.getTotalByteCount();
-                Log.d(TAG_f, "list:4 Upload2 is " + progress + "% done");
+                Log.d(TAG_f, "list:4 Upload2 is " + progress + "% done"); //log輸出firebase api上傳進度
             }
-        }).addOnPausedListener(new OnPausedListener<UploadTask.TaskSnapshot>() {
+        }).addOnPausedListener(new OnPausedListener<UploadTask.TaskSnapshot>() { //firebase api上傳暫停
             @Override
             public void onPaused(UploadTask.TaskSnapshot taskSnapshot) {
                 Log.d(TAG_f, "list:4 Upload2 is paused");
             }
         });
 
-        uploadTask.addOnFailureListener(new OnFailureListener() {
+        uploadTask.addOnFailureListener(new OnFailureListener() { //firebase api上傳失敗
             @Override
             public void onFailure(@NonNull Exception exception) {
                 // Handle unsuccessful uploads
             }
-        }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+        }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() { //firebase api上傳成功
             @Override
             public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                 // taskSnapshot.getMetadata() contains file metadata such as size, content-type, etc.
@@ -1125,7 +1120,7 @@ public class MainActivity extends AppCompatActivity implements
      *
      * @return
      */
-    private Bitmap mediaImgToBmp(InputImage image2, int rotation, Rect boundingBox) {
+    private Bitmap mediaImgToBmp(InputImage image2, int rotation, Rect boundingBox) { //照片轉bitmap方法
         System.out.println("list:2 mediaImgToBmp");
         System.out.println("list:2 mediaImgToBmp image: " + image2);
         Bitmap frame_bmp1 = null;
@@ -1139,7 +1134,7 @@ public class MainActivity extends AppCompatActivity implements
         return frame_bmp1;
     }
 
-    private static Bitmap rotateBitmap(Bitmap bitmap, int rotationDegrees, boolean flipX) {
+    private static Bitmap rotateBitmap(Bitmap bitmap, int rotationDegrees, boolean flipX) { //bitmap角度計算與旋轉
         System.out.println("list:2 rotateBitmap");
 
         Matrix matrix = new Matrix();
@@ -1159,7 +1154,7 @@ public class MainActivity extends AppCompatActivity implements
         return rotatedBitmap;
     }
 
-    private static byte[] YUV_420_888toNV21(Image image) {
+    private static byte[] YUV_420_888toNV21(Image image) { //照片byte緩衝方法
         System.out.println("list:2 YUV_420_888toNV21");
 
         int width = image.getWidth();//640
@@ -1241,7 +1236,7 @@ public class MainActivity extends AppCompatActivity implements
         return nv21;
     }
 
-    private Bitmap toBitmap(Image image) {
+    private Bitmap toBitmap(Image image) { //照片轉bitmap方法
         System.out.println("list:2 toBitmap");
 
         byte[] nv21 = YUV_420_888toNV21(image);
