@@ -89,19 +89,18 @@ public class Regis extends AppCompatActivity {
     private int lensFacing = CameraSelector.LENS_FACING_BACK;
     private Preview previewUseCase;
     private ImageAnalysis analysisUseCase;
-    private GraphicOverlay graphicOverlay;
-    private ImageView btnhome;
-    private ImageView btnadd;
-    private ImageView bggreblank;
+    private GraphicOverlay graphicOverlay; //沒用到, ui綁定可解除
+    private ImageView btnhome; //ui綁定
+    private ImageView btnadd; //ui綁定
+    private ImageView bggreblank; //ui綁定
 
     private boolean flipX = false;
-    private int x = 1;
-    private String input2 = "";
+    private int x = 1; //上傳圖片變數宣告
+    private String input2 = ""; //輸入的id字串宣告
 
     private static FirebaseStorage storage;
     private StorageReference mStorageRef;
     private DatabaseReference mDatabase;
-    private FirebaseDatabase database = FirebaseDatabase.getInstance();
     private static final String TAG_f = "Firebase";
 
     @SuppressLint("CutPasteId")
@@ -111,7 +110,7 @@ public class Regis extends AppCompatActivity {
         setContentView(R.layout.activity_regis);
 
         System.out.println("list:3 Regis");
-
+        //ui綁定
         previewView = findViewById(R.id.previewView);
         previewView.setScaleType(PreviewView.ScaleType.FIT_CENTER);
         graphicOverlay = findViewById(R.id.graphic_overlay);
@@ -119,7 +118,7 @@ public class Regis extends AppCompatActivity {
         bggreblank = findViewById(R.id.bggreblank);
         btnadd = findViewById(R.id.btnadd);
 
-        x = 1;
+        x = 1;//上傳圖片辨識初始值
 
         mStorageRef = FirebaseStorage.getInstance().getReference();
         mDatabase = FirebaseDatabase.getInstance().getReference();
@@ -134,15 +133,15 @@ public class Regis extends AppCompatActivity {
         mDatabase.child("face").child("temi1").child("patrol").child("py").setValue(false);
         mDatabase.child("face").child("temi1").child("patrol").child("and").setValue(false);
 
-        btnadd.setOnClickListener(new View.OnClickListener() {
+        btnadd.setOnClickListener(new View.OnClickListener() { //按下拍照按鈕
             @Override
             public void onClick(View v) {
                 System.out.println("list:3 addFace");
 
-                final AlertDialog.Builder builder = new AlertDialog.Builder(Regis.this);
+                final AlertDialog.Builder builder = new AlertDialog.Builder(Regis.this); //彈挑視窗
                 builder.setTitle("請輸入ID進行照片註冊");
 
-                // Set up the input
+                // Set up the input, 輸入id
                 final EditText input = new EditText(Regis.this);
                 input.setInputType(InputType.TYPE_CLASS_TEXT );
                 input.setMaxWidth(16);
@@ -151,11 +150,11 @@ public class Regis extends AppCompatActivity {
                 // Set up the buttons
                 builder.setPositiveButton("確認", (dialog, which) -> {
                     //Toast.makeText(context, input.getText().toString(), Toast.LENGTH_SHORT).show();
-                    mDatabase.child("face").child("temi1").child("regis").child("id").setValue(input.getText().toString().trim());
+                    input2 = input.getText().toString().trim();
+                    mDatabase.child("face").child("temi1").child("regis").child("id").setValue(input.getText().toString().trim()); //firebase即時資料庫註冊id欄位設值
                     System.out.println("list:3 addface id: " + input.getText().toString().trim() + ", x1 = "+ x);
                     x = 2;
                     System.out.println("list:3 addface id: " + input.getText().toString().trim() + ", x2 = "+ x);
-                    input2 = input.getText().toString().trim();
                 });
                 builder.setNegativeButton("取消", (dialog, which) -> {
                     dialog.cancel();
@@ -314,7 +313,7 @@ public class Regis extends AppCompatActivity {
         // Create a storage reference from our app
         StorageReference storageRef = storage.getReference();
         System.out.println("list:3 upload input2: " + input2 + ", x3 = "+ x);
-        StorageReference checkinRef = storageRef.child("images").child("known").child(input2+".jpg");
+        StorageReference checkinRef = storageRef.child("images").child("known").child(input2+".jpg"); //firebase圖片位址, 檔名為輸入的id.jpg
 
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
@@ -328,8 +327,8 @@ public class Regis extends AppCompatActivity {
                 double progress2 = (100.0 * taskSnapshot.getBytesTransferred()) / taskSnapshot.getTotalByteCount();
                 Log.d(TAG_f, "list: Upload is " + progress2 + "% done");
                 if (progress2 >= 100.0) {
-                    x = 1;
-                    Intent it = new Intent(Regis.this, Regis2.class);
+                    x = 1; //不再上傳圖片
+                    Intent it = new Intent(Regis.this, Regis2.class); //跳至Regis2頁面
                     startActivity(it);
                     finish();
                 }
