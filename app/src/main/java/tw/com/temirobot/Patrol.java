@@ -85,6 +85,8 @@ import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
+
+//此頁面沒用到, 以下功能皆寫在首頁, 原本為巡邏用
 public class Patrol extends AppCompatActivity implements
         OnGoToLocationStatusChangedListener,
         OnCurrentPositionChangedListener,
