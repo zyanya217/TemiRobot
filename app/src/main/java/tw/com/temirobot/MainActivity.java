@@ -258,12 +258,12 @@ public class MainActivity extends AppCompatActivity implements
         super.onResume(); //執行生命週期onResume
         startCamera(); //開啟相機方法呼叫
 //        DatabaseReference myRef2 = mDatabase.child("face").child("temi1").child("patrol").child("py"); //臉部辨識 firebase 變數 巡邏狀態位址
-//        myRef2.addValueEventListener(new ValueEventListener() { //firebase api 回傳值監聽器
+//        myRef2.addValueEventListener(new ValueEventListener() { //臉部辨識 firebase 變數 巡邏狀態值回傳
 //            @Override
 //            public void onDataChange(DataSnapshot dataSnapshot) { //firebase 回傳值與初始值有變化時
 //                // This method is called once with the initial value and again
 //                // whenever data at this location is updated.
-//                Boolean value2 = dataSnapshot.getValue(Boolean.class);
+//                Boolean value2 = dataSnapshot.getValue(Boolean.class); //臉部辨識 firebase 變數 巡邏狀態布林值讀取
 //                Log.d("TAG", "Value2 is: " + value2);
 //                if (value2 == true) { //如果變數是true
 //                    startCamera(); //開啟相機方法呼叫
@@ -376,40 +376,40 @@ public class MainActivity extends AppCompatActivity implements
         String strpatrol2 = ""; //字串用來放firebase設定的巡邏編號字串
         for (String strpatrol : patrolid) { //firebase設定的巡邏編號轉字串
             strpatrol2 = strpatrol; //firebase設定的巡邏編號最終字串
-            DatabaseReference hrsRef = database.getReference("/temi1/" + strpatrol2 + "/hrs"); //firebase 巡邏編號位址
+            DatabaseReference hrsRef = database.getReference("/temi1/" + strpatrol2 + "/hrs"); //firebase 巡邏時間小時位址
             String finalStrpatrol = strpatrol2; //firebase 最終巡邏編號位址字串
-            hrsRef.addValueEventListener(new ValueEventListener() { //firebase 巡邏時間小時
+            hrsRef.addValueEventListener(new ValueEventListener() { //firebase 巡邏時間小時回傳
                 @Override
-                public void onDataChange(DataSnapshot dataSnapshot) { //firebase api 回傳值監聽器
+                public void onDataChange(DataSnapshot dataSnapshot) { //firebase 回傳值與初始值有變化時
                     // This method is called once with the initial value and again
                     // whenever data at this location is updated.
-                    String hrs = dataSnapshot.getValue(String.class);
-                    Log.d("TAG", "hrs: " + hrs);
+                    String hrs = dataSnapshot.getValue(String.class); //firebase 巡邏時間小時字串讀取
+                    Log.d("TAG", "hrs: " + hrs); //log 輸出小時
 
-                    DatabaseReference minRef = database.getReference("/temi1/" + finalStrpatrol + "/min");
-                    minRef.addValueEventListener(new ValueEventListener() {
+                    DatabaseReference minRef = database.getReference("/temi1/" + finalStrpatrol + "/min"); //firebase 巡邏時間分鐘位址
+                    minRef.addValueEventListener(new ValueEventListener() { //firebase 巡邏時間分鐘回傳
                         @Override
-                        public void onDataChange(DataSnapshot dataSnapshot) {
+                        public void onDataChange(DataSnapshot dataSnapshot) { //firebase 回傳值與初始值有變化時
                             // This method is called once with the initial value and again
                             // whenever data at this location is updated.
-                            String min = dataSnapshot.getValue(String.class);
-                            Log.d("TAG", "min: " + min);
+                            String min = dataSnapshot.getValue(String.class); //firebase 巡邏時間分鐘字串讀取
+                            Log.d("TAG", "min: " + min); //log 輸出分鐘
 
-                            DatabaseReference placeRef = database.getReference("/temi1/" + finalStrpatrol + "/place");
-                            placeRef.addValueEventListener(new ValueEventListener() {
+                            DatabaseReference placeRef = database.getReference("/temi1/" + finalStrpatrol + "/place"); //firebase 巡邏地點名稱位址
+                            placeRef.addValueEventListener(new ValueEventListener() { //firebase 巡邏地點名稱回傳
                                 @Override
-                                public void onDataChange(DataSnapshot dataSnapshot) {
+                                public void onDataChange(DataSnapshot dataSnapshot) { //firebase 回傳值與初始值有變化時
                                     // This method is called once with the initial value and again
                                     // whenever data at this location is updated.
-                                    String place = dataSnapshot.getValue(String.class);
-                                    Log.d("TAG", "place: " + place);
-                                    if (hrs.trim().length() > 0 && min.trim().length() > 0 && place.trim().length() > 0) {
-                                        TimerManager(hrs, min, place);
+                                    String place = dataSnapshot.getValue(String.class); //firebase 巡邏地點名稱字串讀取
+                                    Log.d("TAG", "place: " + place); //log輸出地點名稱
+                                    if (hrs.trim().length() > 0 && min.trim().length() > 0 && place.trim().length() > 0) { //如果巡邏時間小時, 分鐘, 地點名稱皆不為空值時
+                                        TimerManager(hrs, min, place); //定時定點錄音排程呼叫
                                     }
                                 }
 
                                 @Override
-                                public void onCancelled(DatabaseError error) {
+                                public void onCancelled(DatabaseError error) { //資料庫無法讀取到值
                                     // Failed to read value
                                     Log.w("TAG", "Failed to read value.", error.toException());
                                 }
@@ -417,7 +417,7 @@ public class MainActivity extends AppCompatActivity implements
                         }
 
                         @Override
-                        public void onCancelled(DatabaseError error) {
+                        public void onCancelled(DatabaseError error) { //資料庫無法讀取到值
                             // Failed to read value
                             Log.w("TAG", "Failed to read value.", error.toException());
                         }
@@ -425,7 +425,7 @@ public class MainActivity extends AppCompatActivity implements
                 }
 
                 @Override
-                public void onCancelled(DatabaseError error) {
+                public void onCancelled(DatabaseError error) { //資料庫無法讀取到值
                     // Failed to read value
                     Log.w("TAG", "Failed to read value.", error.toException());
                 }
@@ -435,7 +435,7 @@ public class MainActivity extends AppCompatActivity implements
     }
 
     @Override
-    public void onRobotReady(boolean isReady) {//應用程式顯示在temi首頁上: https://github.com/robotemi/sdk/wiki/Home_chn
+    public void onRobotReady(boolean isReady) { //應用程式顯示在temi首頁上: https://github.com/robotemi/sdk/wiki/Home_chn
         if (isReady) {
             try {
                 final ActivityInfo activityInfo = getPackageManager().getActivityInfo(getComponentName(), PackageManager.GET_META_DATA);
@@ -447,64 +447,59 @@ public class MainActivity extends AppCompatActivity implements
     }
 
     @Override
-    public void onCurrentPositionChanged(Position position) {
-        System.out.println("list:onCurrentPosition Position: " + position.toString());
+    public void onCurrentPositionChanged(Position position) { //temi位置變更監聽器
+        System.out.println("list:onCurrentPosition Position: " + position.toString()); //log輸出temi現在位置(xy座標)
     }
 
     @Override
-    public void onGoToLocationStatusChanged(@NotNull String location, String status, int descriptionId, @NotNull String description) {
-        System.out.println("list: OnGoToLocationStatusChanged");
-        switch (status) {
-            case OnGoToLocationStatusChangedListener.START:
+    public void onGoToLocationStatusChanged(@NotNull String location, String status, int descriptionId, @NotNull String description) { //temi走路狀態監聽器
+        System.out.println("list: OnGoToLocationStatusChanged"); //log輸出現在執行temi走路狀態監聽器
+        switch (status) { //temi走路狀態
+            case OnGoToLocationStatusChangedListener.START: //temi開始走時
                 try {
-                    robot.tiltAngle(0);
-                    robot.setGoToSpeed(SpeedLevel.SLOW);
-//                    startrec();
-                    System.out.println("list: OnGoToLocationStatusChangedListener_START");
+                    robot.tiltAngle(0); //temi螢幕仰角設定為0度
+                    robot.setGoToSpeed(SpeedLevel.SLOW); //temi走動速度設定為慢
+//                    startrec(); //開始錄音
+                    System.out.println("list: OnGoToLocationStatusChangedListener_START"); //log輸出現在temi開始走路
                 } catch (Exception e) {
                     Log.e(TAGError, "list:Error:" + e.getMessage());
                 }
                 break;
-            case OnGoToLocationStatusChangedListener.GOING:
+            case OnGoToLocationStatusChangedListener.GOING: //temi走路中
                 try {
-                    robot.tiltAngle(0);
-                    robot.setGoToSpeed(SpeedLevel.SLOW);
-                    System.out.println("list: OnGoToLocationStatusChangedListener_GOING");
+                    robot.tiltAngle(0); //temi螢幕仰角設定為0度
+                    robot.setGoToSpeed(SpeedLevel.SLOW); //temi走動速度設定為慢
+                    System.out.println("list: OnGoToLocationStatusChangedListener_GOING"); //log輸出現在temi走路中
                 } catch (Exception e) {
-                    Log.e(TAGError, "list:Error:" + e.getMessage());
+                    Log.e(TAGError, "list:Error:" + e.getMessage()); //log輸出bug說明
                 }
                 break;
-            case OnGoToLocationStatusChangedListener.CALCULATING:
-                robot.tiltAngle(0);
-                System.out.println("list: OnGoToLocationStatusChangedListener_CALCULATING");
-                //計算
+            case OnGoToLocationStatusChangedListener.CALCULATING: //temi走路計算中
+                robot.tiltAngle(0); //temi螢幕仰角設定為0度
+                System.out.println("list: OnGoToLocationStatusChangedListener_CALCULATING"); //log輸出現在temi走路計算中
                 break;
-            case OnGoToLocationStatusChangedListener.COMPLETE:
+            case OnGoToLocationStatusChangedListener.COMPLETE: //temi走路完不動
                 try {
-                    robot.tiltAngle(55);
-                    //robot.repose();
-                    //robot.stopMovement();
-                    y = 1;
-                    System.out.println("list:4 y2 = " + y);
-                    stoprec();
-                    Thread.sleep(2000);
-//                    mDatabase.child("face").child("temi1").child("patrol").child("py").setValue(false);
-//                    bgwhite.setVisibility(View.INVISIBLE);
-//                    gifImageView.setVisibility(View.INVISIBLE);
-                    System.out.println("list: OnGoToLocationStatusChangedListener_COMPLETE");
+                    robot.tiltAngle(55); //temi螢幕仰角設定為55度
+                    //robot.repose(); //temi重新定位
+                    //robot.stopMovement(); //temi停止不動
+                    y = 1; //上傳圖片變數控制
+                    System.out.println("list:4 y2 = " + y); //log輸出上傳圖片變數
+                    stoprec(); //停止錄音方法呼叫
+                    System.out.println("list: OnGoToLocationStatusChangedListener_COMPLETE"); //log輸出現在temi走路完不動後
                 } catch (Exception e) {
-                    Log.e(TAGError, "list: Error:" + e.getMessage());
+                    Log.e(TAGError, "list: Error:" + e.getMessage()); //log輸出bug說明
                 }
                 break;
-            case OnGoToLocationStatusChangedListener.ABORT:
-                robot.tiltAngle(55);
-                System.out.println("list: OnGoToLocationStatusChangedListener_ABORT");
-                //robot.stopMovement();
+            case OnGoToLocationStatusChangedListener.ABORT: //temi走路中止
+                robot.tiltAngle(55); //temi螢幕仰角設定為55度
+                System.out.println("list: OnGoToLocationStatusChangedListener_ABORT"); //log輸出現在temi走路中止
+                //robot.stopMovement(); //temi停止不動
                 break;
         }
     }
 
-//    private void hideKeyboard(Activity activity) {
+//    private void hideKeyboard(Activity activity) { //temi隱藏鍵盤(沒用到)
 //        InputMethodManager imm = (InputMethodManager) activity.getSystemService(Activity.INPUT_METHOD_SERVICE);
 //        //Find the currently focused view, so we can grab the correct window token from it.
 //        View view = activity.getCurrentFocus();
