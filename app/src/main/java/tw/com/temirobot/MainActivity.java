@@ -134,7 +134,7 @@ public class MainActivity extends AppCompatActivity implements
     private int y = 0; //上傳圖片變數宣告
     private TimerTask task = null; //排程timer任務宣告
     private Timer timer = null; //排程timer宣告
-    private static final long PERIOD_DAY = 24 * 60 * 60 * 1000; //排程週期宣告, 設為每週
+    private static final long PERIOD_DAY = 24 * 60 * 60 * 1000; //排程週期宣告, 設為每天
     private static final String TAGError = "Recorder"; //log錄音標記
 
     //臉部辨識
@@ -188,6 +188,15 @@ public class MainActivity extends AppCompatActivity implements
         bgwhite = findViewById(R.id.bgwhite); //ui 白色背景綁定
         gifImageView = findViewById(R.id.gifImageView); //ui gif笑臉綁定
 
+        mDatabase.child("face").child("temi2").child("welcome").child("py").setValue(false); //以下為臉部辨識firebase變數初始化
+        mDatabase.child("face").child("temi2").child("welcome").child("and").setValue(false);
+        mDatabase.child("face").child("temi2").child("regis").child("py").setValue(false);
+        mDatabase.child("face").child("temi2").child("regis").child("and").setValue(false);
+        mDatabase.child("face").child("temi2").child("checkin").child("py").setValue(false);
+        mDatabase.child("face").child("temi2").child("checkin").child("and").setValue(false);
+        mDatabase.child("face").child("temi2").child("patrol").child("py").setValue(false);
+        mDatabase.child("face").child("temi2").child("patrol").child("and").setValue(false);
+
         DBTime(); //呼叫巡邏時間地點方法
     }
 
@@ -198,183 +207,180 @@ public class MainActivity extends AppCompatActivity implements
         robot.addOnGoToLocationStatusChangedListener(this); //temi走路狀態監聽器添加
         robot.addOnRobotReadyListener(this); //應用程式顯示在temi的首頁上監聽器添加
 
+        //測試用
 //        audioname = dateFormat.format(calendar.getTime()); //錄音檔名稱設置時間
 //        timerval = 1; //錄音timer變數初始值(沒用到)
-//        robot.goTo(place); //temi
-//        startrec(audioname);
-//        stoprec();
-//        startCamera();
-//        mDatabase.child("face").child("temi1").child("patrol").child("py").setValue(true);
-//        mDatabase.child("face").child("temi1").child("checkin").child("py").setValue(false);
-//        mDatabase.child("face").child("temi1").child("regis").child("py").setValue(false);
-//        mDatabase.child("face").child("temi1").child("welcome").child("py").setValue(false);
+//        robot.goTo(place); //temi前往地點
+//        startrec(audioname); //開始錄音方法呼叫
+//        stoprec(); //停止錄音方法呼叫
+//        startCamera(); //開啟相機方法呼叫
+//        mDatabase.child("face").child("temi1").child("patrol").child("py").setValue(true); //臉部辨識 firebase變數 巡邏開啟
+//        mDatabase.child("face").child("temi1").child("checkin").child("py").setValue(false); //臉部辨識 firebase變數 報到關閉
+//        mDatabase.child("face").child("temi1").child("regis").child("py").setValue(false); //臉部辨識 firebase變數 註冊關閉
+//        mDatabase.child("face").child("temi1").child("welcome").child("py").setValue(false); //臉部辨識 firebase變數 迎賓關閉
     }
 
     @Override
-    public void onStop() {
-        super.onStop();
-        robot.removeOnCurrentPositionChangedListener(this);
-        robot.removeOnGoToLocationStatusChangedListener(this);
-        robot.removeOnRobotReadyListener(this);
+    public void onStop() { //安卓Activity生命週期onStop
+        super.onStop(); //執行生命週期onStop
+        robot.removeOnCurrentPositionChangedListener(this); //temi位置變更監聽器移除
+        robot.removeOnGoToLocationStatusChangedListener(this); //temi走路狀態監聽器移除
+        robot.removeOnRobotReadyListener(this); //應用程式顯示在temi的首頁上監聽器移除
         try {
-            System.out.println("list:4 stop 停止錄音: " + recorder);
-            recorder.stop();
-            recorder.release();
-            recorder = null;
-            uploadAudio(audioname);
+            System.out.println("list:4 stop 停止錄音: " + recorder); //輸出錄音狀態
+            recorder.stop(); //安卓錄音api停止方法
+            recorder.release(); //安卓錄音api釋放方法
+            recorder = null; //安卓錄音狀態初始化
+            uploadAudio(audioname); //上傳錄音檔方法呼叫
         } catch (RuntimeException e) {
-            Log.e(TAG, e.toString());
-            System.out.println("list:4 stop 停止錄音 e: " + recorder);
-            uploadAudio(audioname);
-//            recorder.reset();
-//            recorder.release();
-            recorder = null;
-//            File file3 = new File(getExternalFilesDir(""), audioname + ".mp4");
-//            if (file3.exists())
-//                file3.delete();
-//            System.out.println("list:4 stoprec file3 delete: " + audioname);
+            Log.e(TAG, e.toString()); //log 輸出 bug說明
+            System.out.println("list:4 stop 停止錄音 e: " + recorder); //輸出錄音狀態
+//            uploadAudio(audioname); //上傳錄音檔方法呼叫
+//            recorder.reset(); //安卓錄音api還原方法
+//            recorder.release(); //安卓錄音api釋放方法
+            recorder = null; //安卓錄音狀態初始化
+//            File file3 = new File(getExternalFilesDir(""), audioname + ".mp4"); //建立錄音檔
+//            if (file3.exists()) //如果檔案存在
+//                file3.delete(); //將檔案移除
+//            System.out.println("list:4 stoprec file3 delete: " + audioname); //log輸出已移除檔案
         }
-//        timerval = 0;
-//        if (recorder != null) {
-//            recorder.stop();
-//            recorder.release();
-//            recorder = null;
-//            System.out.println("list: ----最終釋放----");
-//        } else Log.d(TAG, "list: recorder is null.");
+//        timerval = 0; //錄音timer變數(沒用到)
+//        if (recorder != null) { //如果安卓錄音狀態不是初始狀態
+//            recorder.stop(); //安卓錄音api停止方法
+//            recorder.release(); //安卓錄音api釋放方法
+//            recorder = null; //安卓錄音狀態初始化
+//            System.out.println("list: ----最終釋放----"); //log輸出錄音狀態釋放
+//        } else Log.d(TAG, "list: recorder is null."); //log輸出錄音狀態為初始狀態
     }
 
     @Override
-    protected void onResume() {
-        super.onResume();
-        startCamera();
-//        DatabaseReference myRef2 = mDatabase.child("face").child("temi1").child("patrol").child("py");
-//        myRef2.addValueEventListener(new ValueEventListener() {
+    protected void onResume() { //安卓Activity生命週期onResume
+        super.onResume(); //執行生命週期onResume
+        startCamera(); //開啟相機方法呼叫
+//        DatabaseReference myRef2 = mDatabase.child("face").child("temi1").child("patrol").child("py"); //臉部辨識 firebase 變數 巡邏狀態位址
+//        myRef2.addValueEventListener(new ValueEventListener() { //firebase api 回傳值監聽器
 //            @Override
-//            public void onDataChange(DataSnapshot dataSnapshot) {
+//            public void onDataChange(DataSnapshot dataSnapshot) { //firebase 回傳值與初始值有變化時
 //                // This method is called once with the initial value and again
 //                // whenever data at this location is updated.
 //                Boolean value2 = dataSnapshot.getValue(Boolean.class);
 //                Log.d("TAG", "Value2 is: " + value2);
-//                if (value2 == true) {
-//                    startCamera();
+//                if (value2 == true) { //如果變數是true
+//                    startCamera(); //開啟相機方法呼叫
 //                }
 //            }
 //
 //            @Override
-//            public void onCancelled(DatabaseError error) {
+//            public void onCancelled(DatabaseError error) { //資料庫無法讀取到值
 //                // Failed to read value
 //                Log.w("TAG", "Failed to read value.", error.toException());
 //            }
 //        });
     }
 
-    public void btnface(View v) {
-        Intent it = new Intent(MainActivity.this, FaceRecognition.class);
-        startActivity(it);
-        finish();
+    public void btnface(View v) { //按下智能報到按鈕
+        Intent it = new Intent(MainActivity.this, FaceRecognition.class); //跳到智能報到頁面
+        startActivity(it); //開始下一個頁面生命週期
+        finish(); //結束此頁面
     }
 
-    public void btngame(View v) {
-        Intent it = new Intent(MainActivity.this, Game.class);
-        startActivity(it);
-        finish();
+    public void btngame(View v) { //按下猜拳小遊戲按鈕
+        Intent it = new Intent(MainActivity.this, Game.class); //跳到猜拳小遊戲頁面
+        startActivity(it); //開始下一個頁面生命週期
+        finish(); //結束此頁面
     }
 
-    public void btnregis(View v) {
-        Intent it = new Intent(MainActivity.this, Regis.class);
-        startActivity(it);
-        finish();
+    public void btnregis(View v) { //按下照片註冊按鈕
+        Intent it = new Intent(MainActivity.this, Regis.class); //跳到照片註冊頁面
+        startActivity(it); //開始下一個頁面生命週期
+        finish(); //結束此頁面
     }
 
-    public void btnwelcome(View v) {
-        Intent it = new Intent(MainActivity.this, Welcome.class);
-        startActivity(it);
-        finish();
+    public void btnwelcome(View v) { //按下迎賓按鈕
+        Intent it = new Intent(MainActivity.this, Welcome.class); //跳到迎賓頁面
+        startActivity(it); //開始下一個頁面生命週期
+        finish(); //結束此頁面
     }
 
-//    public void btnstartplay(View v){
+     //測試用(播放錄音)
+//    public void btnstartplay(View v){ //按下播放錄音按鈕
 //        mPlayer = new MediaPlayer();
 //        try {
-//            mPlayer.setDataSource(new File(getExternalFilesDir(""), "record_a.mp4").getAbsolutePath());
-//            mPlayer.prepare();
-//            mPlayer.start();
-//            System.out.println("list: 播放錄音成功");
+//            mPlayer.setDataSource(new File(getExternalFilesDir(""), "record_a.mp4").getAbsolutePath()); //安卓播放api錄音檔位址
+//            mPlayer.prepare(); //安卓播放api準備方法
+//            mPlayer.start(); //安卓播放api開始方法
+//            System.out.println("list: 播放錄音成功"); //log輸出播放錄音成功
 //        } catch (IOException e) {
-//            Log.e(LOG_TAG, "list: 播放失敗");
+//            Log.e(LOG_TAG, "list: 播放失敗"); //log輸出播放失敗
 //        }
 //    }
 //
-//    public void btnstopplay(View v){
-//        mPlayer.release();
-//        mPlayer = null;
-//        System.out.println("list: 停止播放錄音");
+//    public void btnstopplay(View v){ //按下播放錄音停止按鈕
+//        mPlayer.release(); //安卓播放api釋放方法
+//        mPlayer = null; //安卓播放api播放狀態初始化
+//        System.out.println("list: 停止播放錄音");  //log輸出停止播放錄音
 //    }
 
-    public void TimerManager(String hrs, String min, String place2) {
-        int inthrs = Integer.parseInt(hrs);
-        int intmin = Integer.parseInt(min);
-        Calendar calendar = Calendar.getInstance();
-        calendar.set(Calendar.HOUR_OF_DAY, inthrs);
-        calendar.set(Calendar.MINUTE, intmin);
-        calendar.set(Calendar.SECOND, 0);
+    public void TimerManager(String hrs, String min, String place2) { //定時定點錄音排程方法
+        int inthrs = Integer.parseInt(hrs); //排程小時宣告
+        int intmin = Integer.parseInt(min); //排程分鐘宣告
+        Calendar calendar = Calendar.getInstance(); //安卓時間引用
+        calendar.set(Calendar.HOUR_OF_DAY, inthrs); //排程小時
+        calendar.set(Calendar.MINUTE, intmin); //排程分鐘
+        calendar.set(Calendar.SECOND, 0); //排程秒
         Date date = calendar.getTime(); //第一次執行任務的時間
         //如果第一次執行定時任務的時間 小於當前時間
         //此時要在 第一次執行定時任務的時間加一天，以便此任務在下個時間點執行。如果不加一天，任務會立即執行。
         if (date.before(new Date())) {
             date = this.addDay(date, 1);
         }
-        Timer timer = new Timer();
+        Timer timer = new Timer(); //timer定時定點錄音排程
         TimerTask task = new TimerTask() {
             @Override
             public void run() {
-                mDatabase.child("face").child("temi1").child("patrol").child("py").setValue(true);
-                mDatabase.child("face").child("temi1").child("checkin").child("py").setValue(false);
-                mDatabase.child("face").child("temi1").child("regis").child("py").setValue(false);
-                mDatabase.child("face").child("temi1").child("welcome").child("py").setValue(false);
-//                bgwhite.setVisibility(View.VISIBLE);
-//                gifImageView.setVisibility(View.VISIBLE);
-//                y = 1;
-                System.out.println("list:4 y1 = " + y);
-                audioname = dateFormat.format(calendar.getTime());
-                startrec(audioname);
-                robot.goTo(place2);
+                mDatabase.child("face").child("temi1").child("patrol").child("py").setValue(true); //臉部辨識 firebase 變數 巡邏開啟
+                mDatabase.child("face").child("temi1").child("checkin").child("py").setValue(false); //臉部辨識 firebase 變數 報到開啟
+                mDatabase.child("face").child("temi1").child("regis").child("py").setValue(false); //臉部辨識 firebase 變數 註冊開啟
+                mDatabase.child("face").child("temi1").child("welcome").child("py").setValue(false); //臉部辨識 firebase 變數 迎賓開啟
+//                y = 1; //上傳圖片變數控制
+                System.out.println("list:4 y1 = " + y); //log輸出上傳圖片變數值
+                audioname = dateFormat.format(calendar.getTime()); //錄音檔名稱設為時間
+                startrec(audioname); //開始錄音方法呼叫
+                robot.goTo(place2); //temi sdk 走去指定地點
             }
         };
         //安排指定的任務在指定的時間開始進行重複的固定延遲執行。
-        timer.schedule(task, date, PERIOD_DAY);
+        timer.schedule(task, date, PERIOD_DAY); //每天重複執行排程
     }
 
-    // 增加或减少天數
+    //  排程增加或减少天數
     public Date addDay(Date date, int num) {
         Calendar startDT = Calendar.getInstance();
-        startDT.setTime(date);
-        startDT.add(Calendar.DAY_OF_MONTH, num);
+        startDT.setTime(date); //設定日期
+        startDT.add(Calendar.DAY_OF_MONTH, num); //增加天數
         return startDT.getTime();
     }
 
-    public void DBTime() {
-        List<String> patrolid = new ArrayList<>();
-        patrolid.add("1-1");
-        patrolid.add("1-2");
-        patrolid.add("1-3");
-//        patrolid.add("2-1");
-//        patrolid.add("2-2");
-//        patrolid.add("2-3");
-//        patrolid.add("31");
-//        patrolid.add("32");
-//        patrolid.add("33");
-//        patrolid.add("41");
-//        patrolid.add("42");
-//        patrolid.add("43");
-        System.out.println(patrolid);
-        String strpatrol2 = "";
-        for (String strpatrol : patrolid) {
-            strpatrol2 = strpatrol;
-            DatabaseReference hrsRef = database.getReference("/temi1/" + strpatrol2 + "/hrs");
-            String finalStrpatrol = strpatrol2;
-            hrsRef.addValueEventListener(new ValueEventListener() {
+    public void DBTime() { //讀取firebase設定的巡邏時間與地點
+        List<String> patrolid = new ArrayList<>(); //巡邏編號list
+        patrolid.add("1-1"); //firebase設定的巡邏編號1-1
+        patrolid.add("1-2"); //firebase設定的巡邏編號1-2
+        patrolid.add("1-3"); //firebase設定的巡邏編號1-3
+//        patrolid.add("2-1"); //firebase設定的巡邏編號2-1
+//        patrolid.add("2-2"); //firebase設定的巡邏編號2-2
+//        patrolid.add("2-3"); //firebase設定的巡邏編號2-3
+//        patrolid.add("3-1"); //firebase設定的巡邏編號3-1
+//        patrolid.add("3-2"); //firebase設定的巡邏編號3-2
+//        patrolid.add("3-3"); //firebase設定的巡邏編號3-3
+        System.out.println(patrolid); //log輸出firebase設定的巡邏編號
+        String strpatrol2 = ""; //字串用來放firebase設定的巡邏編號字串
+        for (String strpatrol : patrolid) { //firebase設定的巡邏編號轉字串
+            strpatrol2 = strpatrol; //firebase設定的巡邏編號最終字串
+            DatabaseReference hrsRef = database.getReference("/temi1/" + strpatrol2 + "/hrs"); //firebase 巡邏編號位址
+            String finalStrpatrol = strpatrol2; //firebase 最終巡邏編號位址字串
+            hrsRef.addValueEventListener(new ValueEventListener() { //firebase 巡邏時間小時
                 @Override
-                public void onDataChange(DataSnapshot dataSnapshot) {
+                public void onDataChange(DataSnapshot dataSnapshot) { //firebase api 回傳值監聽器
                     // This method is called once with the initial value and again
                     // whenever data at this location is updated.
                     String hrs = dataSnapshot.getValue(String.class);
