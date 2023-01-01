@@ -81,43 +81,41 @@ import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
 public class FaceRecognition extends AppCompatActivity {
-    private static Robot robot;
-    private static final String TAG = "Welcome";
-    private static final int PERMISSION_CODE = 1001;
-    private static final String CAMERA_PERMISSION = Manifest.permission.CAMERA;
-    private PreviewView previewView;
-    private CameraSelector cameraSelector;
-    private ProcessCameraProvider cameraProvider;
-    private int lensFacing = CameraSelector.LENS_FACING_BACK;
-    private Preview previewUseCase;
-    private ImageAnalysis analysisUseCase;
-    private TextView txtdetect;
-    private int y = 0;
+    private static Robot robot; //temi sdk宣告
+    private static final String TAG = "FaceRecognition"; //log智能報到標記
+    private static final int PERMISSION_CODE = 1001; //相機授權碼宣告
+    private static final String CAMERA_PERMISSION = Manifest.permission.CAMERA; //相機授權宣告
+    private PreviewView previewView; //相機預覽畫面宣告
+    private CameraSelector cameraSelector; //前後相機選擇宣告
+    private ProcessCameraProvider cameraProvider; //相機提供宣告
+    private int lensFacing = CameraSelector.LENS_FACING_BACK; //後相機宣告
+    private Preview previewUseCase; //預覽畫面綁定宣告
+    private ImageAnalysis analysisUseCase; //畫面分析綁定宣告
+    private TextView txtdetect; //UI偵測結果文字宣告
+    private int y = 0; //上傳圖片變數宣告
 
-    private final HashMap<String, SimilarityClassifier.Recognition> registered = new HashMap<>(); //saved Faces
-    private boolean flipX = false;
+    //    private final HashMap<String, SimilarityClassifier.Recognition> registered = new HashMap<>(); //saved Faces //舊安卓端即時臉部辨識用(註冊用)(沒用到)
+    private boolean flipX = false; //畫面旋轉宣告
 
-    private static FirebaseStorage storage;
-    private StorageReference mStorageRef;
-    private DatabaseReference mDatabase;
-    private static final String TAG_f = "Firebase";
-    private FirebaseDatabase database;
+    private static FirebaseStorage storage; //firebase storage宣告
+    private StorageReference mStorageRef; //firebase storage 檔案位址宣告
+    private DatabaseReference mDatabase; //firebase 即時資料庫宣告
+    private static final String TAG_f = "Firebase"; //log firebase標記
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_face_recognition);
+    protected void onCreate(Bundle savedInstanceState) { //安卓Activity生命週期onCreate
+        super.onCreate(savedInstanceState); //執行生命週期onCreate
+        setContentView(R.layout.activity_face_recognition); //綁定智能報到ui畫面
 
         System.out.println("list:3 FaceRecognition");
-        y = 1;
+        y = 1; //上傳圖片變數初始值
 
-        robot = Robot.getInstance();
-        mStorageRef = FirebaseStorage.getInstance().getReference();
-        mDatabase = FirebaseDatabase.getInstance().getReference();
-        storage = FirebaseStorage.getInstance();
-        database = FirebaseDatabase.getInstance();
+        robot = Robot.getInstance(); //temi sdk 引用
+        mStorageRef = FirebaseStorage.getInstance().getReference(); //firebase storage api 引用(監聽上傳狀態用)
+        mDatabase = FirebaseDatabase.getInstance().getReference(); //firebase 即時資料庫 api 引用
+        storage = FirebaseStorage.getInstance(); //firebase storage api 引用
 
-        mDatabase.child("face").child("temi1").child("checkin").child("id").setValue("");
+        mDatabase.child("face").child("temi1").child("checkin").child("id").setValue(""); //以下為臉部辨識firebase變數初始化, 設定為temi1
         mDatabase.child("face").child("temi1").child("checkin").child("py").setValue(true);
         mDatabase.child("face").child("temi1").child("checkin").child("and").setValue(false);
         mDatabase.child("face").child("temi1").child("welcome").child("py").setValue(false);
@@ -127,29 +125,29 @@ public class FaceRecognition extends AppCompatActivity {
         mDatabase.child("face").child("temi1").child("patrol").child("py").setValue(false);
         mDatabase.child("face").child("temi1").child("patrol").child("and").setValue(false);
 
-        previewView = findViewById(R.id.previewView);
-        previewView.setScaleType(PreviewView.ScaleType.FIT_CENTER);
+        previewView = findViewById(R.id.previewView); //ui 預覽畫面綁定
+        previewView.setScaleType(PreviewView.ScaleType.FIT_CENTER); //ui 預覽畫面位置綁定
 
-        txtdetect = findViewById(R.id.detection_text);
-        txtdetect.setText("臉部辨識中，請等候三秒");
+        txtdetect = findViewById(R.id.detection_text); //UI偵測結果文字綁定
+        txtdetect.setText("臉部辨識中，請等候三秒"); //UI偵測結果文字
     }
 
     @Override
     protected void onStart() {
         super.onStart();
-    }
+    } //安卓Activity生命週期onStart, 執行生命週期onStart
 
     @Override
     public void onStop()
     {
         super.onStop();
-    }
+    } //安卓Activity生命週期onStop, 執行生命週期onStop
 
     @Override
-    protected void onResume() {
-        super.onResume();
-        startCamera();
-        //以下註解部分移到FaceRecognition2頁面onResume週期
+    protected void onResume() { //安卓Activity生命週期onResume
+        super.onResume(); //執行生命週期onResume
+        startCamera(); //開啟相機方法呼叫
+        //以下註解的部分移到FaceRecognition2頁面onResume週期
 //        DatabaseReference myRef1 = database.getReference("/face/temi1/checkin/id");
 //        myRef1.addValueEventListener(new ValueEventListener() {
 //            @Override
@@ -202,22 +200,22 @@ public class FaceRecognition extends AppCompatActivity {
 //        });
     }
 
-    public void btnhome(View v){
-        Intent it = new Intent(FaceRecognition.this,MainActivity.class);
-        startActivity(it);
-        finish();
+    public void btnhome(View v){ //按下首頁按鈕
+        Intent it = new Intent(FaceRecognition.this,MainActivity.class); //跳到首頁
+        startActivity(it); //開始下一個頁面生命週期
+        finish(); //結束此頁面
     }
 
     /** 人臉辨識 */
     /**
      * Permissions Handler
      */
-    private void getPermissions() {
+    private void getPermissions() { //取得授權方法
         ActivityCompat.requestPermissions(this, new String[]{CAMERA_PERMISSION}, PERMISSION_CODE);
     }
 
     @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, int[] grantResults) {
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, int[] grantResults) { //授權結果
         for (int r : grantResults) {
             if (r == PackageManager.PERMISSION_DENIED) {
                 Toast.makeText(this, "Permission Denied", Toast.LENGTH_SHORT).show();
@@ -233,7 +231,7 @@ public class FaceRecognition extends AppCompatActivity {
     /**
      * Setup camera & use cases
      */
-    private void startCamera() {
+    private void startCamera() { //開啟相機方法
         if (ContextCompat.checkSelfPermission(this, CAMERA_PERMISSION) == PackageManager.PERMISSION_GRANTED) {
             setupCamera();
             System.out.println("list:2 startCamera1");
@@ -243,7 +241,7 @@ public class FaceRecognition extends AppCompatActivity {
         }
     }
 
-    private void setupCamera() {
+    private void setupCamera() { //設置相機方法
         final ListenableFuture<ProcessCameraProvider> cameraProviderFuture =
                 ProcessCameraProvider.getInstance(this);
         System.out.println("list:2 setupCamera");
@@ -260,7 +258,7 @@ public class FaceRecognition extends AppCompatActivity {
         }, ContextCompat.getMainExecutor(this));
     }
 
-    private void bindAllCameraUseCases() {
+    private void bindAllCameraUseCases() { //相機綁定方法
         System.out.println("list:2 bindAllCameraUseCases");
 
         if (cameraProvider != null) {
@@ -270,7 +268,7 @@ public class FaceRecognition extends AppCompatActivity {
         }
     }
 
-    private void bindPreviewUseCase() {
+    private void bindPreviewUseCase() { //預覽畫面綁定方法
         System.out.println("list:2 bindPreviewUseCase");
 
         if (cameraProvider == null) {
@@ -296,7 +294,7 @@ public class FaceRecognition extends AppCompatActivity {
         }
     }
 
-    private void bindAnalysisUseCase() {
+    private void bindAnalysisUseCase() { //預覽畫面分析綁定方法
         System.out.println("list:2 bindAnalysisUseCase");
 
         if (cameraProvider == null) {
@@ -324,19 +322,19 @@ public class FaceRecognition extends AppCompatActivity {
         }
     }
 
-    protected int getRotation() throws NullPointerException {
+    protected int getRotation() throws NullPointerException { //預覽畫面角度旋轉方法(沒用到)
         System.out.println("list:2 getRotation");
         return previewView.getDisplay().getRotation();
     }
 
-    public void uploadImage(Bitmap bitmap) {
+    public void uploadImage(Bitmap bitmap) { //firebase上傳圖片方法(只要偵測到人臉就拍照)
         Log.d(TAG_f, "list: upload");
         // Create a storage reference from our app
         StorageReference storageRef = storage.getReference();
 
-        StorageReference checkinRef = storageRef.child("images").child("unknown").child("unknown1.jpg");
+        StorageReference checkinRef = storageRef.child("images").child("unknown").child("unknown1.jpg"); //firebase圖片位址, 檔名固定為unknown1.jpg
 
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        ByteArrayOutputStream baos = new ByteArrayOutputStream(); //bitmap轉換成byte
         bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
         byte[] data = baos.toByteArray();
         UploadTask uploadTask = checkinRef.putBytes(data);
@@ -344,28 +342,28 @@ public class FaceRecognition extends AppCompatActivity {
         // Observe state change events such as progress, pause, and resume
         uploadTask.addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
             @Override
-            public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
+            public void onProgress(UploadTask.TaskSnapshot taskSnapshot) { //firebase api上傳進度
                 double progress = (100.0 * taskSnapshot.getBytesTransferred()) / taskSnapshot.getTotalByteCount();
-                Log.d(TAG_f, "list: Upload is " + progress + "% done");
-                if(progress >= 100){
-                    Intent it = new Intent(FaceRecognition.this,FaceRecognition2.class);
-                    startActivity(it);
-                    finish();
+                Log.d(TAG_f, "list: Upload is " + progress + "% done"); //log輸出上傳進度
+                if(progress >= 100){ //如果進度>=100%
+                    Intent it = new Intent(FaceRecognition.this,FaceRecognition2.class); //跳至FaceRecognition2頁面
+                    startActivity(it); //開始下一個頁面生命週期
+                    finish(); //結束此頁面
                 }
             }
-        }).addOnPausedListener(new OnPausedListener<UploadTask.TaskSnapshot>() {
+        }).addOnPausedListener(new OnPausedListener<UploadTask.TaskSnapshot>() { //firebase api上傳暫停
             @Override
             public void onPaused(UploadTask.TaskSnapshot taskSnapshot) {
                 Log.d(TAG_f, "list: Upload is paused");
             }
         });
 
-        uploadTask.addOnFailureListener(new OnFailureListener() {
+        uploadTask.addOnFailureListener(new OnFailureListener() { //firebase api上傳失敗
             @Override
             public void onFailure(@NonNull Exception exception) {
                 // Handle unsuccessful uploads
             }
-        }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+        }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() { //firebase api上傳成功
             @Override
             public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                 // taskSnapshot.getMetadata() contains file metadata such as size, content-type, etc.
@@ -374,6 +372,7 @@ public class FaceRecognition extends AppCompatActivity {
         });
     }
 
+    //firebase上傳狀態
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
@@ -415,31 +414,31 @@ public class FaceRecognition extends AppCompatActivity {
     }
 
     @SuppressLint("UnsafeOptInUsageError")
-    private void analyze(@NonNull ImageProxy image) {
+    private void analyze(@NonNull ImageProxy image) { //分析(傳入預覽畫面照片)
         System.out.println("list:2 analyze");
         if (image.getImage() == null) return;
 
-        InputImage inputImage = InputImage.fromMediaImage(
+        InputImage inputImage = InputImage.fromMediaImage( //照片與角度轉換
                 image.getImage(),
                 image.getImageInfo().getRotationDegrees()
         );
 
-        FaceDetector faceDetector = FaceDetection.getClient();
+        FaceDetector faceDetector = FaceDetection.getClient(); //開啟偵測人臉
 
-        faceDetector.process(inputImage)
+        faceDetector.process(inputImage) //偵測人臉(輸入照片)
                 .addOnSuccessListener(faces -> onSuccessListener(faces, inputImage))
                 .addOnFailureListener(e -> Log.e(TAG, "Barcode process failure", e))
                 .addOnCompleteListener(task -> image.close());
     }
 
-    private void onSuccessListener(List<Face> faces, InputImage inputImage) {
-        System.out.println("list:2 onSuccessListener");
-        Rect boundingBox = null;
+    private void onSuccessListener(List<Face> faces, InputImage inputImage) {  //偵測人臉成功監聽器
+        System.out.println("list:2 onSuccessListener"); //log輸出現在執行偵測人臉成功監聽器
+        Rect boundingBox = null; //方框宣告
         //String name = null;
         //float scaleX = (float) previewView.getWidth() / (float) inputImage.getHeight();
         //float scaleY = (float) previewView.getHeight() / (float) inputImage.getWidth();
 
-        if (faces.size() > 0) {
+        if (faces.size() > 0) { //如果大於0張臉
 
 //            // get first face detected
 //            Face face = faces.get(0);
@@ -454,8 +453,8 @@ public class FaceRecognition extends AppCompatActivity {
                     boundingBox);
 //            System.out.println("list:2 onSuccessListener4: " + inputImage.getMediaImage());
 //            System.out.println("list:2 bitmap4: " + bitmap);
-            if (y == 2) {
-                uploadImage(bitmapImage);
+            if (y == 2) { //如果上傳圖片變數==2, 避免不斷上傳圖片
+                uploadImage(bitmapImage); //上傳圖片方法呼叫
             }
             y++;
         }
@@ -467,7 +466,7 @@ public class FaceRecognition extends AppCompatActivity {
      *
      * @return
      */
-    private Bitmap mediaImgToBmp(InputImage image2, int rotation, Rect boundingBox) {
+    private Bitmap mediaImgToBmp(InputImage image2, int rotation, Rect boundingBox) { //照片轉bitmap方法
         System.out.println("list:2 mediaImgToBmp");
         System.out.println("list:2 mediaImgToBmp image: " + image2);
         Bitmap frame_bmp1 = null;
@@ -491,49 +490,7 @@ public class FaceRecognition extends AppCompatActivity {
         return frame_bmp1;
     }
 
-    private Bitmap getResizedBitmap(Bitmap bm) {
-        System.out.println("list:2 getResizedBitmap");
-        int width = bm.getWidth();
-        int height = bm.getHeight();
-        float scaleWidth = ((float) 112) / width;
-        float scaleHeight = ((float) 112) / height;
-        // CREATE A MATRIX FOR THE MANIPULATION
-        Matrix matrix = new Matrix();
-        // RESIZE THE BIT MAP
-        matrix.postScale(scaleWidth, scaleHeight);
-        // "RECREATE" THE NEW BITMAP
-        Bitmap resizedBitmap = Bitmap.createBitmap(
-                bm, 0, 0, width, height, matrix, false);
-        bm.recycle();
-        return resizedBitmap;
-    }
-
-    private static Bitmap getCropBitmapByCPU(Bitmap source, RectF cropRectF) {
-        System.out.println("list:2 getCropBitmapByCPU");
-        Bitmap resultBitmap = Bitmap.createBitmap((int) cropRectF.width(),
-                (int) cropRectF.height(), Bitmap.Config.ARGB_8888);
-        Canvas canvas = new Canvas(resultBitmap);
-
-        // draw background
-        Paint paint = new Paint(Paint.FILTER_BITMAP_FLAG);
-        paint.setColor(Color.WHITE);
-        canvas.drawRect(//from  w w  w. ja v  a  2s. c  om
-                new RectF(0, 0, cropRectF.width(), cropRectF.height()),
-                paint);
-
-        Matrix matrix = new Matrix();
-        matrix.postTranslate(-cropRectF.left, -cropRectF.top);
-
-        canvas.drawBitmap(source, matrix, paint);
-
-        if (source != null && !source.isRecycled()) {
-            source.recycle();
-        }
-
-        return resultBitmap;
-    }
-
-    private static Bitmap rotateBitmap(Bitmap bitmap, int rotationDegrees, boolean flipX) {
+    private static Bitmap rotateBitmap(Bitmap bitmap, int rotationDegrees, boolean flipX) { //bitmap角度計算與旋轉
         System.out.println("list:2 rotateBitmap");
 
         Matrix matrix = new Matrix();
@@ -553,7 +510,7 @@ public class FaceRecognition extends AppCompatActivity {
         return rotatedBitmap;
     }
 
-    private static byte[] YUV_420_888toNV21(Image image) {
+    private static byte[] YUV_420_888toNV21(Image image) { //照片byte緩衝方法
         System.out.println("list:2 YUV_420_888toNV21");
 
         int width = image.getWidth();//640
@@ -635,7 +592,7 @@ public class FaceRecognition extends AppCompatActivity {
         return nv21;
     }
 
-    private Bitmap toBitmap(Image image) {
+    private Bitmap toBitmap(Image image) { //照片轉bitmap方法
         System.out.println("list:2 toBitmap");
 
         byte[] nv21 = YUV_420_888toNV21(image);

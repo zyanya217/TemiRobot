@@ -880,14 +880,14 @@ public class MainActivity extends AppCompatActivity implements
     /**
      * Permissions Handler
      */
-    private void getPermissions() { //取得授權
+    private void getPermissions() { //取得授權方法
         ActivityCompat.requestPermissions(this, new String[]{CAMERA_PERMISSION}, PERMISSION_CODE);
     }
 
     /**
      * Setup camera & use cases
      */
-    private void startCamera() { //開啟相機
+    private void startCamera() { //開啟相機方法
         if (ContextCompat.checkSelfPermission(this, CAMERA_PERMISSION) == PackageManager.PERMISSION_GRANTED) {
             setupCamera();
             System.out.println("list:2 startCamera1");
@@ -897,7 +897,7 @@ public class MainActivity extends AppCompatActivity implements
         }
     }
 
-    private void setupCamera() { //設置相機
+    private void setupCamera() { //設置相機方法
         final ListenableFuture<ProcessCameraProvider> cameraProviderFuture =
                 ProcessCameraProvider.getInstance(this);
         System.out.println("list:2 setupCamera");
@@ -914,7 +914,7 @@ public class MainActivity extends AppCompatActivity implements
         }, ContextCompat.getMainExecutor(this));
     }
 
-    private void bindAllCameraUseCases() { //相機綁定
+    private void bindAllCameraUseCases() { //相機綁定方法
         System.out.println("list:2 bindAllCameraUseCases");
 
         if (cameraProvider != null) {
@@ -924,7 +924,7 @@ public class MainActivity extends AppCompatActivity implements
         }
     }
 
-    private void bindPreviewUseCase() { //預覽畫面綁定
+    private void bindPreviewUseCase() { //預覽畫面綁定方法
         System.out.println("list:2 bindPreviewUseCase");
 
         if (cameraProvider == null) {
@@ -949,7 +949,7 @@ public class MainActivity extends AppCompatActivity implements
         }
     }
 
-    private void bindAnalysisUseCase() { //預覽畫面分析綁定
+    private void bindAnalysisUseCase() { //預覽畫面分析綁定方法
         System.out.println("list:2 bindAnalysisUseCase");
 
         if (cameraProvider == null) {
@@ -1062,7 +1062,7 @@ public class MainActivity extends AppCompatActivity implements
             public void onFailure(@NonNull Exception exception) {
                 // Handle unsuccessful uploads
             }
-        }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {//firebase api上傳成功
+        }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() { //firebase api上傳成功
             @Override
             public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                 // taskSnapshot.getMetadata() contains file metadata such as size, content-type, etc.
