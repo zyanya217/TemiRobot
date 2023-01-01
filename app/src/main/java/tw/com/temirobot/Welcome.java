@@ -146,10 +146,10 @@ public class Welcome extends AppCompatActivity implements
         graphicOverlay = findViewById(R.id.graphic_overlay);
         previewImg = findViewById(R.id.preview_img);
         btnlock = findViewById(R.id.btnlock);
-        btnlock.setOnClickListener(new View.OnClickListener() {
+        btnlock.setOnClickListener(new View.OnClickListener() { //迎賓頁面防誤觸回首頁
             @Override
             public void onClick(View v) {
-                final AlertDialog.Builder builder = new AlertDialog.Builder(Welcome.this);
+                final AlertDialog.Builder builder = new AlertDialog.Builder(Welcome.this); //彈跳視窗
                 builder.setTitle("回首頁請輸入密碼");
 
                 // Set up the input
@@ -162,7 +162,7 @@ public class Welcome extends AppCompatActivity implements
                 builder.setPositiveButton("確認", (dialog, which) -> {
                     //Toast.makeText(context, input.getText().toString(), Toast.LENGTH_SHORT).show();
                     //Create and Initialize new object with Face embeddings and Name.
-                    if (input.getText().toString().trim().equals("1234")){
+                    if (input.getText().toString().trim().equals("1234")){ //密碼設1234
                         Intent it = new Intent(Welcome.this, MainActivity.class);
                         startActivity(it);
                         finish();
@@ -399,7 +399,7 @@ public class Welcome extends AppCompatActivity implements
         // Create a storage reference from our app
         StorageReference storageRef = storage.getReference();
 
-        StorageReference checkinRef = storageRef.child("images").child("unknown").child("unknown1.jpg");
+        StorageReference checkinRef = storageRef.child("images").child("unknown").child("unknown1.jpg"); //firebase圖片位址, 檔名固定為unknown1.jpg
 
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
@@ -524,7 +524,7 @@ public class Welcome extends AppCompatActivity implements
             uploadImage(bitmapImage);
             }
             x++;
-
+            //以下註解的部分移到Welcome2頁面
 //            do {
 //                DatabaseReference myRef1 = database.getReference("/face/temi1/welcome/id");
 //                myRef1.addValueEventListener(new ValueEventListener() {
@@ -631,48 +631,6 @@ public class Welcome extends AppCompatActivity implements
 //        //Resize bitmap to 112,112
 //        return getResizedBitmap(cropped_face);
         return frame_bmp1;
-    }
-
-    private Bitmap getResizedBitmap(Bitmap bm) {
-        System.out.println("list:2 getResizedBitmap");
-        int width = bm.getWidth();
-        int height = bm.getHeight();
-        float scaleWidth = ((float) 112) / width;
-        float scaleHeight = ((float) 112) / height;
-        // CREATE A MATRIX FOR THE MANIPULATION
-        Matrix matrix = new Matrix();
-        // RESIZE THE BIT MAP
-        matrix.postScale(scaleWidth, scaleHeight);
-        // "RECREATE" THE NEW BITMAP
-        Bitmap resizedBitmap = Bitmap.createBitmap(
-                bm, 0, 0, width, height, matrix, false);
-        bm.recycle();
-        return resizedBitmap;
-    }
-
-    private static Bitmap getCropBitmapByCPU(Bitmap source, RectF cropRectF) {
-        System.out.println("list:2 getCropBitmapByCPU");
-        Bitmap resultBitmap = Bitmap.createBitmap((int) cropRectF.width(),
-                (int) cropRectF.height(), Bitmap.Config.ARGB_8888);
-        Canvas canvas = new Canvas(resultBitmap);
-
-        // draw background
-        Paint paint = new Paint(Paint.FILTER_BITMAP_FLAG);
-        paint.setColor(Color.WHITE);
-        canvas.drawRect(//from  w w  w. ja v  a  2s. c  om
-                new RectF(0, 0, cropRectF.width(), cropRectF.height()),
-                paint);
-
-        Matrix matrix = new Matrix();
-        matrix.postTranslate(-cropRectF.left, -cropRectF.top);
-
-        canvas.drawBitmap(source, matrix, paint);
-
-        if (source != null && !source.isRecycled()) {
-            source.recycle();
-        }
-
-        return resultBitmap;
     }
 
     private static Bitmap rotateBitmap(Bitmap bitmap, int rotationDegrees, boolean flipX) {
