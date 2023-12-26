@@ -11,41 +11,41 @@
 # development tools
 ## Hardware
 - **Robot Temi**  
-  呈現 APP、走動、說話的機器人，APP 的主要功能有臉部辨識、自動巡邏、關懷語音等  
+  Presenting APP, walking and talking robots, the main functions of APP are face recognition, automatic patrol, caring voice, etc.  
 - **博鈞科技自動服務機 Kiosk**   
-  連接 rossmax 生理量測器材數據
+  Connecting rossmax Physiological Measurement Device Data
 - **rossmax 生理量測器材**   
-  量測血壓、溫度等資料的生理量測器材，其量測數據可傳送給平台
+  Physiological measurement devices for measuring blood pressure, temperature, etc., and their measurement data can be transmitted to the platform.
 ## platforms
 - **IKHEALTH 個管平台**  
-  個管師操作的平台，用於儲存長者個人資料及生理量測數據
+  A platform operated by personal administrators for storing personal data and physiological measurements of elderly people
 - **博鈞 DCare 日間照顧中心管理系統**  
-  連接博鈞科技自動服務機Kiosk 的資料
+  Connecting the data of Kiosk of Björn Technology's automated server
 - **Temi	Center**  
-  與機器人 Temi 連動，查看其狀況並操作控制
+  Connect with the robot Temi to view its status and operate the controls.
 ## Programming Language
 - **Java**
-  撰寫 APP
+  Write Main APP code
 - **Python**
-  撰寫臉部辨識
+  Writing Face Recognition Program Code
 ## development environment
 - **Android	Studio**  
-  APP 開發工具
+  APP Development Tools
 ## APP
 - **Temi APP**  
-  可與機器人 Temi 連動操作控制
+  Can be operated and controlled by the robot Temi.
 ## API
 - **MediaRecorder**  
-  Android 裝置錄音功能
+  Android Device Recording
 - **ML Kit**  
-  Android 端臉部偵測特徵值
+  Face Detection Features for Android
 - **Rest	API**  
-  傳輸個管平台資料
+  Transmission of Information on Individual Management Platforms
 ## library
 - **Open CV**  
-  Python 端圖像處理
+  Python Side Image Processing
 - **face	recognition**  
-  Python 端臉部辨識
+  Face Recognition in Python
 ## Databases
 - **Firebase**  
-  儲存照片、錄音檔、圖片特徵值、辨識結果及 To-do list 文字檔
+  Save photos, audio files, image features, recognition results and To-do list text files.
