@@ -1,4 +1,16 @@
 # TemiRobot
+The system aims to make the services of day care organizations more convenient by using the robot Temi and the case management platform. 
+The target users include day care organizations and elderly people in day care organizations.
+
+1. For Day Care Organizations:   
+Robot Temi provides intelligent check-in, eliminating the tedious process of manual check-in. manual check-in process.
+After summarizing the data into the case management platform, you can see the daily check-in status and physiological measurements of the elderly on the platform.
+The automated patrol and monitoring functions reduce the management burden of day care organizations.  
+
+2. For the elderly:  
+Temi is not only a health management robot, but also has functions such as assisting with positioning, interactive games, personal care, etc.
+It is both practical and humanized, which makes the life of the elderly in the day-care institutions more comfortable and enjoyable.
+
 # Robot Main Menu 
 (from left to right)
 - Smart Check-In
