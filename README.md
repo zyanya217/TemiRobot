@@ -11,6 +11,9 @@ The automated patrol and monitoring functions reduce the management burden of da
 Temi is not only a health management robot, but also has functions such as assisting with positioning, interactive games, personal care, etc.
 It is both practical and humanized, which makes the life of the elderly in the day-care institutions more comfortable and enjoyable.
 
+# system architecture diagram
+<img width="599" alt="簡章系統流程" src="https://github.com/zyanya217/TemiRobot/assets/83296460/5f00c0b9-8c6e-4200-9836-f2c5a48934f9">
+
 # Robot Main Menu 
 (from left to right)
 - Smart Check-In
